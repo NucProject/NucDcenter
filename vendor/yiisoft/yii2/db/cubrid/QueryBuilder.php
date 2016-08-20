@@ -29,6 +29,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
         Schema::TYPE_CHAR => 'char(1)',
         Schema::TYPE_STRING => 'varchar(255)',
         Schema::TYPE_TEXT => 'varchar',
+        Schema::TYPE_TINYINT => 'tinyint',
         Schema::TYPE_SMALLINT => 'smallint',
         Schema::TYPE_INTEGER => 'int',
         Schema::TYPE_BIGINT => 'bigint',
