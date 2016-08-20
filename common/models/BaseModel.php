@@ -21,18 +21,20 @@ class BaseModel extends ActiveRecord
      */
     public function behaviors() {
         return [
+            // create_time, update_time
             [
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'create_time',
                 'updatedAtAttribute' => 'update_time',
                 'value' => new Expression('NOW()'),
             ],
+            // status
             [
                 'class' => AttributeBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'status',
                 ],
-                'value' => function ($event) { return 1; },
+                'value' => 1,
             ]
         ];
     }

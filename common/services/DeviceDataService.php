@@ -18,4 +18,25 @@ class DeviceDataService
     {
 
     }
+
+
+    public static function createTable($deviceId)
+    {
+        // TODO: Check $deviceType's device-data-table exists?
+        if (self::isTableExists($deviceId)) {
+
+            return false;
+        }
+        // TODO:
+    }
+
+    /**
+     * @param $deviceId
+     * @return bool
+     */
+    public static function isTableExists($deviceId)
+    {
+
+        return true;
+    }
 }

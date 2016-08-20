@@ -11,5 +11,8 @@ namespace common\services;
 
 class DeviceService
 {
+    public static function getDeviceById($deviceId)
+    {
 
+    }
 }

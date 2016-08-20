@@ -13,6 +13,6 @@ class StationService
 
     public static function getStations()
     {
-
+        return [1, 2];
     }
 }

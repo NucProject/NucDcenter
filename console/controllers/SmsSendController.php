@@ -8,7 +8,7 @@ use common\models\NucDevice;
 
 /**
  * Created by PhpStorm.
- * User: healerkx
+ * User: healer_kx
  * Date: 2016/8/19
  * Time: 21:44
  */

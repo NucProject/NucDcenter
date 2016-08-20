@@ -36,6 +36,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        /* view.renderers use Smarty, but config in common/main.php */
+        'view' => [
+            'renderers' => [
+                'tpl' => [
+                    'imports' => frontend\controllers\BaseController::imports()
+                    //'cachePath' => '@runtime/Smarty/cache',
+                ],
+            ],
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
