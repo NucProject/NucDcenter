@@ -12,4 +12,13 @@ namespace common\services;
 class DeviceTypeService
 {
 
+    public static function createDeviceType($name, $displayName, $params)
+    {
+
+    }
+
+    public static function getDeviceTypeList()
+    {
+
+    }
 }

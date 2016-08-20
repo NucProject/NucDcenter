@@ -39,4 +39,14 @@ class DeviceDataService
 
         return true;
     }
+
+    /**
+     * @param $fileName
+     * @param $columns
+     * @param $params
+     */
+    public static function exportToFile($fileName, $columns, $params)
+    {
+
+    }
 }

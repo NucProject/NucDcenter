@@ -7,7 +7,7 @@
 <div>
     {$content}
     {json_encode(StationService::getStations())}
-    
+
 </div>
 
 <div>

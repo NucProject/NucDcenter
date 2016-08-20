@@ -10,9 +10,34 @@ namespace common\services;
 
 class StationService
 {
-
-    public static function getStations()
+    /**
+     * @return array
+     */
+    public static function getStationIdArray()
     {
-        return [1, 2];
+        $stationIdArray = [];
+
+        return $stationIdArray;
+    }
+
+    /**
+     * @oaram $stationId
+     * @return array
+     */
+    public static function getDeviceList($stationId)
+    {
+        $deviceList = [];
+
+        return $deviceList;
+    }
+
+    /**
+     * @param $stationId
+     * @param $deviceId
+     * @return \common\models\NucDevice
+     */
+    public static function getDevice($stationId, $deviceId)
+    {
+
     }
 }
