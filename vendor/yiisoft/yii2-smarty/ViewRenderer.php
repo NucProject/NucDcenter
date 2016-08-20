@@ -66,6 +66,15 @@ class ViewRenderer extends BaseViewRenderer
     public function init()
     {
         $this->smarty = new Smarty();
+
+        /**
+         * Healer's Modified
+         * params[smarty_set_debug]
+         */
+        if (isset(Yii::$app->params['smarty_force_compile']) && Yii::$app->params['smarty_force_compile']) {
+            $this->smarty->setForceCompile(true);
+        }
+
         $this->smarty->setCompileDir(Yii::getAlias($this->compilePath));
         $this->smarty->setCacheDir(Yii::getAlias($this->cachePath));
 
