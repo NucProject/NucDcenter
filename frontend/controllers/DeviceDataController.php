@@ -16,12 +16,16 @@ class DeviceDataController extends BaseController
 
     public function actionIndex()
     {
-
         $data = NucDataCenter::find()->all();
 
         foreach ($data as $item) {
             var_dump($item->toArray());
         }
         return parent::renderPage('index.tpl');
+    }
+
+    public function actionData()
+    {
+        parent::result(['a' => 1]);
     }
 }

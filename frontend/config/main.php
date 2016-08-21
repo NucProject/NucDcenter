@@ -32,6 +32,14 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+
+            //'routes' => [
+            //    array( //开发过程中所有日志直接页面打印，这样不需要登录服务器看日志了
+            //        'class' => 'CWebLogRoute',
+            //        'levels' => 'trace,info,profile,warning,error',
+            //    ),
+            //]
+
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
