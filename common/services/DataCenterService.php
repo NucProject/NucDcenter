@@ -10,10 +10,10 @@ namespace common\services;
 
 use yii;
 
-class DcenterService
+class DataCenterService
 {
     public static function deployedCenterId() {
-        if (isset(Yii::$app->params['theDeployedCenterId']))
+        if (isset (Yii::$app->params['theDeployedCenterId']))
         {
             return Yii::$app->params['theDeployedCenterId'];
         }
@@ -22,7 +22,7 @@ class DcenterService
     }
 
     public static function defaultPageTitle() {
-        if (isset(Yii::$app->params['defaultPageTitle']))
+        if (isset (Yii::$app->params['defaultPageTitle']))
         {
             return Yii::$app->params['defaultPageTitle'];
         }

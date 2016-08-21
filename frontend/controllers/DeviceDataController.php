@@ -9,23 +9,20 @@
 namespace frontend\controllers;
 
 use yii;
-use common\models\NucDataCenter;
+
 
 class DeviceDataController extends BaseController
 {
 
-    public function actionIndex()
+    public function actionList($deviceId)
     {
-        $data = NucDataCenter::find()->all();
 
-        foreach ($data as $item) {
-            var_dump($item->toArray());
-        }
-        return parent::renderPage('index.tpl');
+        return parent::renderPage('list.tpl');
     }
 
-    public function actionData()
+    public function actionCharts($deviceId)
     {
-        parent::result(['a' => 1]);
+
+        return parent::renderPage('charts.tpl');
     }
 }

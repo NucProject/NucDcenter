@@ -11,7 +11,7 @@ namespace frontend\controllers;
 use yii;
 use yii\web\Controller;
 use frontend\assets\AppAsset;
-use common\services\DcenterService;
+use common\services\DataCenterService;
 
 class BaseController extends Controller
 {
@@ -28,10 +28,10 @@ class BaseController extends Controller
     {
         AppAsset::register($this->getView());
 
-        $data['theDeployedCenterId'] = DcenterService::deployedCenterId();
+        $data['theDeployedCenterId'] = DataCenterService::deployedCenterId();
 
         if (!isset($data['pageTitle'])) {
-            $data['pageTitle'] = DcenterService::defaultPageTitle();
+            $data['pageTitle'] = DataCenterService::defaultPageTitle();
         }
 
         // Event
