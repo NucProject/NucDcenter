@@ -248,7 +248,7 @@ class Generator extends \yii\gii\Generator
         $labels = [];
         foreach ($table->columns as $column) {
             if ($this->generateLabelsFromComments && !empty($column->comment)) {
-                $c = strpos($column->comment, ':');
+                $c = strpos($column->comment, '|');
                 $len =  ($c > 0) ? $c : strlen($column->comment);
                 $labels[$column->name] = substr($column->comment, 0, $len);
             } elseif (!strcasecmp($column->name, 'id')) {
