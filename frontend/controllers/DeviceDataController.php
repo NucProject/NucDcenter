@@ -10,8 +10,6 @@ namespace frontend\controllers;
 
 use yii;
 use common\models\NucDataCenter;
-use common\services\StationService as StationService;
-use frontend\assets\AppAsset as AppAsset3;
 
 class DeviceDataController extends BaseController
 {

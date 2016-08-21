@@ -30,9 +30,9 @@ class DatabaseController extends Controller
         $migration->createTable($tableName, [
             $primaryKey => $migration->primaryKey(),
             // The fields here should be add in other DB tools.
-            'status' => $migration->tinyInteger()->notNull()->defaultValue(0),
-            'create_time' => $migration->dateTime()->notNull()->defaultValue(0),
-            'update_time' => $migration->dateTime()->notNull()->defaultValue(0),
+            'status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
+            'create_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
+            'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
         ], $tableOptions);
     }
 }
