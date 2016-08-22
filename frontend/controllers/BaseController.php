@@ -34,6 +34,8 @@ class BaseController extends Controller
             $data['pageTitle'] = DataCenterService::defaultPageTitle();
         }
 
+        $this->initSideBar($data);
+
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
 
@@ -127,5 +129,47 @@ class BaseController extends Controller
     private static function getPageJsFileName($page)
     {
         return substr($page, 0, -4) . '.js.tpl';
+    }
+
+    private function initSideBar(&$data)
+    {
+        $menuArray = [
+            ['title' => '自动站管理',  'href' => '404.html', 'badge' => "45"],
+
+            ['title' => '移动设备管理', 'selected' => true,
+                'subMenus' => [['href' => '', 'title' => 'jQuery'], ['href' => '', 'title' => 'Bootstrap']]
+            ],
+        ];
+
+        $sidebarMenus = [];
+        foreach ($menuArray as $menuItem)
+        {
+            // MUST have a title
+            if (!array_key_exists('title', $menuItem)) {
+                continue;
+            }
+
+            $menu = ['title' => $menuItem['title'], 'selected' => false];
+
+            if (array_key_exists('selected', $menuItem) && $menuItem['selected']) {
+                $menu['selected'] = true;
+            }
+
+            if (array_key_exists('badge', $menuItem)) {
+                $menu['badge'] = $menuItem['badge'];
+            }
+
+            if (array_key_exists('subMenus', $menuItem)) {
+                $menu['subMenus'] = $menuItem['subMenus'];
+                $menu['href'] = 'javascript:;';
+            } else {
+                // PHP7 ?? operator CAN shorter this line
+                $menu['href'] = isset($menuItem['href']) ? $menuItem['href'] : 'javascript:;';
+            }
+
+            $sidebarMenus[] = $menu;
+        }
+
+        $data['sidebarMenus'] = $sidebarMenus;
     }
 }
