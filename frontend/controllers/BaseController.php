@@ -22,7 +22,7 @@ class BaseController extends Controller
      * @param $page
      * @param $data
      * @return string
-     * 基类会处理一些模板中公用的部分
+     *
      */
     public function renderPage($page, $data=array())
     {
@@ -37,7 +37,7 @@ class BaseController extends Controller
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
 
-        // 当前页面.tpl文件对应的.js.tpl文件
+        //
         $data['currentPageJsFile'] = self::getPageJsFileName($page);
 
         return $this->render($page, $data);
@@ -84,6 +84,7 @@ class BaseController extends Controller
     {
         $content = $this->getView()->render($view, $params, $this);
 
+
         // override return $this->renderContent($content);
         return $this->renderContentInLayout($content, $params);
     }
@@ -101,7 +102,7 @@ class BaseController extends Controller
     {
         $layoutFile = $this->findLayoutFile($this->getView());
         if ($layoutFile !== false) {
-            $params['content'] = $content;
+            $params['viewContent'] = $content;
             return $this->getView()->renderFile($layoutFile, $params, $this);
         } else {
             return $content;
@@ -110,7 +111,7 @@ class BaseController extends Controller
 
     /**
      * @return array
-     * 提供tpl文件可能使用的classes
+     * load classes in .tpl
      */
     public static function imports() {
         return [

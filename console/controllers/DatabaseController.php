@@ -35,4 +35,17 @@ class DatabaseController extends Controller
             'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
         ], $tableOptions);
     }
+
+    /**
+     * TODO: 初始化数据表
+     * @param $flag
+     */
+    public function actionInit($flag='')
+    {
+        $reset = false;
+        if ($flag == 'reset')
+        {
+            $reset = true;
+        }
+    }
 }
