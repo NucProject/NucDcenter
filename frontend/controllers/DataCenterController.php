@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use yii;
 /**
  * Class DataCenterController
  * @package frontend\controllers
@@ -35,6 +36,9 @@ class DataCenterController extends BaseController
     public function actionStations($centerId)
     {
         $data = [];
+
+        $session = Yii::$app->session;
+        $session->setFlash("ddd", [[], []]);
 
         return parent::renderPage('stations.tpl', $data);
     }

@@ -118,7 +118,8 @@ class BaseController extends Controller
     public static function imports() {
         return [
             'StationService' => 'common\services\StationService',
-            'DeviceService' => 'common\services\DeviceService'
+            'DeviceService' => 'common\services\DeviceService',
+            'Alert' => 'common\widgets\Alert'
         ];
     }
 
@@ -133,13 +134,7 @@ class BaseController extends Controller
 
     private function initSideBar(&$data)
     {
-        $menuArray = [
-            ['title' => '自动站管理',  'href' => '404.html', 'badge' => "45"],
-
-            ['title' => '移动设备管理', 'selected' => true,
-                'subMenus' => [['href' => '', 'title' => 'jQuery'], ['href' => '', 'title' => 'Bootstrap']]
-            ],
-        ];
+        $menuArray = $this->getMenuArrayByUserRole();
 
         $sidebarMenus = [];
         foreach ($menuArray as $menuItem)
@@ -171,5 +166,21 @@ class BaseController extends Controller
         }
 
         $data['sidebarMenus'] = $sidebarMenus;
+    }
+
+    /**
+     * @return array
+     * 注意数据结构
+     */
+    private function getMenuArrayByUserRole()
+    {
+        $menuArray = [
+            ['title' => '自动站管理',  'href' => '404.html', 'badge' => "45"],
+
+            ['title' => '移动设备管理', 'selected' => true,
+                'subMenus' => [['href' => '', 'title' => 'jQuery'], ['href' => '', 'title' => 'Bootstrap']]
+            ],
+        ];
+        return $menuArray;
     }
 }
