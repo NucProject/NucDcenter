@@ -19,11 +19,19 @@ class DeviceDataService
 
     }
 
-
-    public static function createTable($deviceId)
+    /**
+     * @param $deviceKey
+     * @return string
+     */
+    public static function tableName($deviceKey)
     {
-        // TODO: Check $deviceType's device-data-table exists?
-        if (self::isTableExists($deviceId)) {
+        return "nuc_device_data_{$deviceKey}";
+    }
+
+    public static function createTable($centerId, $deviceId)
+    {
+        // TODO: Check $deviceType's device-table exists?
+        if (self::isTableExists($centerId, $deviceId)) {
 
             return false;
         }
@@ -34,7 +42,7 @@ class DeviceDataService
      * @param $deviceId
      * @return bool
      */
-    public static function isTableExists($deviceId)
+    public static function isTableExists($centerId, $deviceId)
     {
 
         return true;

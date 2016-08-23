@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\services\StationService;
 use yii;
 /**
  * Class DataCenterController
@@ -37,8 +38,7 @@ class DataCenterController extends BaseController
     {
         $data = [];
 
-        $session = Yii::$app->session;
-        $session->setFlash("ddd", [[], []]);
+        $data['stations'] = StationService::getStationList($centerId);
 
         return parent::renderPage('stations.tpl', $data);
     }
@@ -51,6 +51,8 @@ class DataCenterController extends BaseController
     public function actionMovableDevices($centerId)
     {
         $data = [];
+        $data['movable_devices'] = StationService::getMovableDevicesList($centerId);
+
         return parent::renderPage('movable-devices', $data);
     }
 

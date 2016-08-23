@@ -8,36 +8,46 @@
  */
 namespace common\services;
 
+use common\models\NucStation;
+
 class StationService
 {
     /**
+     * @param $centerId
+     * @return array
+     * 根据$centerId获得它所管理的自动站列表
+     */
+    public static function getStationList($centerId)
+    {
+        $stations = NucStation::findAll(['center_id' => $centerId]);
+
+        return $stations;
+    }
+
+    /**
      * @return array
      */
-    public static function getStationIdArray()
+    public static function getStationIdArray($centerId)
     {
         $stationIdArray = [];
 
         return $stationIdArray;
     }
 
+
+    public static function getStationByKey($stationKey)
+    {
+
+    }
+
     /**
-     * @oaram $stationId
+     * @param $centerId
      * @return array
+     * 根据$centerId获得它所管理的移动设备列表
      */
-    public static function getDeviceList($stationId)
-    {
-        $deviceList = [];
-
-        return $deviceList;
-    }
-
-    /**
-     * @param $stationId
-     * @param $deviceId
-     * @return \common\models\NucDevice
-     */
-    public static function getDevice($stationId, $deviceId)
+    public static function getMovableDevicesList($centerId)
     {
 
     }
+
 }

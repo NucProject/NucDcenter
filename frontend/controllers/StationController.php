@@ -9,24 +9,29 @@
 namespace frontend\controllers;
 
 
+use common\services\DeviceService;
+
 class StationController extends BaseController
 {
 
     /**
-     * @param $stationId
+     * @param $stationKey
+     * @return string
      * 列出来该Station的概况
      */
-    public function actionIndex($stationId)
+    public function actionIndex($stationKey)
     {
-
+        $data['devices'] = $this->getDevices($stationKey);
+        return parent::renderPage('index.tpl', $data);
     }
 
     /**
-     * @param $stationId
+     * @param $stationKey
+     * @return string
      * 得到该Station所有的设备
      */
-    private function getDevices($stationId)
+    private function getDevices($stationKey)
     {
-
+        return DeviceService::getDeviceList($stationKey);
     }
 }

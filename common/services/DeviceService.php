@@ -9,8 +9,16 @@
 namespace common\services;
 
 
+use common\models\NucDevice;
+
 class DeviceService
 {
+
+
+    /**
+     * @param $deviceId
+     * @return \common\models\NucDevice
+     */
     public static function getDeviceById($deviceId)
     {
 
@@ -29,4 +37,19 @@ class DeviceService
         // TODO: create deviceData table for $deviceId
         return $deviceId;
     }
+
+    /**
+     * @oaram $stationKey
+     * @return array
+     */
+    public static function getDeviceList($stationKey)
+    {
+        $deviceList = [];
+
+        $devices = NucDevice::findAll(['station_key' => $stationKey]);
+
+        return $devices;
+    }
+
+
 }

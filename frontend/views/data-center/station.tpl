@@ -2,9 +2,19 @@
 {extends 'common/box.tpl'}
 {* 具体的细节 *}
 {block name=title}
-    <span>{$name}</span>
+    <span>{$station.station_name}</span>
 {/block}
 
 {block name=content}
-    <div>{$name} %</div>
+    <div>
+        <span>名称: {$station.station_name}</span>
+        <br>
+        <span>描述: {$station.station_desc}</span>
+        <br>
+        <span>唯一键: {$station.station_key}</span>
+        <br>
+        <span>创建时间: {$station.create_time}</span>
+        <br>
+        <a class="btn btn-xs btn-info">进入</a>
+    </div>
 {/block}
