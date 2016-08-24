@@ -16,12 +16,13 @@ class DeviceService
 
 
     /**
-     * @param $deviceId
+     * @param $deviceKey
      * @return \common\models\NucDevice
      */
-    public static function getDeviceById($deviceId)
+    public static function getDeviceByKey($deviceKey)
     {
-
+        $device = NucDevice::findOne(['device_key' => $deviceKey]);
+        return $device;
     }
 
 

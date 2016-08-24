@@ -26,7 +26,7 @@ class DeviceDataService
      */
     public static function tableName($deviceKey)
     {
-        return "nuc_device_data_{$deviceKey}";
+        return "uk_device_data_{$deviceKey}";
     }
 
     /**

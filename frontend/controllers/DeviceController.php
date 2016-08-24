@@ -9,6 +9,11 @@
 namespace frontend\controllers;
 
 
+use common\models\NucDevice;
+use common\models\NucDeviceField;
+use common\services\DeviceService;
+use common\models\UkDeviceData;
+
 class DeviceController extends BaseController
 {
 
@@ -30,6 +35,26 @@ class DeviceController extends BaseController
      */
     private function getDeviceData($deviceKey)
     {
-        return [];
+        $device = DeviceService::getDeviceByKey($deviceKey);
+        if ($device)
+        {
+            $typeKey = $device->type_key;
+            $fields = NucDeviceField::findAll([
+                'type_key' => $typeKey,
+                'status' => 1
+            ]);
+
+            $columns = [['field_name' => 'data_time', 'field_display' => '时间']];
+            foreach ($fields as $field)
+            {
+                $columns[] = $field->toArray();
+            }
+
+            $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+        }
+        return [
+            'columns' => $columns,
+            'items' => $dataArray
+        ];
     }
 }
