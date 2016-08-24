@@ -18,6 +18,8 @@ class BaseController extends Controller
     // All controllers extents BaseController use this Layout file!
     public $layout = 'main-layout.tpl';
 
+    private $breadcrumbs = [];
+
     /**
      * @param $page
      * @param $data
@@ -36,6 +38,8 @@ class BaseController extends Controller
 
         $this->initSideBar($data);
 
+        $this->initBreadcrumbs($data);
+
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
 
@@ -47,21 +51,29 @@ class BaseController extends Controller
 
     /**
      * @param $data
+     * @return bool exit() in fact
      */
     public static function result($data) {
-        static::retVal($data, 0);
+        return static::retVal($data, 0);
     }
 
     /**
      * @param $data
      * @param $errorCode
+     * @return bool exit() in fact
      */
     public static function error($data, $errorCode) {
-        static::retVal($data, $errorCode);
+        return static::retVal($data, $errorCode);
     }
 
+    /**
+     * @param $data
+     * @param $errorCode
+     * @return bool exit() in fact
+     */
     private static function retVal($data, $errorCode) {
         exit(json_encode(['error' => $errorCode, 'data' => $data]));
+        return false;
     }
 
     /**
@@ -182,5 +194,20 @@ class BaseController extends Controller
             ],
         ];
         return $menuArray;
+    }
+
+    public function setBreadcrumbs($breadcrumbs)
+    {
+        // Home
+        $this->breadcrumbs[] = array('href' => '', 'title' => '首页', 'home' => true);
+        foreach ($breadcrumbs as $href => $title)
+        {
+            $this->breadcrumbs[] = array('href' => $href, 'title' => $title, 'home' => false);;
+        }
+    }
+
+    private function initBreadcrumbs(&$data)
+    {
+        $data['breadcrumbs'] = $this->breadcrumbs;
     }
 }

@@ -8,6 +8,7 @@
 
 namespace console\controllers;
 
+use common\services\DeviceDataService;
 use yii\console\Controller;
 use yii\db\Migration;
 
@@ -47,5 +48,18 @@ class DatabaseController extends Controller
         {
             $reset = true;
         }
+    }
+
+    public function actionCreateDeviceDataTable($deviceKey, $typeId)
+    {
+        $tableName = "uk_device_data_{$deviceKey}";
+
+        if (DeviceDataService::isTableExists($tableName))
+        {
+            echo "The device-data table exists!";
+            return false;
+        }
+
+        DeviceDataService::createDeviceDataTable($tableName, $typeId);
     }
 }

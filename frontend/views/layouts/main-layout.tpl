@@ -27,14 +27,14 @@
                                 <!-- /STYLER -->
                                 <!-- BREADCRUMBS -->
                                 <ul class="breadcrumb">
-                                    <li>
-                                        <i class="fa fa-home"></i>
-                                        <a href="index.html">Home</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Layouts</a>
-                                    </li>
-                                    <li>Mini Sidebar</li>
+                                    {foreach from=$breadcrumbs item=b}
+                                        <li>
+                                            {if $b.home}
+                                            <i class="fa fa-home"></i>
+                                            {/if}
+                                            <a href="{$b.href}">{$b.title}</a>
+                                        </li>
+                                    {/foreach}
                                 </ul>
                                 <!-- /BREADCRUMBS -->
                                 <div class="clearfix">

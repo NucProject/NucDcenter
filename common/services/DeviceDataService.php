@@ -8,6 +8,7 @@
 
 namespace common\services;
 
+use yii\db\Migration;
 
 class DeviceDataService
 {
@@ -28,24 +29,58 @@ class DeviceDataService
         return "nuc_device_data_{$deviceKey}";
     }
 
-    public static function createTable($centerId, $deviceId)
+    /**
+     * @param $tableName
+     * @param $typeId
+     * @return bool
+     */
+    public static function createDeviceDataTable($tableName, $typeId)
     {
-        // TODO: Check $deviceType's device-table exists?
-        if (self::isTableExists($centerId, $deviceId)) {
+        $migration = new Migration();
 
-            return false;
-        }
-        // TODO:
+        // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+
+        $fields = ['data_id' => $migration->primaryKey()];
+
+        $fields = self::addDeviceDataFields($fields, $migration, $typeId);
+
+        $fields = array_merge($fields, ['status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
+            'create_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
+            'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
+        ]);
+
+        $migration->createTable($tableName, $fields, $tableOptions);
+        return true;
     }
 
     /**
-     * @param $deviceId
+     * @param $tableName
      * @return bool
      */
-    public static function isTableExists($centerId, $deviceId)
+    public static function isTableExists($tableName)
+    {
+        $checkTableExistsSql = "show tables like '{$tableName}';";
+        try {
+            $command = \Yii::$app->db->createCommand($checkTableExistsSql);
+            $r = $command->execute();
+            return $r;
+        } catch (Exception $exception) {
+            var_dump($exception);
+            return false;
+        }
+    }
+
+    /**
+     * @param $fields
+     * @param $migration
+     * @param $typeId
+     * @return mixed
+     */
+    public static function addDeviceDataFields($fields, $migration, $typeId)
     {
 
-        return true;
+        return $fields;
     }
 
     /**

@@ -40,6 +40,7 @@ class DataCenterController extends BaseController
 
         $data['stations'] = StationService::getStationList($centerId);
 
+        parent::setBreadcrumbs(['index.html' => '自动站']);
         return parent::renderPage('stations.tpl', $data);
     }
 
@@ -53,9 +54,23 @@ class DataCenterController extends BaseController
         $data = [];
         $data['movable_devices'] = StationService::getMovableDevicesList($centerId);
 
+        parent::setBreadcrumbs(['index.html' => '移动式便携设备']);
         return parent::renderPage('movable-devices', $data);
     }
 
+    /**
+     * @param $centerId
+     * @return string
+     * 有新的自动站加入, 生成stationKey
+     */
+    public function actionAddStation($centerId)
+    {
+        $data['centerId'] = $centerId;
+
+        // 我要在地图上找到它吗？
+
+        return parent::renderPage('add-station', $data);
+    }
 
     private function getStationList($centerId)
     {

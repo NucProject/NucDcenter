@@ -24,12 +24,14 @@ class DeviceService
 
     }
 
+
     /**
-     * @param $stationId int ()
-     * @param $typeId int ()
-     * @return int $deviceId
+     * @param $centerId
+     * @param $stationKey
+     * @param $deviceKey
+     * @return int
      */
-    public static function addDevice($stationId, $typeId)
+    public static function addDevice($centerId, $stationKey, $deviceKey)
     {
         $deviceId = 0;
 

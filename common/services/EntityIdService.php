@@ -43,7 +43,7 @@ class EntityIdService
         $rand1 = rand(100, 999);
         $rand2 = rand(100, 999);
         $line = "{$value}-{$time}-{$rand1}-{$rand2}";
-        $result = strtoupper(md5($line));
+        $result = strtolower(md5($line));
         return $result;
     }
 }
