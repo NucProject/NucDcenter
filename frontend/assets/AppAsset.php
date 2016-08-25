@@ -40,6 +40,5 @@ class AppAsset extends AssetBundle
 
     public function init()
     {
-        // $this->js[] = 'js/jquery/jquery-2.0.3.min.js';
     }
 }

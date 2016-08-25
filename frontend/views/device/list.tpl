@@ -4,7 +4,10 @@
         <thead>
         <tr>
             {foreach from=$data.columns item=col}
-                <td>{$col.field_display}</td>
+                <td>
+                    {$col.field_display}
+                    {if isset($col.field_unit)}({$col.field_unit}){/if}
+                </td>
             {/foreach}
         </tr>
         </thead>

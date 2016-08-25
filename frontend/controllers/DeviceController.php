@@ -20,12 +20,14 @@ class DeviceController extends BaseController
     public function actionDataList($deviceKey)
     {
         $data['data'] = $this->getDeviceData($deviceKey);
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
         return parent::renderPage('list.tpl', $data);
     }
 
     public function actionDataChart($deviceKey)
     {
         $data['data'] = $this->getDeviceData($deviceKey);
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
         return parent::renderPage('chart.tpl', $data);
     }
 

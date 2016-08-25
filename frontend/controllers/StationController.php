@@ -48,7 +48,7 @@ class StationController extends BaseController
         $centerId = DataCenterService::deployedCenterId();
         // TODO: Check the $centerId is not root center
 
-        // TODO: Gen device-key
+        // Generate device-key
         $deviceKey = EntityIdService::genDeviceKey($centerId);
 
         // 1. Device表里面插入一条数据

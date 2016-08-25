@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\services\DataCenterService;
 use common\services\StationService;
 use yii;
 /**
@@ -59,17 +60,24 @@ class DataCenterController extends BaseController
     }
 
     /**
-     * @param $centerId
      * @return string
      * 有新的自动站加入, 生成stationKey
      */
-    public function actionAddStation($centerId)
+    public function actionAddStation()
     {
+        $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
 
         // 我要在地图上找到它吗？
+        parent::initWebUploader();
+        parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加自动站']);
+        return parent::renderPage('add-station.tpl', $data);
+    }
 
-        return parent::renderPage('add-station', $data);
+    public function actionDoAddStation()
+    {
+
+        $this->redirect();
     }
 
     private function getStationList($centerId)

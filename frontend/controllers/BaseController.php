@@ -210,4 +210,11 @@ class BaseController extends Controller
     {
         $data['breadcrumbs'] = $this->breadcrumbs;
     }
+
+    public function initWebUploader()
+    {
+        $view = $this->getView();
+        $view->registerCssFile('webuploader/webuploader.css');
+        $view->registerJsFile('webuploader/webuploader.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
 }
