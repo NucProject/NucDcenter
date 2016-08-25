@@ -26,9 +26,15 @@
         <div class="form-group">
             <label for="exampleInputEmail1">自动站图片</label>
             <!--dom结构部分-->
+            <div id="fileList" class="uploader-list">
+                <div class="file-item thumbnail"  style="width: 240px">
+                    <img style="width: 240px; height:180px">
+                    <div class="info"></div>
+                </div>
+            </div>
             <div id="uploader-demo">
                 <!--用来存放item-->
-                <div id="fileList" class="uploader-list"></div>
+
                 <div id="filePicker">选择图片</div>
             </div>
         </div>

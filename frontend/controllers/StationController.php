@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\services\DataCenterService;
 use common\services\DeviceDataService;
 use common\services\DeviceService;
+use common\services\DeviceTypeService;
 use common\services\EntityIdService;
 
 class StationController extends BaseController
@@ -40,6 +41,11 @@ class StationController extends BaseController
     public function actionAddDevice($stationKey)
     {
         $data['stationKey'] = $stationKey;
+        $data['centerId'] = DataCenterService::deployedCenterId();
+        $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
+        parent::setBreadcrumbs([
+            'index.html' => '自动站',
+            'index2.html' => '添加新设备',]);
         return parent::renderPage('add-device.tpl', $data);
     }
 

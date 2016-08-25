@@ -38,9 +38,9 @@
                                 </ul>
                                 <!-- /BREADCRUMBS -->
                                 <div class="clearfix">
-                                    <h3 class="content-title pull-left">Mini Sidebar</h3>
+                                    <h3 class="content-title pull-left">——————</h3>
                                 </div>
-                                <div class="description">Mini Sidebar Layout</div>
+                                <div class="description">-----</div>
                             </div>
                         </div>
                     </div>

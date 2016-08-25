@@ -24,22 +24,17 @@
             }
         });
 
-        var thumbnailWidth = 100;
-        var thumbnailHeight = 120;
+
 
         uploader.on( 'fileQueued', function( file ) {
-            var $li = $(
-                            '<div id="' + file.id + '" class="file-item thumbnail">' +
-                            '<img>' +
-                            '<div class="info">' + file.name + '</div>' +
-                            '</div>'
-                    ),
-                    $img = $li.find('img');
 
             var $list = $('#fileList');
+            var $li = $list.find('div.thumbnail');
+            $li.find('div.info').text(file.name);
+            var $img = $li.find('img');
 
-            // $list为容器jQuery实例
-            $list.append( $li );
+            var thumbnailWidth = parseInt($img.css('width'));
+            var thumbnailHeight = parseInt($img.css('height'));
 
             // 创建缩略图
             // 如果为非图片文件，可以不用调用此方法。

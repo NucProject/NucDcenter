@@ -9,6 +9,8 @@
 namespace common\services;
 
 
+use common\models\NucDeviceType;
+
 class DeviceTypeService
 {
 
@@ -18,6 +20,23 @@ class DeviceTypeService
     }
 
     public static function getDeviceTypeList()
+    {
+        return NucDeviceType::findAll(['status' => 1]);
+    }
+
+    public static function syncDeviceTypes()
+    {
+
+    }
+
+    private static function loadDeviceTypesFromRootDataCenter()
+    {
+        $deviceTypes = [];
+
+        return $deviceTypes;
+    }
+
+    private static function flushDeviceTypesToLocalDataCenter($deviceTypes)
     {
 
     }
