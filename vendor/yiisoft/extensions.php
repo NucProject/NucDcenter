@@ -57,4 +57,13 @@ return array (
       '@yii/smarty' => $vendorDir . '/yiisoft/yii2-smarty',
     ),
   ),
+  'yiisoft/yii2-redis' => 
+  array (
+    'name' => 'yiisoft/yii2-redis',
+    'version' => '2.0.5.0',
+    'alias' => 
+    array (
+      '@yii/redis' => $vendorDir . '/yiisoft/yii2-redis',
+    ),
+  ),
 );
