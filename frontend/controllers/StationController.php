@@ -28,7 +28,7 @@ class StationController extends BaseController
 
         parent::setBreadcrumbs([
             'index.html' => '自动站',
-            'index2.html' => '设备列表',
+            '#' => '设备列表',
         ]);
         return parent::renderPage('index.tpl', $data);
     }
@@ -40,17 +40,31 @@ class StationController extends BaseController
      */
     public function actionAddDevice($stationKey)
     {
+
+
+        $centerId = DataCenterService::deployedCenterId();
+        $data['centerId'] = $centerId;
         $data['stationKey'] = $stationKey;
-        $data['centerId'] = DataCenterService::deployedCenterId();
+        $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
+        $data['doAddDevice'] = '/index.php?r=station/do-add-device';
         parent::setBreadcrumbs([
             'index.html' => '自动站',
-            'index2.html' => '添加新设备',]);
-        return parent::renderPage('add-device.tpl', $data);
+            '#' => '添加新设备']);
+        return parent::renderPage('add-device.tpl', $data,
+            ['withDialog' => true]);
     }
 
-    public function actionDoAddDevice($stationKey, $typeId)
+    /**
+     * POST -> redirect
+     * @return bool
+     *
+     */
+    public function actionDoAddDevice()
     {
+        $stationKey = $_POST['stationKey'];
+
+        return $this->redirect("index.php?r=station&stationKey=$stationKey");
         $centerId = DataCenterService::deployedCenterId();
         // TODO: Check the $centerId is not root center
 

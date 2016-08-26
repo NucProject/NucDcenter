@@ -72,7 +72,7 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return parent::renderPage('index.tpl');
+        return parent::renderPage('index.tpl', []);
     }
 
     /**

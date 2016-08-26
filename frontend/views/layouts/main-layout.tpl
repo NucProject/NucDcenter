@@ -7,6 +7,7 @@
 <title>{$pageTitle}</title>
 {* 字体变得漂亮了! *}
 <link href="http://fonts.useso.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
+
 {$this->head()}
 {$this->beginBody()}
 {* CloudAdmin Header *}
@@ -38,9 +39,9 @@
                                 </ul>
                                 <!-- /BREADCRUMBS -->
                                 <div class="clearfix">
-                                    <h3 class="content-title pull-left">——————</h3>
+                                    <h3 class="content-title pull-left">@</h3>
                                 </div>
-                                <div class="description">-----</div>
+                                <div class="description">abc</div>
                             </div>
                         </div>
                     </div>

@@ -23,10 +23,11 @@ class BaseController extends Controller
     /**
      * @param $page
      * @param $data
+     * @param $options
      * @return string
      *
      */
-    public function renderPage($page, $data=array())
+    public function renderPage($page, $data, $options=[])
     {
         AppAsset::register($this->getView());
 
@@ -39,6 +40,10 @@ class BaseController extends Controller
         $this->initSideBar($data);
 
         $this->initBreadcrumbs($data);
+
+        if (isset($options['withDialog']) && $options['withDialog'] == true) {
+            $this->addDialog();
+        }
 
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
@@ -131,7 +136,8 @@ class BaseController extends Controller
         return [
             'StationService' => 'common\services\StationService',
             'DeviceService' => 'common\services\DeviceService',
-            'Alert' => 'common\widgets\Alert'
+            'Alert' => 'common\widgets\Alert',
+            'Html' => 'yii\helpers\Html'
         ];
     }
 
@@ -217,4 +223,11 @@ class BaseController extends Controller
         $view->registerCssFile('webuploader/webuploader.css');
         $view->registerJsFile('webuploader/webuploader.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
+
+    public function addDialog()
+    {
+        $view = $this->getView();
+        $view->registerJsFile('js/bootbox/bootbox.min.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
+
 }
