@@ -82,18 +82,9 @@ class SiteController extends BaseController
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        $this->layout = null;
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        return parent::renderPage('login.tpl', []);
     }
 
     /**
@@ -211,4 +202,17 @@ class SiteController extends BaseController
             'model' => $model,
         ]);
     }
+
+
+    public function actionRequirements()
+    {
+        // TODO: MySQL connections
+
+        // TODO: Redis connections
+        Yii::$app->redis->set('current', time());
+        $time = Yii::$app->redis->get('current');
+
+        // TODO:
+    }
+
 }

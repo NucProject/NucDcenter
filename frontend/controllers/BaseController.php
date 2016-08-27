@@ -103,9 +103,14 @@ class BaseController extends Controller
     {
         $content = $this->getView()->render($view, $params, $this);
 
-
-        // override return $this->renderContent($content);
-        return $this->renderContentInLayout($content, $params);
+        if ($this->layout) {
+            // override return $this->renderContent($content);
+            // Render with layout
+            return $this->renderContentInLayout($content, $params);
+        } else {
+            // Render the content only without $this->layout => for null
+            return $content;
+        }
     }
 
     /**

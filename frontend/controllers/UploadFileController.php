@@ -13,11 +13,11 @@ use yii\web\Controller;
 
 class UploadFileController extends Controller
 {
-    // TODO: Why?
+    //
     public $enableCsrfValidation = false;
 
     public function actionStationPicture()
     {
-        echo "OK";exit;
+
     }
 }

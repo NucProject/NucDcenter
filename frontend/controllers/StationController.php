@@ -90,12 +90,6 @@ class StationController extends BaseController
         return parent::result([]);
     }
 
-    public function actionRedis()
-    {
-        var_dump(\Yii::$app->redis->set('a', 45));
-        //\Yii::$app->redis->connect('127.0.0.1');
-
-    }
 
     /**
      * @param $stationKey
