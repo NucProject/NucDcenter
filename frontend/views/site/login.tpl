@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Cloud Admin | Login</title>
+    <title>数据中心 | 登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -31,34 +31,38 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="login-box-plain">
-                        <h3 class="bigintro">登录数据中心</h3>
+                        <h3 class="bigintro">登录</h3>
                         <div class="divide-40"></div>
-                        <form role="form">
+                        <form id="login-form">
+                            <input type="hidden" name="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">用户名</label>
                                 <i class="fa fa-user"></i>
-                                <input type="text" class="form-control" id="exampleInputEmail1" >
+                                <input type="text" class="form-control" name="username" >
                             </div>
+
                             <div class="form-group">
                                 <label for="exampleInputPassword1">密码</label>
                                 <i class="fa fa-lock"></i>
-                                <input type="password" class="form-control" id="exampleInputPassword1" >
+                                <input type="password" class="form-control" name="password" >
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">验证码</label>
                                 <i class="fa fa-barcode"></i>
-                                <input type="text" class="form-control" id="exampleInputPassword1" >
+                                <input type="text" class="form-control" name="captcha" >
                             </div>
 
                             <div class="form-actions">
                                 <label class="checkbox"> <input type="checkbox" class="uniform" value=""> Remember me</label>
-                                <button type="submit" class="btn btn-danger">登录</button>
+                                <button type="" onclick="login();return false;" class="btn btn-danger">登录</button>
                             </div>
+
                         </form>
 
                         <div class="login-helpers">
-                            <a href="#" onclick="swapScreen('forgot');return false;">忘记密码？</a>
+                            <a href="#" onclick="return false;">忘记密码？</a>
                             <br>
                         </div>
                     </div>
@@ -91,10 +95,20 @@
     });
 </script>
 <script type="text/javascript">
-    function swapScreen(id) {
-        jQuery('.visible').removeClass('visible animated fadeInUp');
-        jQuery('#'+id).addClass('visible animated fadeInUp');
+    function login()
+    {
+        var form = $('#login-form').serializeArray();
+        $.post('index.php?r=site/do-login', form, function (data) {
+            var result = eval('(' + data + ')');
+            if (result.error == 0) {
+                console.log('Logged-in OK');
+            } else {
+                console.log(data);
+            }
+        });
+        return false;
     }
+
 </script>
 <!-- /JAVASCRIPTS -->
 </body>

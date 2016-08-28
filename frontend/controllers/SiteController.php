@@ -5,13 +5,12 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\services\StationService;
+use common\services\UserService;
+use common\components\AccessForbiddenException;
 
 /**
  * Site controller
@@ -23,23 +22,8 @@ class SiteController extends BaseController
      */
     public function behaviors()
     {
+        // TODO: Merge from parent::behaviors()
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -55,9 +39,6 @@ class SiteController extends BaseController
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -76,7 +57,7 @@ class SiteController extends BaseController
     }
 
     /**
-     * Logs in a user.
+     * Login Page
      *
      * @return mixed
      */
@@ -85,6 +66,29 @@ class SiteController extends BaseController
         $this->layout = null;
 
         return parent::renderPage('login.tpl', []);
+    }
+
+
+    public function actionDoLogin()
+    {
+        $request = Yii::$app->request;
+        if ($request->getIsPost())
+        {
+            $username = $request->post('username');
+            $password = $request->post('password');
+
+            $user = UserService::login($username, $password);
+            if ($user && $user->isLoggedIn())
+            {
+                Yii::$app->session->open();
+                Yii::$app->session->set("user", $user->userInfo());
+                return parent::result(['login' => $username]);
+            }
+            else
+            {
+                return parent::error(['login' => $username], -1);
+            }
+        }
     }
 
     /**
@@ -133,25 +137,29 @@ class SiteController extends BaseController
         return $this->render('about.tpl', []);
     }
 
+
+
     /**
-     * Signs user up.
+     * ExceptionPage show Errors
      *
      * @return mixed
      */
-    public function actionSignup()
+    public function actionError()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+        $this->layout = null;
+
+        $errorHandler = Yii::$app->getErrorHandler();
+        $exception = $errorHandler->exception;
+        if ($exception instanceof AccessForbiddenException)
+        {
+            $userInfo = $exception->userInfo;
+            if ($userInfo)
+            {
+                
             }
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        return parent::renderPage('error.tpl', ['a' => json_encode($exception)]);
     }
 
     /**

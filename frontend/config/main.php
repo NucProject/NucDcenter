@@ -55,6 +55,8 @@ return [
                 ],
             ],
         ],
+
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

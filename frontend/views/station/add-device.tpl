@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <a href="javascript:showConfirmDialog()" class="btn btn-info">添加</a>
+        <a onclick="showConfirmDialog();" class="btn btn-info">添加</a>
 
     </form>
 {/block}

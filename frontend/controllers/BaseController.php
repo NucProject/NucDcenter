@@ -20,6 +20,22 @@ class BaseController extends Controller
 
     private $breadcrumbs = [];
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => 'common\components\AccessControl',
+                'except' => ['something'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['manageThing1'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @param $page
      * @param $data
