@@ -9,8 +9,6 @@
 namespace common\components;
 
 use yii;
-use common\models\User;
-use yii\web\ForbiddenHttpException;
 
 class AccessControl extends \yii\filters\AccessControl
 {
@@ -21,23 +19,28 @@ class AccessControl extends \yii\filters\AccessControl
 
     public function beforeAction($action)
     {
-        Yii::$app->session->open();
-        $userInfo = Yii::$app->session->get('user');
-        if ($userInfo &&
-            is_array($userInfo) &&
-            array_key_exists('user_id', $userInfo))
-        {
-            $userId = $userInfo['user_id'];
+        $user = Yii::$app->user;
+        $user->getIdentity();
 
-            $user = User::findIdentity($userId);
-            if ($user)
-            {
-                return true;
-            }
+        if ($user->isGuest) {
+            $exception = new AccessForbiddenException('您还没有登录，或者登录已经失效，请重新登录');
+            throw $exception;
         }
 
-        $exception = new AccessForbiddenException($userInfo);
+        if (!$this->allowAccess($user)) {
+            $exception = new AccessForbiddenException('您没有权限访问该页面，需要帮助请联系管理员');
+            throw $exception;
+        }
 
-        throw $exception;
+        return true;
+    }
+
+    /**
+     * @param $user
+     * @return bool
+     */
+    private function allowAccess($user)
+    {
+        return true;
     }
 }

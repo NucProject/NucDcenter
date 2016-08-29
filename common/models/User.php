@@ -81,7 +81,7 @@ class User extends KxUser implements IdentityInterface
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
      */
-    public static function findIdentity($userId)
+    public static function findIdentity($userId) //: \common\models\User
     {
         return User::findOne($userId);
     }
@@ -106,7 +106,7 @@ class User extends KxUser implements IdentityInterface
      */
     public function getId()
     {
-
+        return $this->user_id;
     }
 
     /**

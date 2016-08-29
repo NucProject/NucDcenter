@@ -80,6 +80,7 @@ class SiteController extends BaseController
             $user = UserService::login($username, $password);
             if ($user && $user->isLoggedIn())
             {
+                Yii::$app->user->login($user);
                 Yii::$app->session->open();
                 Yii::$app->session->set("user", $user->userInfo());
                 return parent::result(['login' => $username]);
@@ -155,7 +156,7 @@ class SiteController extends BaseController
             $userInfo = $exception->userInfo;
             if ($userInfo)
             {
-                
+
             }
         }
 

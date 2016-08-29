@@ -13,10 +13,11 @@ use yii\web\ForbiddenHttpException;
 
 class AccessForbiddenException extends ForbiddenHttpException
 {
+    public $reason = false;
 
-    public function __construct($userInfo)
+    public function __construct($reason)
     {
         parent::__construct('AccessForbidden', 403, null);
-        $this->userInfo = $userInfo;
+        $this->reason = $reason;
     }
 }
