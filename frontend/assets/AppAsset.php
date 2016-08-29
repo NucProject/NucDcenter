@@ -16,10 +16,11 @@ class AppAsset extends AssetBundle
         'css/cloud-admin.min.css',
         'css/themes/default.min.css', /* MUST after cloud-admin.min.css */
         'css/flags/flags.min.css',
-
+        'js/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.min.css',
         'css/inbox.css',
         'css/responsive.min.css',
-        'font-awesome/css/font-awesome.min.css'
+        'font-awesome/css/font-awesome.min.css',
+        'css/fonts.css'
         //// 'css/print.css', * CAN NOT LOAD THIS CSS
     ];
 

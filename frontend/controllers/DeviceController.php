@@ -21,7 +21,7 @@ class DeviceController extends BaseController
     {
         $data['data'] = $this->getDeviceData($deviceKey);
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
-        return parent::renderPage('list.tpl', $data);
+        return parent::renderPage('list.tpl', $data, ['withDatePicker']);
     }
 
     public function actionDataChart($deviceKey)

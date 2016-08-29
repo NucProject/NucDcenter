@@ -1,5 +1,5 @@
 <div class="col-md-4 box-container">
-    <div class="box border purple">
+    <div class="box border {block name=color}blue{/block}">
         <div class="box-title small">
             <h4><i class="fa fa-rocket"></i>{block name=title}{/block}</h4>
             <div class="tools">

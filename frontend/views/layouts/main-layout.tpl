@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <title>{$pageTitle}</title>
 {* 字体变得漂亮了! *}
-<link href="http://fonts.useso.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
+<link href="css/fonts.css" rel="stylesheet">
+{*<link href="http://fonts.useso.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">*}
 
 {$this->head()}
 {$this->beginBody()}

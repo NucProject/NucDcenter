@@ -60,7 +60,9 @@ class BaseController extends Controller
         if (isset($options['withDialog']) && $options['withDialog'] == true) {
             $this->addDialog();
         }
-
+        if (isset($options['withDatePicker']) && $options['withDatePicker'] == true) {
+            $this->addDatePicker();
+        }
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
 
@@ -250,6 +252,14 @@ class BaseController extends Controller
     {
         $view = $this->getView();
         $view->registerJsFile('js/bootbox/bootbox.min.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
+
+    public function addDatePicker()
+    {
+        $view = $this->getView();
+        $view->registerCssFile('js/datepicker/themes/default.min.css');
+        $view->registerJsFile('js/datepicker/picker.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+
     }
 
 }

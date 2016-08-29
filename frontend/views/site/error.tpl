@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css"  href="css/responsive.css" >
 
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/fonts.css" rel="stylesheet">
     <!-- DATE RANGE PICKER -->
     <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
     <!-- FONTS -->
