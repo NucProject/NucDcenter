@@ -157,6 +157,7 @@ class BaseController extends Controller
         return [
             'StationService' => 'common\services\StationService',
             'DeviceService' => 'common\services\DeviceService',
+            'Url' => 'common\components\Url',
             'Alert' => 'common\widgets\Alert',
             'Html' => 'yii\helpers\Html'
         ];

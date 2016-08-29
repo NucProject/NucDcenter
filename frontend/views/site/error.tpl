@@ -15,7 +15,9 @@
     <!-- DATE RANGE PICKER -->
     <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
     <!-- FONTS -->
+    <!--
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    -->
 </head>
 <body>
 <!-- PAGE -->
@@ -29,19 +31,22 @@
         <div class="row">
             <div class="col-md-12 not-found text-center">
                 <div class="error-500">
-                    500
+                    Error !
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-4 not-found text-center">
                 <div class="content">
-                    <h3>Oops! Something went wrong</h3>
-                    <p>
-                        Don't worry! We're working on it.
-                    </p>
+                    <h3>{$errorReason}</h3>
+
                     <div class="btn-group">
-                        <a href="#" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Go Back</a>
-                        <a href="index.html" class="btn btn-default">Dashboard</a>
+                        <a href="javascript:history.back()" class="btn btn-danger"><i class="fa fa-chevron-left"></i>返回</a>
+                        <a href="index.php?r=site/login" class="btn btn-default">重新登录</a>
                     </div>
+                    <br>
+                    <br>
+                    <p>
+                        如果问题还未被解决，请联系管理员 admin@***.com
+                    </p>
                 </div>
             </div>
         </div>

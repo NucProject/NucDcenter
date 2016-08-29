@@ -2,9 +2,6 @@
 namespace common\models;
 
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -13,15 +10,15 @@ use yii\web\IdentityInterface;
  */
 class User extends KxUser implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
+    const StatusInactive = 0;
 
-    const STATUS_ACTIVE = 10;
+    const StatusActive = 1;
 
     private $isLoggedIn = false;
 
     public function init()
     {
-        file_put_contents("d:\\aaaa", "d");
+        parent::init();
     }
 
     /**
@@ -46,7 +43,7 @@ class User extends KxUser implements IdentityInterface
      */
     public function getRoleName()
     {
-        return $this->roleId;
+        return 1;   //$this->roleId;
     }
 
     /**
@@ -72,7 +69,7 @@ class User extends KxUser implements IdentityInterface
         ];
     }
 
-
+    ///////////////////////////////////////////////////////////////////////////
     // implements IdentityInterface
     /**
      * Finds an identity by the given ID.
@@ -97,7 +94,7 @@ class User extends KxUser implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-
+        // Do NOT use token by now.
     }
 
     /**

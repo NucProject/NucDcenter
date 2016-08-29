@@ -1,2 +1,5 @@
 <script>
+    $(function () {
+        
+    })
 </script>

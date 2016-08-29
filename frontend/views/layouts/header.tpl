@@ -296,7 +296,7 @@
             <!-- BEGIN USER LOGIN DROPDOWN -->
             <li class="dropdown user" id="header-user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img alt="" src="img/avatars/avatar3.jpg" />
+                    <div></div>
                     <span class="username">John Doe</span>
                     <i class="fa fa-angle-down"></i>
                 </a>

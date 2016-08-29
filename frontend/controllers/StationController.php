@@ -8,11 +8,13 @@
 
 namespace frontend\controllers;
 
+use common\components\AccessForbiddenException;
 use common\services\DataCenterService;
 use common\services\DeviceDataService;
 use common\services\DeviceService;
 use common\services\DeviceTypeService;
 use common\services\EntityIdService;
+use common\services\StationService;
 
 class StationController extends BaseController
 {
@@ -24,6 +26,9 @@ class StationController extends BaseController
      */
     public function actionIndex($stationKey)
     {
+        $this->checkStationKey($stationKey);
+
+        $data['stationKey'] = $stationKey;
         $data['devices'] = $this->getDevices($stationKey);
 
         parent::setBreadcrumbs([
@@ -40,7 +45,7 @@ class StationController extends BaseController
      */
     public function actionAddDevice($stationKey)
     {
-
+        $this->checkStationKey($stationKey);
 
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
@@ -63,6 +68,7 @@ class StationController extends BaseController
     public function actionDoAddDevice()
     {
         $stationKey = $_POST['stationKey'];
+        $this->checkStationKey($stationKey);
 
         return $this->redirect("index.php?r=station&stationKey=$stationKey");
         $centerId = DataCenterService::deployedCenterId();
@@ -88,6 +94,18 @@ class StationController extends BaseController
 
         DeviceDataService::createDeviceDataTable($tableName, $typeId);
         return parent::result([]);
+    }
+
+    private function checkStationKey($stationKey)
+    {
+        if (!$stationKey) {
+            throw new AccessForbiddenException('请提供自动站的StationKey');
+        }
+
+        if (!StationService::getStationByKey($stationKey)) {
+            throw new AccessForbiddenException('未知的自动站StationKey=' . $stationKey);
+        }
+        return true;
     }
 
 

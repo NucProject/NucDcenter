@@ -15,6 +15,7 @@
         <br>
         <span>创建时间: {$station.create_time}</span>
         <br>
-        <a class="btn btn-xs btn-info">进入</a>
+        <a class="btn btn-xs btn-info"
+           href="index.php?r=station/index&stationKey={$station.station_key}">进入</a>
     </div>
 {/block}

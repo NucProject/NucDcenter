@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: healerkx
+ * User: healer_kx
  * Date: 2016/8/21
  * Time: 22:05
  */
@@ -20,23 +20,26 @@ class DataCenterController extends BaseController
 {
 
     /**
-     * @param $centerId
      * @return string
      * 列出数据中心($centerId)的首页
+     * 列出简介, 所有的stations和所有的移动设备
      */
-    public function actionIndex($centerId)
+    public function actionIndex()
     {
+        $centerId = DataCenterService::deployedCenterId();
         $data = [];
+
+
         return parent::renderPage('index.tpl', $data);
     }
 
     /**
-     * @param $centerId
      * @return string
      * 列出数据中心($centerId)所辖的自动站
      */
-    public function actionStations($centerId)
+    public function actionStations()
     {
+        $centerId = DataCenterService::deployedCenterId();
         $data = [];
 
         $data['stations'] = StationService::getStationList($centerId);
@@ -46,12 +49,13 @@ class DataCenterController extends BaseController
     }
 
     /**
-     * @param $centerId
      * @return string
      * 列出数据中心($centerId)所有的移动设备
      */
-    public function actionMovableDevices($centerId)
+    public function actionMovableDevices()
     {
+        $centerId = DataCenterService::deployedCenterId();
+
         $data = [];
         $data['movable_devices'] = StationService::getMovableDevicesList($centerId);
 

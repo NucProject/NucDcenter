@@ -153,6 +153,7 @@ class SiteController extends BaseController
         $exception = $errorHandler->exception;
         if ($exception instanceof AccessForbiddenException)
         {
+            $errorReason = $exception->reason;
             $userInfo = $exception->userInfo;
             if ($userInfo)
             {
@@ -160,7 +161,7 @@ class SiteController extends BaseController
             }
         }
 
-        return parent::renderPage('error.tpl', ['a' => json_encode($exception)]);
+        return parent::renderPage('error.tpl', ['errorReason' => $errorReason]);
     }
 
     /**

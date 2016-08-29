@@ -42,13 +42,11 @@ class DeviceService
     }
 
     /**
-     * @oaram $stationKey
+     * @param $stationKey
      * @return array
      */
     public static function getDeviceList($stationKey)
     {
-        $deviceList = [];
-
         $devices = NucDevice::findAll(['station_key' => $stationKey]);
 
         return $devices;

@@ -37,7 +37,7 @@ class StationService
 
     public static function getStationByKey($stationKey)
     {
-
+        return NucStation::findOne(['station_key' => $stationKey]);
     }
 
     /**
