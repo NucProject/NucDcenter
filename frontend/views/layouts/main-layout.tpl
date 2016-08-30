@@ -50,6 +50,7 @@
 
                     {* content *}
                     {$viewContent}
+
                 </div>
             </div>
         </div>
