@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 
+use common\components\AccessForbiddenException;
 use common\models\NucDevice;
 use common\models\NucDeviceField;
 use common\services\DeviceService;
@@ -19,44 +20,62 @@ class DeviceController extends BaseController
 
     public function actionDataList($deviceKey)
     {
-        $data['data'] = $this->getDeviceData($deviceKey);
+        $device = $this->checkDevice($deviceKey);
+        $data['data'] = $this->getDeviceData($device);
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
-        return parent::renderPage('list.tpl', $data, ['withDatePicker']);
+        return parent::renderPage('list.tpl', $data, [
+            'with' => ['datePicker']]);
     }
 
     public function actionDataChart($deviceKey)
     {
-        $data['data'] = $this->getDeviceData($deviceKey);
+        $device = $this->checkDevice($deviceKey);
+        $data['data'] = $this->getDeviceData($device);
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
         return parent::renderPage('chart.tpl', $data);
     }
 
     /**
-     * @param $deviceKey
+     * @param $device \common\models\NucDevice
      * @return array
      */
-    private function getDeviceData($deviceKey)
+    private function getDeviceData($device)
     {
-        $device = DeviceService::getDeviceByKey($deviceKey);
-        if ($device)
-        {
-            $typeKey = $device->type_key;
-            $fields = NucDeviceField::findAll([
-                'type_key' => $typeKey,
-                'status' => 1
-            ]);
-
-            $columns = [['field_name' => 'data_time', 'field_display' => '时间']];
-            foreach ($fields as $field)
-            {
-                $columns[] = $field->toArray();
-            }
-
-            $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+        if (!$device) {
+            return [];
         }
+        $typeKey = $device->type_key;
+        $fields = NucDeviceField::findAll([
+            'type_key' => $typeKey,
+            'status' => 1
+        ]);
+
+        $columns = [['field_name' => 'data_time', 'field_display' => '时间']];
+        foreach ($fields as $field)
+        {
+            $columns[] = $field->toArray();
+        }
+
+        $deviceKey = $device->device_key;
+        $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+
         return [
             'columns' => $columns,
             'items' => $dataArray
         ];
+    }
+
+    /**
+     * @param $deviceKey
+     * @return \common\models\NucDevice
+     * @throws \common\components\AccessForbiddenException
+     */
+    private function checkDevice($deviceKey)
+    {
+        $device = DeviceService::getDeviceByKey($deviceKey);
+        if (!$device) {
+            throw new AccessForbiddenException("设备不存在");
+        }
+        return $device;
     }
 }

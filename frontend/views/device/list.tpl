@@ -19,7 +19,7 @@
             <tr>
                 {foreach from=$data.columns item=col}
                     <td>
-                        {$col.field_display}
+                        <b>{$col.field_display}</b>
                         {if isset($col.field_unit)}({$col.field_unit}){/if}
                     </td>
                 {/foreach}

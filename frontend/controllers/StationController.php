@@ -57,7 +57,7 @@ class StationController extends BaseController
             'index.html' => '自动站',
             '#' => '添加新设备']);
         return parent::renderPage('add-device.tpl', $data,
-            ['withDialog' => true]);
+            ['with' => ['dialog']]);
     }
 
     /**

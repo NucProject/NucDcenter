@@ -57,12 +57,11 @@ class BaseController extends Controller
 
         $this->initBreadcrumbs($data);
 
-        if (isset($options['withDialog']) && $options['withDialog'] == true) {
-            $this->addDialog();
+        if (array_key_exists('with', $options))
+        {
+            $this->initWithStaticFiles($options['with']);
         }
-        if (isset($options['withDatePicker']) && $options['withDatePicker'] == true) {
-            $this->addDatePicker();
-        }
+
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
 
@@ -241,25 +240,23 @@ class BaseController extends Controller
         $data['breadcrumbs'] = $this->breadcrumbs;
     }
 
-    public function initWebUploader()
+    /**
+     * 处理页面自己的静态资源trait
+     */
+    use \common\components\StaticFiles;
+
+    /**
+     * @param $with
+     * Handle $options' static-files
+     */
+    private function initWithStaticFiles($with)
     {
-        $view = $this->getView();
-        $view->registerCssFile('webuploader/webuploader.css');
-        $view->registerJsFile('webuploader/webuploader.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        foreach ($with as $v)
+        {
+            $addMethod = 'add' . ucfirst($v);
+            if (method_exists($this, $addMethod)) {
+                call_user_func_array([$this, $addMethod], [$this->getView()]);
+            }
+        }
     }
-
-    public function addDialog()
-    {
-        $view = $this->getView();
-        $view->registerJsFile('js/bootbox/bootbox.min.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
-    }
-
-    public function addDatePicker()
-    {
-        $view = $this->getView();
-        $view->registerCssFile('js/datepicker/themes/default.min.css');
-        $view->registerJsFile('js/datepicker/picker.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
-
-    }
-
 }

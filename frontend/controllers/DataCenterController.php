@@ -73,15 +73,15 @@ class DataCenterController extends BaseController
         $data['centerId'] = $centerId;
 
         // 我要在地图上找到它吗？
-        parent::initWebUploader();
+
         parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加自动站']);
-        return parent::renderPage('add-station.tpl', $data);
+        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
     }
 
     public function actionDoAddStation()
     {
 
-        $this->redirect();
+        // $this->redirect();
     }
 
     private function getStationList($centerId)
