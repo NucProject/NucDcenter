@@ -17,7 +17,13 @@ use common\models\UkDeviceData;
 
 class DeviceController extends BaseController
 {
-
+    /**
+     * @page
+     * @comment 设备数据列表
+     * @param $deviceKey
+     * @return string
+     * @throws AccessForbiddenException
+     */
     public function actionDataList($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
@@ -27,6 +33,13 @@ class DeviceController extends BaseController
             'with' => ['datePicker', 'laydate']]);
     }
 
+    /**
+     * @page
+     * @comment 设备数据曲线
+     * @param $deviceKey
+     * @return string
+     * @throws AccessForbiddenException
+     */
     public function actionDataChart($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);

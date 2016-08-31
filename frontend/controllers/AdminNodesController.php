@@ -14,10 +14,13 @@ use yii\helpers\BaseInflector;
 class AdminNodesController extends BaseController
 {
     private $controllers = [
-        'DataCenter',
+        'DataCenter', 'Station', 'Device',
+        'AdminNodes',
     ];
 
     /**
+     * @page
+     * @comment 站内页面编辑页面
      * @return string
      */
     public function actionIndex()
@@ -27,7 +30,7 @@ class AdminNodesController extends BaseController
         $data = array(
             'controllers' => $nodes
         );
-//var_dump($nodes);exit;
+
         return parent::renderPage('index.tpl', $data, []);
     }
 

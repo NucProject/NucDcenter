@@ -20,6 +20,8 @@ class StationController extends BaseController
 {
 
     /**
+     * @page
+     * @comment 自动站设备列表
      * @param $stationKey
      * @return string
      * 列出来该Station的概况
@@ -39,6 +41,8 @@ class StationController extends BaseController
     }
 
     /**
+     * @page
+     * @comment 自动站添加新设备
      * @param $stationKey
      * @return string
      * 需要生成deviceKey
