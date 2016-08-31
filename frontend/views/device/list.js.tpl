@@ -12,8 +12,8 @@
     };
 
     $(function () {
-        // $(".datepicker").datepicker();
-        laydate.skin('molv')
+        // I would Like use Laydate as My datetime picker!
+        laydate.skin('dahong');
         laydate(beginTime);
         laydate(endTime);
     })

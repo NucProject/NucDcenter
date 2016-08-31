@@ -30,8 +30,6 @@ trait StaticFiles
 
     public function addLaydate($view)
     {
-        $view->registerCssFile('css/laydate.css');
         $view->registerJsFile('js/laydate/laydate.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
-
     }
 }

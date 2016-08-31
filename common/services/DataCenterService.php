@@ -8,19 +8,28 @@
 
 namespace common\services;
 
+use common\components\AccessForbiddenException;
 use yii;
 
 class DataCenterService
 {
+    /**
+     * @return mixed
+     * @throws AccessForbiddenException
+     * 返回当前数据中心的(全局唯一)Id, 没有配置则抛异常.
+     */
     public static function deployedCenterId() {
         if (isset (Yii::$app->params['theDeployedCenterId']))
         {
             return Yii::$app->params['theDeployedCenterId'];
         }
-        assert(FALSE);
-        return 0;
+
+        throw new AccessForbiddenException('未正确设置数据中心ID');
     }
 
+    /**
+     * @return string
+     */
     public static function defaultPageTitle() {
         if (isset (Yii::$app->params['defaultPageTitle']))
         {
