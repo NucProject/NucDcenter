@@ -13,7 +13,7 @@
         </div>
     </form>
 
-    <div class="">
+    <div class="form-group margin-top-50">
         <table class="table table-striped table-bordered">
             <thead>
             <tr>

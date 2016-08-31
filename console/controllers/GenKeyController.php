@@ -10,11 +10,18 @@ namespace console\controllers;
 
 use yii\console\Controller;
 use common\services\EntityIdService;
+use yii\helpers\BaseInflector;
 
 class GenKeyController extends Controller
 {
     public function actionStation()
     {
         echo EntityIdService::genStationKey(129);
+    }
+
+
+    public function actionTest()
+    {
+        echo BaseInflector::camel2id("AdminNodesHelloWorld");
     }
 }

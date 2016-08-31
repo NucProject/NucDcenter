@@ -20,6 +20,8 @@ class DataCenterController extends BaseController
 {
 
     /**
+     * @page
+     * @comment 数据中心首页
      * @return string
      * 列出数据中心($centerId)的首页
      * 列出简介, 所有的stations和所有的移动设备
@@ -34,6 +36,8 @@ class DataCenterController extends BaseController
     }
 
     /**
+     * @page
+     * @comment 数据中心自动站列表页
      * @return string
      * 列出数据中心($centerId)所辖的自动站
      */
@@ -49,6 +53,8 @@ class DataCenterController extends BaseController
     }
 
     /**
+     * @page
+     * @comment 数据中心移动便携设备列表
      * @return string
      * 列出数据中心($centerId)所有的移动设备
      */
@@ -64,6 +70,8 @@ class DataCenterController extends BaseController
     }
 
     /**
+     * @page
+     * @comment 数据中心添加自动站
      * @return string
      * 有新的自动站加入, 生成stationKey
      */
@@ -78,6 +86,9 @@ class DataCenterController extends BaseController
         return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
     }
 
+    /**
+     *
+     */
     public function actionDoAddStation()
     {
 
@@ -86,6 +97,8 @@ class DataCenterController extends BaseController
 
 
     /**
+     * @page
+     * @comment 数据中心添加新的便携设备
      * @return string
      * 有新的移动便携设备加入, 注册它, 生成deviceKey
      */
@@ -98,6 +111,9 @@ class DataCenterController extends BaseController
         return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
     }
 
+    /**
+     *
+     */
     public function actionDoAddMovableDevice()
     {
 
