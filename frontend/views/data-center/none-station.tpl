@@ -4,12 +4,12 @@
 {block name=color}{/block}
 
 {block name=title}
-    <span>添加新的自动站...</span>
+    <span>添加新的...</span>
 {/block}
 
 {block name=content}
     <div>
         <a class="btn btn-info"
-           href="index.php?r=data-center/add-station">添加</a>
+           href="index.php?r=data-center/add-station">添加自动站</a>
     </div>
 {/block}

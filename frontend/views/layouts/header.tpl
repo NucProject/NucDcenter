@@ -3,26 +3,32 @@
         <div class="navbar-brand">
             <!-- COMPANY LOGO -->
             <a href="index.html">
-                <img src="img/logo/logo.png" alt="Cloud Admin Logo" class="img-responsive" height="30" width="120">
+                {*<img src="img/zhuhai_logo2.png" alt="Cloud Admin Logo" class="img-responsive" height="30" width="30">*}
             </a>
+
             <!-- /COMPANY LOGO -->
             <!-- TEAM STATUS FOR MOBILE -->
+            <!--
             <div class="visible-xs">
                 <a href="#" class="team-status-toggle switcher btn dropdown-toggle">
                     <i class="fa fa-users"></i>
                 </a>
             </div>
+            -->
             <!-- /TEAM STATUS FOR MOBILE -->
             <!-- SIDEBAR COLLAPSE -->
             <div id="sidebar-collapse" class="sidebar-collapse btn">
                 <i class="fa fa-bars"
                    data-icon1="fa fa-bars"
                    data-icon2="fa fa-bars" ></i>
+
             </div>
+
             <!-- /SIDEBAR COLLAPSE -->
         </div>
         <!-- NAVBAR LEFT -->
         <ul class="nav navbar-nav pull-left hidden-xs" id="navbar-left">
+            <!-- TeamStatus 暂时不需要
             <li class="dropdown">
                 <a href="#" class="team-status-toggle dropdown-toggle tip-bottom" data-toggle="tooltip" title="Toggle Team View">
                     <i class="fa fa-users"></i>
@@ -30,6 +36,7 @@
                     <i class="fa fa-angle-down"></i>
                 </a>
             </li>
+            -->
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-cog"></i>

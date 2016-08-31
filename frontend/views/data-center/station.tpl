@@ -1,7 +1,7 @@
 {* 一个station的展示HTML *}
 {extends 'common/box.tpl'}
 {* 具体的细节 *}
-{block name=color}purple{/block}
+{block name=style}border purple{/block}
 
 {block name=title}
     <span>{$station.station_name}</span>

@@ -39,10 +39,12 @@
                                     {/foreach}
                                 </ul>
                                 <!-- /BREADCRUMBS -->
+                                <!--
                                 <div class="clearfix">
                                     <h3 class="content-title pull-left">@</h3>
                                 </div>
                                 <div class="description">abc</div>
+                                -->
                             </div>
                         </div>
                     </div>

@@ -84,6 +84,26 @@ class DataCenterController extends BaseController
         // $this->redirect();
     }
 
+
+    /**
+     * @return string
+     * 有新的移动便携设备加入, 注册它, 生成deviceKey
+     */
+    public function actionAddMovableDevice()
+    {
+        $centerId = DataCenterService::deployedCenterId();
+        $data['centerId'] = $centerId;
+
+        parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加移动编写设备']);
+        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
+    }
+
+    public function actionDoAddMovableDevice()
+    {
+
+        // $this->redirect();
+    }
+
     private function getStationList($centerId)
     {
         $stationList = [];

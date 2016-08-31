@@ -5,10 +5,10 @@
             <label class="col-md-4 control-label">选择数据时间范围:</label>
             <div class="clearfix"></div>
             <div class="col-md-2 pull-left">
-                <input class="form-control datepicker" type="text" name="regular" size="10">
+                <input class="form-control" type="text" name="begin_time" size="10" id="begin_time">
             </div>
             <div class="col-md-2  pull-left">
-                <input class="form-control datepicker" type="text" name="regular" size="10">
+                <input class="form-control" type="text" name="end_time" size="10" id="end_time">
             </div>
         </div>
     </form>
