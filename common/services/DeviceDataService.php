@@ -9,22 +9,35 @@
 namespace common\services;
 
 use yii\db\Migration;
+use common\models\UkDeviceData;
 
 class DeviceDataService
 {
     /**
-     *
+     * @param $deviceKey    string
+     * @param $data         array
+     * @param $checkAlarm   boolean
+     * @return bool
      */
-    public static function addEntry()
+    public static function addEntry($deviceKey, $data, $checkAlarm=true)
     {
+        $entry = new UkDeviceData($deviceKey);
+        // $data里面应该含有data_time字段
+        $entry->setAttributes($data);
+        if ($checkAlarm)
+        {
+            // TODO: Get alarm settings, if alarm set alarm_status=1
 
+        }
+
+        return $entry->save();
     }
 
     /**
      * @param $deviceKey
      * @return string
      */
-    public static function tableName($deviceKey)
+    public static function getTableName($deviceKey)
     {
         return "uk_device_data_{$deviceKey}";
     }
@@ -45,7 +58,9 @@ class DeviceDataService
 
         $fields = self::addDeviceDataFields($fields, $migration, $typeId);
 
-        $fields = array_merge($fields, ['status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
+        $fields = array_merge($fields, [
+            'alarm_status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
+            'status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
             'create_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
             'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
         ]);

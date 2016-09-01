@@ -6,9 +6,12 @@ use common\services\DeviceDataService;
 use Yii;
 
 /**
- * This is the model class for table "nuc_data_center".
+ * This is the model class for table "uk_device_data_{$deviceKey}".
  *
- * @property integer $center_id
+ * @property integer    $data_id
+ * @property integer    $status
+ * @property string     $create_time
+ * @property string     $update_time
  */
 class UkDeviceData extends BaseModel
 {
@@ -19,10 +22,13 @@ class UkDeviceData extends BaseModel
      */
     public static function tableName()
     {
-        return DeviceDataService::tableName(self::$deviceKey);
+        return DeviceDataService::getTableName(self::$deviceKey);
     }
 
-
+    public function __construct($deviceKey)
+    {
+        self::$deviceKey = $deviceKey;
+    }
 
     /**
      * @inheritdoc
