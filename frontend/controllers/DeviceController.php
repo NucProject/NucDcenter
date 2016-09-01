@@ -12,6 +12,7 @@ namespace frontend\controllers;
 use common\components\AccessForbiddenException;
 use common\models\NucDevice;
 use common\models\NucDeviceField;
+use common\models\NucDeviceType;
 use common\services\DeviceService;
 use common\models\UkDeviceData;
 
@@ -58,6 +59,10 @@ class DeviceController extends BaseController
             return [];
         }
         $typeKey = $device->type_key;
+
+        $deviceType = NucDeviceType::findOne(['type_key' => $typeKey]);
+
+        // 得到有效的设备字段信息
         $fields = NucDeviceField::findAll([
             'type_key' => $typeKey,
             'status' => 1
@@ -73,6 +78,7 @@ class DeviceController extends BaseController
         $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
 
         return [
+            'deviceName' => $deviceType->type_name,
             'columns' => $columns,
             'items' => $dataArray
         ];

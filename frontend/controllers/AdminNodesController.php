@@ -30,7 +30,7 @@ class AdminNodesController extends BaseController
         $data = array(
             'controllers' => $nodes
         );
-
+        parent::setBreadcrumbs(['index.html' => '权限管理', '#' => '页面节点设置']);
         return parent::renderPage('index.tpl', $data, []);
     }
 

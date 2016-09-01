@@ -40,6 +40,9 @@
         </table>
     </div>
 
-    <button id="sync-button" class="btn blue btn-block">更新 <i class="m-icon-swapright m-icon-white"></i></button>
+    <div class="btn-group">
+        <a href="" class="btn btn-info"><i class="fa fa-refresh"></i>&nbsp;&nbsp;<span>重新加载</span></a>
+        <a href="javascript:updateAdminNodes();" class="btn btn-danger">更新</a>
+    </div>
 
 </div>

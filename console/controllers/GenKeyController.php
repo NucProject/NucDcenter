@@ -20,8 +20,4 @@ class GenKeyController extends Controller
     }
 
 
-    public function actionTest()
-    {
-        echo BaseInflector::camel2id("AdminNodesHelloWorld");
-    }
 }

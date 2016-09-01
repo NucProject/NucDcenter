@@ -39,8 +39,8 @@
             -->
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-cog"></i>
-                    <span class="name">Skins</span>
+                    <i class="fa fa-rocket"></i>
+                    <span class="name">快速操作</span>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu skins">
