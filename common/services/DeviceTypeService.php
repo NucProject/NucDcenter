@@ -29,6 +29,15 @@ class DeviceTypeService
 
     }
 
+    /**
+     * @param $typeKey
+     * @return NucDeviceType
+     */
+    public static function getDeviceType($typeKey)
+    {
+        return NucDeviceType::findOne(['type_key' => $typeKey]);
+    }
+
     private static function loadDeviceTypesFromRootDataCenter()
     {
         $deviceTypes = [];

@@ -25,11 +25,6 @@ class UkDeviceData extends BaseModel
         return DeviceDataService::getTableName(self::$deviceKey);
     }
 
-    public function __construct($deviceKey)
-    {
-        self::$deviceKey = $deviceKey;
-    }
-
     /**
      * @inheritdoc
      * @return NucDataCenterQuery the active query used by this AR class.

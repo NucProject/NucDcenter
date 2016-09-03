@@ -15,6 +15,7 @@ use common\models\NucDeviceField;
 use common\models\NucDeviceType;
 use common\services\DeviceService;
 use common\models\UkDeviceData;
+use common\services\DeviceTypeService;
 
 class DeviceController extends BaseController
 {
@@ -52,6 +53,7 @@ class DeviceController extends BaseController
     /**
      * @param $device \common\models\NucDevice
      * @return array
+     * @throws AccessForbiddenException
      */
     private function getDeviceData($device)
     {
@@ -60,7 +62,10 @@ class DeviceController extends BaseController
         }
         $typeKey = $device->type_key;
 
-        $deviceType = NucDeviceType::findOne(['type_key' => $typeKey]);
+        $deviceType = DeviceTypeService::getDeviceType($typeKey);
+        if (!$deviceType) {
+            throw new AccessForbiddenException("设备类型不存在");
+        }
 
         // 得到有效的设备字段信息
         $fields = NucDeviceField::findAll([

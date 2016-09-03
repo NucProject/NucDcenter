@@ -102,6 +102,7 @@
             var result = eval('(' + data + ')');
             if (result.error == 0) {
                 console.log('Logged-in OK');
+                window.location.href = 'index.php?r=data-center/stations';
             } else {
                 console.log(data);
             }

@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: healerkx
- * Date: 2016/8/28
- * Time: 22:56
+ * NucDcenter
+ * User: healer_kx@163.com
+ * DateTime: 2016/9/2 18:03
+ *
  */
 
 namespace common\components;
@@ -11,7 +11,7 @@ namespace common\components;
 
 use yii\base\UserException;
 
-class AccessForbiddenException extends UserException
+class ResourceNotFoundException extends UserException
 {
     public $reason = false;
 
