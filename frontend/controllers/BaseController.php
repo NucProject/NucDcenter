@@ -160,7 +160,8 @@ class BaseController extends Controller
             'DeviceService' => 'common\services\DeviceService',
             'Url' => 'common\components\Url',
             'Alert' => 'common\widgets\Alert',
-            'Html' => 'yii\helpers\Html'
+            'Html' => 'yii\helpers\Html',
+
         ];
     }
 

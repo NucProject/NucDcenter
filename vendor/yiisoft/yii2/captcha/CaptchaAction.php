@@ -137,7 +137,8 @@ class CaptchaAction extends Action
         } else {
             $this->setHttpHeaders();
             Yii::$app->response->format = Response::FORMAT_RAW;
-            return $this->renderImage($this->getVerifyCode());
+            $gen = Yii::$app->request->getQueryParam('gen');
+            return $this->renderImage($this->getVerifyCode($gen === 'true'));
         }
     }
 

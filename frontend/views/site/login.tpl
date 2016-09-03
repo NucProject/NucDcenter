@@ -50,8 +50,18 @@
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">验证码</label>
-                                <i class="fa fa-barcode"></i>
-                                <input type="text" class="form-control" name="captcha" >
+                                <div >
+                                    <div class="input-group">
+                                        <i class="fa fa-barcode"></i>
+                                        <input type="text" class="form-control" name="captcha">
+                                        <span class="input-group-btn">
+                                            <button onclick="refreshCaptcha(this)" id="captcha" class="btn btn-primary" type="button" style="padding: 0px">
+                                                <img src="index.php?r=site/captcha&gen=true">
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
 
                             <div class="form-actions">
@@ -109,6 +119,16 @@
         });
         return false;
     }
+
+    function refreshCaptcha(button)
+    {
+        // console.log($(button))
+        $(button).find('img').attr('src', 'index.php?r=site/captcha&gen=true&f=' + Math.random());
+    }
+
+    $(function () {
+
+    })
 
 </script>
 <!-- /JAVASCRIPTS -->
