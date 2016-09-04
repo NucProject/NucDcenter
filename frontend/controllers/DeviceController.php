@@ -8,14 +8,16 @@
 
 namespace frontend\controllers;
 
-
+use yii;
 use common\components\AccessForbiddenException;
 use common\models\NucDevice;
 use common\models\NucDeviceField;
 use common\models\NucDeviceType;
+use common\services\DeviceDataService;
 use common\services\DeviceService;
 use common\models\UkDeviceData;
 use common\services\DeviceTypeService;
+use common\services\PagerService;
 
 class DeviceController extends BaseController
 {
@@ -29,7 +31,10 @@ class DeviceController extends BaseController
     public function actionDataList($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
-        $data['data'] = $this->getDeviceData($device);
+        $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
+        $page = Yii::$app->request->get('__page');
+        $options = ['pageSize' => $pageSize, 'page' => $page];
+        $data['data'] = $this->getDeviceData($device, $options);
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
         return parent::renderPage('list.tpl', $data, [
             'with' => ['datePicker', 'laydate']]);
@@ -52,10 +57,11 @@ class DeviceController extends BaseController
 
     /**
      * @param $device \common\models\NucDevice
+     * @param $options
      * @return array
      * @throws AccessForbiddenException
      */
-    private function getDeviceData($device)
+    private function getDeviceData($device, $options)
     {
         if (!$device) {
             return [];
@@ -80,12 +86,14 @@ class DeviceController extends BaseController
         }
 
         $deviceKey = $device->device_key;
-        $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+        // $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+        $dataArray = DeviceDataService::getDataList($deviceKey, $options);
 
         return [
             'deviceName' => $deviceType->type_name,
             'columns' => $columns,
-            'items' => $dataArray
+            'items' => $dataArray,
+            'pagers' => PagerService::getPager(102, 5)
         ];
     }
 

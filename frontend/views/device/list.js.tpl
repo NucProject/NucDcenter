@@ -12,10 +12,15 @@
     };
 
     $(function () {
+
+        initPager();
+
         // I would Like use Laydate as My datetime picker!
         {* 可能由于字体的原因，我被迫改了一点need/laydate.css *}
         laydate.skin('dahong');
         laydate(beginTime);
         laydate(endTime);
+
+
     })
 </script>

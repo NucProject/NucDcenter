@@ -43,5 +43,6 @@
             </tbody>
         </table>
     </div>
+    {include 'common/pager.tpl'}
 
 </div>

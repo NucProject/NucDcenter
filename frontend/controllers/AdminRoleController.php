@@ -32,7 +32,9 @@ class AdminRoleController extends BaseController
      */
     public function actionAdd()
     {
-
+        $data = [];
+        $data['doAddUrl'] = 'index.php?r=admin-role/add';
+        return parent::renderPage('add.tpl', $data, []);
     }
 
     /**

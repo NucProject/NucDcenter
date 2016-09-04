@@ -1,4 +1,4 @@
-<div class="box border orange">
+<div class="box {block name=color}border orange{/block}">
     <div class="box-title">
         <h4><i class="fa fa-bars"></i>{block name=title}{/block}</h4>
         <div class="tools hidden-xs">

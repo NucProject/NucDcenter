@@ -8,6 +8,7 @@
 
 namespace common\services;
 
+use yii\data\Pagination;
 use yii\db\Migration;
 use common\models\UkDeviceData;
 
@@ -42,6 +43,43 @@ class DeviceDataService
         return "uk_device_data_{$deviceKey}";
     }
 
+    /**
+     * @param $deviceKey
+     * @param array $options [totalCount|pageSize]
+     * @return array|\common\models\NucDataCenter[]
+     * 支持分页的设备数据获取
+     */
+    public static function getDataList($deviceKey, $options=[])
+    {
+        $query = UkDeviceData::findByKey($deviceKey)->where([]);
+
+        // 如果调用者给出totalCount, 那么就省略了select count(*);
+        $totalCount = static::getOptionValue($options, 'totalCount', 0);
+        if ($totalCount == 0)
+        {
+            $countQuery = clone $query;
+            $totalCount = $countQuery->count();
+        }
+
+        $pager = new Pagination(['totalCount' => $totalCount]);
+        $pager->pageSize = static::getOptionValue($options, 'pageSize', 50);
+        $page =  static::getOptionValue($options, 'page', 1);
+        $pager->setPage($page - 1, true);
+
+        $dataList = $query->offset($pager->offset)
+            ->limit($pager->limit)
+            ->all();
+
+        return $dataList;
+    }
+
+    private static function getOptionValue($options, $key, $defaultValue)
+    {
+        if (array_key_exists($key, $options)) {
+            return $options[$key];
+        }
+        return $defaultValue;
+    }
     /**
      * @param $tableName
      * @param $typeId
