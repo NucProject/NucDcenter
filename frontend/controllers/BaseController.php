@@ -217,6 +217,10 @@ class BaseController extends Controller
     private function getMenuArrayByUserRole()
     {
         $menuArray = [
+            ['title' => '设备类型管理', 'badge' => "45", 'subMenus' => [
+                ['title' => '设备类型列表', 'href' => 'index.php?r=device-type/index'],
+
+            ]],
             ['title' => '自动站管理',  'href' => '404.html', 'badge' => "45"],
 
             ['title' => '移动设备管理', 'selected' => true,

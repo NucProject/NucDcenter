@@ -3,8 +3,6 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\base\InvalidParamException;
-use yii\captcha\Captcha;
-use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
 use frontend\models\PasswordResetRequestForm;
@@ -13,7 +11,6 @@ use frontend\models\ContactForm;
 use common\services\StationService;
 use common\services\UserService;
 use common\components\AccessForbiddenException;
-use yii\widgets\ActiveForm;
 
 /**
  * Site controller
@@ -43,16 +40,16 @@ class SiteController extends BaseController
     {
         return [
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testMe' : null,
-                'backColor' => 0x5e87b0,    //背景颜色
-                'maxLength' => 4, //最大显示个数
-                'minLength' => 4,//最少显示个数
-                'padding' => 5,//间距
-                'height' => 30,//高度
-                'width' => 80,  //宽度
-                'foreColor' => 0xffffff,     //字体颜色
-                'offset'=> 4,        //设置字符偏移量 有效果
+                'backColor'       => 0x5e87b0,    //背景颜色
+                'maxLength'       => 4,   //最大显示个数
+                'minLength'       => 4,   //最少显示个数
+                'padding'         => 5,     //间距
+                'height'          => 30,     //高度
+                'width'           => 80,      //宽度
+                'foreColor'       => 0xffffff,     //字体颜色
+                'offset'          => 4,       //设置字符偏移量 有效果
             ],
         ];
     }
@@ -92,7 +89,7 @@ class SiteController extends BaseController
             if (!$valid) {
                 return parent::error(['captcha' => $captcha], -2);
             }
-            
+
             $username = $request->post('username');
             $password = $request->post('password');
 

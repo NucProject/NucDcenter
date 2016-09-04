@@ -32,6 +32,15 @@ class SendController extends BaseController
     }
 
     /**
+     *
+     * 自动站状态更新数据接收并处理
+     */
+    public function actionStationStatus()
+    {
+        // TODO: Update station status
+    }
+
+    /**
      * @param $type int const
      * @return bool
      */
