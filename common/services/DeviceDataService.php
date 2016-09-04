@@ -62,18 +62,21 @@ class DeviceDataService
         }
 
         $pager = new Pagination(['totalCount' => $totalCount]);
-        $pager->pageSize = static::getOptionValue($options, 'pageSize', 50);
-        $page =  static::getOptionValue($options, 'page', 1);
+        $pageSize = static::getOptionValue($options, 'pageSize', 50);
+        $pager->pageSize = $pageSize;
+        $page = static::getOptionValue($options, 'page', 1);
         $pager->setPage($page - 1, true);
 
         $dataList = $query->offset($pager->offset)
             ->limit($pager->limit)
             ->all();
 
-        return $dataList;
+        return [
+            'data' => $dataList,
+            'pagers' => PagerService::getPager($pager->getPageCount(), $pager->getPage() + 1)];
     }
 
-    private static function getOptionValue($options, $key, $defaultValue)
+    public static function getOptionValue($options, $key, $defaultValue)
     {
         if (array_key_exists($key, $options)) {
             return $options[$key];

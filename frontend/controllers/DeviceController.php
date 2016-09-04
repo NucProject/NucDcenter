@@ -87,13 +87,13 @@ class DeviceController extends BaseController
 
         $deviceKey = $device->device_key;
         // $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
-        $dataArray = DeviceDataService::getDataList($deviceKey, $options);
+        $result = DeviceDataService::getDataList($deviceKey, $options);
 
         return [
             'deviceName' => $deviceType->type_name,
             'columns' => $columns,
-            'items' => $dataArray,
-            'pagers' => PagerService::getPager(102, 5)
+            'items' => $result['data'],
+            'pagers' => $result['pagers']
         ];
     }
 
