@@ -9,6 +9,8 @@
 namespace frontend\controllers;
 
 
+use common\services\AdminRoleService;
+
 class AdminRoleController extends BaseController
 {
     /**
@@ -17,6 +19,10 @@ class AdminRoleController extends BaseController
      */
     public function actionIndex()
     {
+        $data = [];
+        $data['roles'] = AdminRoleService::getAdminRoles();
+
+        return parent::renderPage('list.tpl', $data, []);
 
     }
 
