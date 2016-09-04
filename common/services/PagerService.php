@@ -11,19 +11,27 @@ namespace common\services;
 
 class PagerService
 {
-
+    /**
+     * @param $count
+     * @param $current
+     * @return array(
+     *      items => data items
+     *      count => page count
+     *      current => the current page num
+     * )
+     */
     public static function getPager($count, $current)
     {
-        $pagers = [];
+        $items = [];
         if ($count <= 10) {
-            $pagers = array_merge($pagers, self::getPagerRange(1, $count, $current));
+            $items = array_merge($items, self::getPagerRange(1, $count, $current));
         } else {
-            $pagers = array_merge($pagers, self::getPagerRange(1, 5, $current));
-            $pagers[] = ['type' => 'input'];
-            $pagers = array_merge($pagers, self::getPagerRange($count - 4, $count, $current));
+            $items = array_merge($items, self::getPagerRange(1, 5, $current));
+            $items[] = ['type' => 'input'];
+            $items = array_merge($items, self::getPagerRange($count - 4, $count, $current));
         }
 
-        return $pagers;
+        return ['items'=> $items, 'count' => $count, 'current' => $current];
     }
 
     private static function getPagerRange($from, $to, $current)

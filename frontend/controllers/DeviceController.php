@@ -38,6 +38,7 @@ class DeviceController extends BaseController
         // Get data list items
         $data = $this->getDeviceData($device, $options);
 
+
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
         return parent::renderPage('list.tpl', $data, [
             'with' => ['datePicker', 'laydate']]);
@@ -100,7 +101,8 @@ class DeviceController extends BaseController
             'deviceName' => $deviceType->type_name,
             'columns' => $columns,
             'items' => $result['items'],
-            'pagers' => $result['pagers']
+            'pager' => $result['pager'],
+            'get' => $_GET
         ];
     }
 

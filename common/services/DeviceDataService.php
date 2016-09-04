@@ -73,7 +73,7 @@ class DeviceDataService
 
         return [
             'items' => $dataList,
-            'pagers' => PagerService::getPager($pager->getPageCount(), $pager->getPage() + 1)];
+            'pager' => PagerService::getPager($pager->getPageCount(), $pager->getPage() + 1)];
     }
 
     public static function getOptionValue($options, $key, $defaultValue)
