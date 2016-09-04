@@ -1,7 +1,7 @@
 <div class="dataTables_paginate paging_bs_full">
-    <ul id='pagination' class="pagination">
+    <ul id='pagination' class="pagination" form-id="#{$form}">
         <li class=""><a tabindex="0" class="paginate_button previous">上一页</a></li>
-        {foreach from=$data.pagers item=p}
+        {foreach from=$pagers item=p}
             {if $p.type == 'pager'}
                 <li {if $p.active}class="active"{/if}><a tabindex="0">{$p.title}</a></li>
             {else}
@@ -15,6 +15,7 @@
 </div>
 <script>
     function initPager() {
+
         var pagination = $('#pagination');
 
         pagination.delegate('input', 'keyup', function(e) {
@@ -24,7 +25,10 @@
         });
 
         pagination.delegate('li a', 'click', function() {
-            console.log(2); // TODO:
+            var formId = pagination.attr('form-id');
+            var page = $(this).text();
+            $(formId).find('input[name=__page]').val(page);
+            $(formId).submit();
         });
     }
 </script>

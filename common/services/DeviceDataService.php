@@ -72,7 +72,7 @@ class DeviceDataService
             ->all();
 
         return [
-            'data' => $dataList,
+            'items' => $dataList,
             'pagers' => PagerService::getPager($pager->getPageCount(), $pager->getPage() + 1)];
     }
 

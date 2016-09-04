@@ -31,10 +31,13 @@ class DeviceController extends BaseController
     public function actionDataList($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
+        // Pager about
         $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
         $page = Yii::$app->request->get('__page');
         $options = ['pageSize' => $pageSize, 'page' => $page];
-        $data['data'] = $this->getDeviceData($device, $options);
+        // Get data list items
+        $data = $this->getDeviceData($device, $options);
+
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
         return parent::renderPage('list.tpl', $data, [
             'with' => ['datePicker', 'laydate']]);
@@ -50,7 +53,10 @@ class DeviceController extends BaseController
     public function actionDataChart($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
-        $data['data'] = $this->getDeviceData($device);
+        $options = [];
+
+        $data['data'] = $this->getDeviceData($device, $options);
+
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
         return parent::renderPage('chart.tpl', $data);
     }
@@ -86,13 +92,14 @@ class DeviceController extends BaseController
         }
 
         $deviceKey = $device->device_key;
-        // $dataArray = UkDeviceData::findByKey($deviceKey)->where([])->all();
+
         $result = DeviceDataService::getDataList($deviceKey, $options);
 
         return [
+            'deviceKey' => $deviceKey,
             'deviceName' => $deviceType->type_name,
             'columns' => $columns,
-            'items' => $result['data'],
+            'items' => $result['items'],
             'pagers' => $result['pagers']
         ];
     }
