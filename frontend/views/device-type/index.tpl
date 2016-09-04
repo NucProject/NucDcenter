@@ -4,9 +4,9 @@
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <td>设备类型Key</td>
-            <td>设备类型名称</td>
-            <td>设备类型描述</td>
+            <td><b>设备类型Key</b></td>
+            <td><b>设备类型名称</b></td>
+            <td><b>设备类型描述</b></td>
 
             <td>最后修改时间</td>
         </tr>
