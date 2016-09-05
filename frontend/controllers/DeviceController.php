@@ -102,7 +102,12 @@ class DeviceController extends BaseController
             'columns' => $columns,
             'items' => $result['items'],
             'pager' => $result['pager'],
-            'get' => $_GET
+            'get' => self::filterRequestItems($_GET, [
+                'begin_time' => '',
+                'end_time' => '',
+                '__page' => 1,
+                '__pageSize' => $options['pageSize']
+            ])
         ];
     }
 
@@ -118,5 +123,20 @@ class DeviceController extends BaseController
             throw new AccessForbiddenException("设备不存在");
         }
         return $device;
+    }
+
+    public static function filterRequestItems($get, $defaults)
+    {
+        $results = [];
+        foreach ($defaults as $key => $value)
+        {
+            if (array_key_exists($key, $get)) {
+                $results[$key] = $get[$key];
+            } else {
+                $results[$key] = $defaults[$key];
+            }
+
+        }
+        return $results;
     }
 }
