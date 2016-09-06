@@ -31,7 +31,9 @@ class AppAsset extends AssetBundle
         'js/jquery-cookie/jquery.cookie.min.js',
         'js/jquery-slimscroll-1.3.0/jquery.slimscroll.min.js',
         'js/jquery-slimscroll-1.3.0/slim.scroll.horizontal.min.js',
-        'js/script.js'
+        'js/script.js',
+        'js/active-web/config.js',
+        'js/active-web/classes.js'
     ];
 
     public $depends = [

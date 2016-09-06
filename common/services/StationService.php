@@ -19,7 +19,10 @@ class StationService
      */
     public static function getStationList($centerId)
     {
-        $stations = NucStation::findAll(['center_id' => $centerId]);
+        $stations = NucStation::find()
+            ->where(['center_id' => $centerId])
+            ->asArray()
+            ->all();
 
         return $stations;
     }

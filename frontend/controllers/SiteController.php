@@ -73,6 +73,7 @@ class SiteController extends BaseController
 
 
         $data['stations'] = json_encode($stations);
+        // var_dump($data);exit;
         parent::setBreadcrumbs([]);
         return parent::renderPage('index.tpl', $data,
             ['with' => ['baiduMap']]);
