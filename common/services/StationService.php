@@ -8,6 +8,7 @@
  */
 namespace common\services;
 
+use common\components\ModelSaveFailedException;
 use common\models\NucStation;
 
 class StationService
@@ -51,6 +52,24 @@ class StationService
     public static function getMovableDevicesList($centerId)
     {
 
+    }
+
+    public static function addStation($centerId, $params)
+    {
+        $station = new NucStation();
+        $station->center_id = $centerId;
+
+        $centerId = DataCenterService::deployedCenterId();
+        $station->station_key = EntityIdService::genStationKey($centerId);
+        $station->setAttributes($params);
+        if ($station->save())
+        {
+            return $station;
+        }
+        else
+        {
+            throw new ModelSaveFailedException($station->getErrors());
+        }
     }
 
 }

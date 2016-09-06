@@ -8,8 +8,8 @@
     function getMarkerEventHandler(station) {
         return function() {
             var infoPane = $('#station-point-info-template').clone();
-            // var i = this.zIndex;
-            var stationName = station.station_name; //?
+
+            var stationName = station.station_name;
             var stationKey = station.station_key;
 
             infoPane.find('h3.title').text(stationName);
@@ -21,9 +21,9 @@
 
             link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);
 
-            //创建信息窗口对象
+            // 创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());
-            console.log(this);
+            console.log(this /* this means marker */);
             this.openInfoWindow(infoWindow);
         }
     }
@@ -65,7 +65,7 @@
 
         var map = new BMap.Map("map"); // 创建Map实例
         map.clearOverlays();
-        var point = new BMap.Point(113.28155000, 22.33260667); // 创建点坐标
+        var point = new BMap.Point(113.28155000, 22.33260667); // TODO: 中心点;创建点坐标
         map.centerAndZoom(point, 11); // 初始化地图,设置中心点坐标和地图级别。
         map.addControl(new BMap.NavigationControl());
         map.addControl(new BMap.ScaleControl());

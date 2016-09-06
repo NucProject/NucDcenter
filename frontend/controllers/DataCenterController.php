@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\components\Helper;
 use common\services\DataCenterService;
 use common\services\StationService;
 use yii;
@@ -91,8 +92,28 @@ class DataCenterController extends BaseController
      */
     public function actionDoAddStation()
     {
+        file_put_contents("d:\\a23.txt", "22ddd");
+        $centerId = DataCenterService::deployedCenterId();
+        file_put_contents("d:\\a3.txt", "ddd");
+        $params = [
+            'station_name'    => Helper::getPost('stationName', ['required' => true]),
+            'station_desc'    => Helper::getPost('stationDesc', ['default' => '']),
+            'station_pic'     => Helper::getPost('stationPic', ['default' => '']),
+            'station_type'    => Helper::getPost('stationType', ['default' => 0, 'type' => 'is_numeric']),
+            'owner_lead'      => Helper::getPost('ownerLead', ['default' => '']),
+            'owner_org'       => Helper::getPost('ownerOrg', ['default' => '']),
+            'builder_org'     => Helper::getPost('builderOrg', ['default' => '']),
+            'ops_org'         => Helper::getPost('opsOrg', ['default' => '']),
+            'completion_date' => Helper::getPost('completionDate', ['default' => '0000-00-00 00:00:00']),
+            'lng'             => Helper::getPost('lng', ['default' => '0.0', 'type' => 'is_numeric']),
+            'lat'             => Helper::getPost('lat', ['default' => '0.0', 'type' => 'is_numeric']),
+        ];
 
-        // $this->redirect();
+        file_put_contents("d:\\a2.txt", "ddd");
+        if (StationService::addStation($centerId, $params)) {
+            Yii::$app->session->setFlash('add-station', 'success');
+            Yii::$app->response->redirect('index.php?r=data-center/stations');
+        }
     }
 
 
@@ -133,4 +154,5 @@ class DataCenterController extends BaseController
 
         return $movableDeviceList;
     }
+
 }

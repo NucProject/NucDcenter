@@ -1,13 +1,19 @@
 <script>
+
     $(function () {
 
         $('#is-location-fixed').change(function () {
-            var v = $(this).prop('checked');
-            if (v) {
+            var v = $(this).val();
+            if (v != 1) {
                 $('#gps-info').removeClass('display-none');
             } else {
                 $('#gps-info').addClass('display-none');
             }
+        });
+
+        var form = $('#add-station-form');
+        form.delegate('a', 'click', function () {
+            form.submit();
         });
 
         var uploader = WebUploader.create({

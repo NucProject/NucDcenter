@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\ModelSaveFailedException;
 use common\services\DataCenterService;
 use Yii;
 use yii\base\InvalidParamException;
@@ -184,12 +185,18 @@ class SiteController extends BaseController
         $exception = $errorHandler->exception;
         if ($exception instanceof AccessForbiddenException)
         {
+            file_put_contents("d:\\b.txt", json_encode($exception->error));
             $errorReason = $exception->reason;
             $userInfo = $exception->userInfo;
             if ($userInfo)
             {
-
+                // TODO:
             }
+        }
+        elseif ($exception instanceof ModelSaveFailedException)
+        {
+            file_put_contents("d:\\a.txt", json_encode($exception->error));
+            $errorReason = json_encode($exception->error);
         }
 
         return parent::renderPage('error.tpl', ['errorReason' => $errorReason]);

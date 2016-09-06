@@ -13,7 +13,7 @@ use Yii;
  * @property string $station_name
  * @property string $station_desc
  * @property string $station_pic
- * @property integer $movable
+ * @property integer $station_type
  * @property string $owner_lead
  * @property string $owner_org
  * @property string $builder_org
@@ -41,7 +41,7 @@ class NucStation extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['center_id', 'movable', 'status'], 'integer'],
+            [['center_id', 'station_type', 'status'], 'integer'],
             [['completion_date', 'create_time', 'update_time'], 'safe'],
             [['lng', 'lat'], 'number'],
             [['station_key', 'station_name'], 'string', 'max' => 32],
@@ -61,7 +61,7 @@ class NucStation extends \common\models\BaseModel
             'station_name' => '自动站名称',
             'station_desc' => '自动站描述',
             'station_pic' => '自动站图片PATH',
-            'movable' => '自动站移动属性',
+            'station_type' => '自动站移动属性',
             'owner_lead' => '负责人姓名',
             'owner_org' => '业主单位名称',
             'builder_org' => '建设单位名称',
@@ -77,10 +77,10 @@ class NucStation extends \common\models\BaseModel
 
     /**
      * @inheritdoc
-     * @return NucStationQuery the active query used by this AR class.
+     * @return StationTypeQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new NucStationQuery(get_called_class());
+        return new StationTypeQuery(get_called_class());
     }
 }
