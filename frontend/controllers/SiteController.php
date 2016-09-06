@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\services\DataCenterService;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -42,14 +43,14 @@ class SiteController extends BaseController
             'captcha' => [
                 'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testMe' : null,
-                'backColor'       => 0x5e87b0,    //背景颜色
-                'maxLength'       => 4,   //最大显示个数
-                'minLength'       => 4,   //最少显示个数
-                'padding'         => 5,     //间距
-                'height'          => 30,     //高度
-                'width'           => 80,      //宽度
-                'foreColor'       => 0xffffff,     //字体颜色
-                'offset'          => 4,       //设置字符偏移量 有效果
+                'backColor'       => 0x5e87b0,      //背景颜色
+                'maxLength'       => 4,
+                'minLength'       => 4,
+                'padding'         => 5,             //间距
+                'height'          => 30,            //高度
+                'width'           => 80,            //宽度
+                'foreColor'       => 0xffffff,      //字体颜色
+                'offset'          => 4,             //设置字符偏移
             ],
         ];
     }
@@ -62,6 +63,16 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $data = [];
+        $centerId = DataCenterService::deployedCenterId();
+        /**
+         * array(
+         *  ['stationName' => , 'lng' => , 'lat' => ],
+         * ...)
+         */
+        $stations = StationService::getStationList($centerId);
+
+
+        $data['stations'] = json_encode($stations);
         parent::setBreadcrumbs([]);
         return parent::renderPage('index.tpl', $data,
             ['with' => ['baiduMap']]);
