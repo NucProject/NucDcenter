@@ -55,7 +55,7 @@
                 <td class="tip-title">地址</td><td class="tip-value address">珠海市XXXXXX</td>
             </tr>
             <tr>
-                <td></td><td><a class="btn" href="index.php?r=station/index&stationKey=">更多信息</a></td>
+                <td></td><td><a class="btn">更多信息</a></td>
             </tr>
         </table>
     </div>

@@ -18,9 +18,8 @@
             infoPane.find('td.gps').text('113.1282233, 23.555450');
             infoPane.find('td.address').text('珠海市XXXXXXX');
             var link = infoPane.find('td a');
-            var href = link.attr('href');
-            stationKey = "3323131231";
-            link.attr('href', href + stationKey);
+
+            link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);
 
             //创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());
