@@ -61,7 +61,10 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return parent::renderPage('index.tpl', []);
+        $data = [];
+        parent::setBreadcrumbs([]);
+        return parent::renderPage('index.tpl', $data,
+            ['with' => ['baiduMap']]);
     }
 
     /**

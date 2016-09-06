@@ -18,7 +18,17 @@
             <label for="exampleInputEmail1">是否是固定的自动站</label>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox">固定的自动站
+                    <input id="is-location-fixed" type="checkbox">固定的自动站
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group display-none" id="gps-info">
+            <label for="exampleInputEmail1">GPS信息</label>
+            <div class="checkbox">
+                <label>
+                    <input type="text" class="form-control" name="lng" placeholder="请提供经度">
+                    <input type="text" class="form-control" name="lat" placeholder="请提供纬度">
                 </label>
             </div>
         </div>
@@ -38,6 +48,34 @@
                 <div id="filePicker">选择图片</div>
             </div>
         </div>
+
+        <hr>
+        <!-- 其他信息 -->
+        <div class="form-group">
+            <label for="exampleInputEmail1">业主单位</label>
+            <input type="text" class="form-control" id="ownerCompany" placeholder="请填写业主单位">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">负责人员</label>
+            <input type="text" class="form-control" id="ownerName" placeholder="请填写负责人员姓名">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">建成日期</label>
+            <input type="text" class="form-control" id="ownerName" placeholder="请填写建成日期">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">建设单位</label>
+            <input type="text" class="form-control" id="ownerName" placeholder="请填写建设单位">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">运维单位</label>
+            <input type="text" class="form-control" id="ownerName" placeholder="请填写运维单位">
+        </div>
+
 
         <a type='submit' class="btn btn-info">添加</a>
     </form>

@@ -1,5 +1,15 @@
 <script>
     $(function () {
+
+        $('#is-location-fixed').change(function () {
+            var v = $(this).prop('checked');
+            if (v) {
+                $('#gps-info').removeClass('display-none');
+            } else {
+                $('#gps-info').addClass('display-none');
+            }
+        });
+
         var uploader = WebUploader.create({
 
             auto: true,

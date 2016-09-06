@@ -32,4 +32,10 @@ trait StaticFiles
     {
         $view->registerJsFile('js/laydate/laydate.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
+
+    public function addBaiduMap($view)
+    {
+        $ak = 'ggjYaHk6xwUsbolZmlM4RD0wngHcbuCi';
+        $view->registerJsFile('http://api.map.baidu.com/api?v=2.0&ak=' . $ak, [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
 }
