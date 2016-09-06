@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\BadArgumentException;
 use common\components\ModelSaveFailedException;
 use common\services\DataCenterService;
 use Yii;
@@ -198,7 +199,11 @@ class SiteController extends BaseController
             file_put_contents("d:\\a.txt", json_encode($exception->error));
             $errorReason = json_encode($exception->error);
         }
-
+        elseif ($exception instanceof BadArgumentException)
+        {
+            file_put_contents("d:\\e.txt", json_encode($exception->error));
+            $errorReason = json_encode($exception->reason);
+        }
         return parent::renderPage('error.tpl', ['errorReason' => $errorReason]);
     }
 

@@ -12,27 +12,32 @@ use yii;
 
 class Helper
 {
+    private static function getRequestValue($name, $defaultValue)
+    {
+        $value = Yii::$app->request->post($name);
+        return $value ?: $defaultValue;
+    }
+
     public static function getPost($name, $options)
     {
         if (array_key_exists('default', $options)) {
-            $value = Yii::$app->request->post($name, $options['default']);
+            $value = self::getRequestValue($name, $options['default']);
         } else {
             $value = Yii::$app->request->post($name);
         }
 
         if (array_key_exists('required', $options)) {
             if (!$value) {
-                file_put_contents("d:\\t.txt", $name . json_encode($options));
-                throw new yii\base\InvalidParamException();
+                $reason = "Param $name is required";
+                throw new BadArgumentException($reason);
             }
         }
 
         if (array_key_exists('type', $options)) {
             $checker = $options['type'];
-            file_put_contents("d:\\t2.txt", $name . "$checker($value)" .json_encode($options));
             if (!call_user_func_array($checker, [$value])) {
-                file_put_contents("d:\\t.txt", $name . json_encode($options));
-                throw new yii\base\InvalidParamException();
+                $reason = "$checker($name=$value) returns false";
+                throw new BadArgumentException($reason);
             }
         }
         return $value;

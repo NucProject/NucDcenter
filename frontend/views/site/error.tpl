@@ -36,8 +36,9 @@
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-4 not-found text-center">
+                <h3>{$errorReason}</h3>
                 <div class="content">
-                    <h3>{$errorReason}</h3>
+
 
                     <div class="btn-group">
                         <a href="javascript:history.back()" class="btn btn-danger"><i class="fa fa-chevron-left"></i>返回</a>

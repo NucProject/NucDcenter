@@ -92,9 +92,8 @@ class DataCenterController extends BaseController
      */
     public function actionDoAddStation()
     {
-        file_put_contents("d:\\a23.txt", "22ddd");
         $centerId = DataCenterService::deployedCenterId();
-        file_put_contents("d:\\a3.txt", "ddd");
+
         $params = [
             'station_name'    => Helper::getPost('stationName', ['required' => true]),
             'station_desc'    => Helper::getPost('stationDesc', ['default' => '']),

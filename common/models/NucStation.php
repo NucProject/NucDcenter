@@ -77,10 +77,10 @@ class NucStation extends \common\models\BaseModel
 
     /**
      * @inheritdoc
-     * @return StationTypeQuery the active query used by this AR class.
+     * @return NucStationQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new StationTypeQuery(get_called_class());
+        return new NucStationQuery(get_called_class());
     }
 }
