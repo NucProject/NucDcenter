@@ -1,6 +1,6 @@
 <div>
 
-
+    <!-- 类型设备列表 -->
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -9,6 +9,7 @@
             <td><b>设备类型描述</b></td>
 
             <td>最后修改时间</td>
+            <td>操作</td>
         </tr>
         </thead>
         <tbody>
@@ -19,6 +20,9 @@
                 <td>{$t.type_desc}</td>
 
                 <td>{$t.update_time}</td>
+                <td>
+                    <a href="index.php?r=device-type/view&typeKey={$t.type_key}">查看</a>
+                </td>
             </tr>
         {/foreach}
         </tbody>

@@ -1,4 +1,10 @@
 <script>
+    // TODO:
+    function showConfirmDialog()
+    {
+
+    }
+
     $(function () {
         var table = $('#addDeviceForm table');
 

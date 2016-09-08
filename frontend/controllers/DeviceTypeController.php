@@ -8,9 +8,9 @@
 
 namespace frontend\controllers;
 
-
+use yii;
+use common\components\BadArgumentException;
 use common\components\Helper;
-use common\components\ModelSaveFailedException;
 use common\services\DeviceTypeService;
 
 class DeviceTypeController extends BaseController
@@ -32,7 +32,10 @@ class DeviceTypeController extends BaseController
      */
     public function actionAdd()
     {
-        $data = ['doAddUrl' => 'index.php?r=device-type/do-add'];
+        $data = [
+            'doUpdateUrl' => 'index.php?r=device-type/do-add',
+            'addNew' => true
+        ];
         return parent::renderPage('add.tpl', $data, []);
     }
 
@@ -57,7 +60,9 @@ class DeviceTypeController extends BaseController
      */
     public function actionModify()
     {
-
+        $data = ['doUpdateUrl' => 'index.php?r=device-type/do-modify'];
+        // 此处用一个tpl, 代码复用.
+        return parent::renderPage('add.tpl', $data, []);
     }
 
     /**
@@ -75,6 +80,19 @@ class DeviceTypeController extends BaseController
      */
     public function actionDisable()
     {
+
+    }
+
+    public function actionView()
+    {
+        $typeKey = Yii::$app->request->get('typeKey');
+        if (!$typeKey) {
+            throw new BadArgumentException('Invalid typeKey');
+        }
+
+        // TODO: Type info
+
+        // TODO: Type Fields info
 
     }
 }
