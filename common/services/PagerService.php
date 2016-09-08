@@ -34,6 +34,12 @@ class PagerService
         return ['items'=> $items, 'count' => $count, 'current' => $current];
     }
 
+    /**
+     * @param $from
+     * @param $to
+     * @param $current int 当前页面数
+     * @return array
+     */
     private static function getPagerRange($from, $to, $current)
     {
         $ret = [];

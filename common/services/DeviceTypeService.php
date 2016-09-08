@@ -9,19 +9,34 @@
 namespace common\services;
 
 
+use common\components\ModelSaveFailedException;
+use common\models\NucDeviceField;
 use common\models\NucDeviceType;
 
 class DeviceTypeService
 {
-
-    public static function createDeviceType($name, $displayName, $params)
+    /**
+     * @param $params
+     * @return NucDeviceType
+     * @throws ModelSaveFailedException
+     */
+    public static function createDeviceType($params)
     {
-
+        $type = new NucDeviceType();
+        $type->setAttributes(($params));
+        if ($type->save()) {
+            return $type;
+        } else {
+            throw new ModelSaveFailedException($type->getErrors());
+        }
     }
 
+    /**
+     * @return static[] with NucDeviceField
+     */
     public static function getDeviceTypeList()
     {
-        return NucDeviceType::findAll(['status' => 1]);
+        return NucDeviceType::find()->with('fields')->where([])->all();
     }
 
     public static function syncDeviceTypes()
@@ -38,15 +53,32 @@ class DeviceTypeService
         return NucDeviceType::findOne(['type_key' => $typeKey]);
     }
 
-    private static function loadDeviceTypesFromRootDataCenter()
+    /**
+     * @param $deviceTypes
+     * TODO: 得考虑网络状况
+     * @throws ModelSaveFailedException
+     * @return bool
+     */
+    public static function flushDeviceTypesToLocalDataCenter($deviceTypes)
     {
-        $deviceTypes = [];
+        // 可能不删除比较好
+        NucDeviceType::deleteAll([]);
 
-        return $deviceTypes;
-    }
-
-    private static function flushDeviceTypesToLocalDataCenter($deviceTypes)
-    {
-
+        foreach ($deviceTypes as $deviceType)
+        {
+            $type = new NucDeviceType();
+            $type->setAttributes($deviceType);
+            if ($type->save()) {
+                // 更新类型对应的字段
+                $field = new NucDeviceField();
+                $field->setAttributes($deviceTypes['fields']);
+                if (!$field->save()) {
+                    throw new ModelSaveFailedException($field->getErrors());
+                }
+            } else {
+                throw new ModelSaveFailedException($type->getErrors());
+            }
+        }
+        return true;
     }
 }

@@ -43,6 +43,11 @@ class NucDeviceType extends \common\models\BaseModel
         ];
     }
 
+    public function getFields()
+    {
+        return $this->hasMany(NucDeviceField::className(), ['device_key' => 'device_key']);
+    }
+
     /**
      * @inheritdoc
      */

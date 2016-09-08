@@ -9,6 +9,8 @@
 namespace frontend\controllers;
 
 
+use common\components\Helper;
+use common\components\ModelSaveFailedException;
 use common\services\DeviceTypeService;
 
 class DeviceTypeController extends BaseController
@@ -40,7 +42,13 @@ class DeviceTypeController extends BaseController
      */
     public function actionDoAdd()
     {
+        $params = [
+            'type_key' => Helper::getPost('typeKey', ['required' => true])
+        ];
 
+        if (DeviceTypeService::createDeviceType($params)) {
+
+        }
     }
 
     /**

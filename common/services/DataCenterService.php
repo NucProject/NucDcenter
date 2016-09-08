@@ -13,6 +13,12 @@ use yii;
 
 class DataCenterService
 {
+    const CoreDataCenter = 1;
+
+    const DistributedDataCenter = 2;
+
+    const DevDataCenter = 3;
+
     /**
      * @return mixed
      * @throws AccessForbiddenException
@@ -36,5 +42,18 @@ class DataCenterService
             return Yii::$app->params['defaultPageTitle'];
         }
         return '数据中心 v0.1';
+    }
+
+
+    /**
+     * TODO: Get data from network
+     * @return array[]
+     */
+    public static function getCoreDataCenterDeviceTypes()
+    {
+        // TODO: file_get_contents()
+
+        // TODO: json_decode
+        return [];
     }
 }

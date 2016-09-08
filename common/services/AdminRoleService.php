@@ -9,6 +9,7 @@
 namespace common\services;
 
 
+use common\components\ModelSaveFailedException;
 use common\models\KxAdminRole;
 
 class AdminRoleService
@@ -19,5 +20,22 @@ class AdminRoleService
     public static function getAdminRoles()
     {
         return KxAdminRole::find()->where(['status' => 1])->all();
+    }
+
+    /**
+     * @param $params
+     * @return KxAdminRole
+     * @throws ModelSaveFailedException
+     */
+    public static function addRole($params)
+    {
+        $role = new KxAdminRole();
+        $role->setAttributes($params);
+        if ($role->save()) {
+            return $role;
+        } else {
+            throw new ModelSaveFailedException($role->getErrors());
+        }
+
     }
 }

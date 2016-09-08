@@ -9,15 +9,22 @@
 namespace frontend\controllers;
 
 
-use yii\web\Controller;
+use common\services\FileUploaderService;
 
-class UploadFileController extends Controller
+class UploadFileController extends BaseController
 {
     //
     public $enableCsrfValidation = false;
 
     public function actionStationPicture()
     {
+        // TODO: convert?
+        $fileName = FileUploaderService::getUploadFileName();
 
+        $targetPath = '';
+
+        $result = FileUploaderService::upload($fileName, $targetPath);
+
+        return parent::result(['result' => $result]);
     }
 }
