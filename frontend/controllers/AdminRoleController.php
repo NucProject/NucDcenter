@@ -63,7 +63,16 @@ class AdminRoleController extends BaseController
      */
     public function actionDisable()
     {
-
+        $roleId = Yii::$app->request->get('roleId', 0);
+        if ($roleId > 0)
+        {
+            $disable = Yii::$app->request->get('disable', 1);
+            $role = AdminRoleService::disableRole($roleId, $disable);
+            if ($role) {
+                return parent::result(['roleId' => $role->role_id]);
+            }
+        }
+        return parent::error([], -1);
     }
 
     /**
@@ -72,7 +81,16 @@ class AdminRoleController extends BaseController
      */
     public function actionNodes()
     {
+        $roleId = Yii::$app->request->get('roleId', 0);
 
+        $nodes = AdminRoleService::getNodesByRole($roleId);
+
+        $data = [
+            'roleId'    => $roleId,
+            'nodes'     => $nodes
+        ];
+
+        return parent::renderPage('nodes.tpl', $data, []);
     }
 
     /**
@@ -81,7 +99,16 @@ class AdminRoleController extends BaseController
      */
     public function actionMenus()
     {
+        $roleId = Yii::$app->request->get('roleId', 0);
 
+        $menus = AdminRoleService::getMenusByRole($roleId);
+
+        $data = [
+            'roleId' => $roleId,
+            'menus' => $menus
+        ];
+
+        return parent::renderPage('menus.tpl', $data, []);
     }
 
     /**
@@ -90,6 +117,16 @@ class AdminRoleController extends BaseController
      */
     public function actionMenusUpdate()
     {
+        $roleId = Yii::$app->request->post('roleId', 0);
+        if ($roleId > 0) {
+            $menus = Yii::$app->request->post('menus');
 
+            if (AdminRoleService::flushMenus($roleId, $menus))
+            {
+                return parent::result(['roleId' => $roleId]);
+            }
+
+        }
+        return parent::error([], -1);
     }
 }

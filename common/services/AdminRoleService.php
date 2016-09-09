@@ -9,7 +9,9 @@
 namespace common\services;
 
 
+use common\components\BadArgumentException;
 use common\components\ModelSaveFailedException;
+use common\models\KxAdminNode;
 use common\models\KxAdminRole;
 
 class AdminRoleService
@@ -31,11 +33,90 @@ class AdminRoleService
     {
         $role = new KxAdminRole();
         $role->setAttributes($params);
+        $role->status = 1;
+
         if ($role->save()) {
             return $role;
         } else {
             throw new ModelSaveFailedException($role->getErrors());
         }
 
+    }
+
+    /**
+     * @param $roleId
+     * @param $disable
+     * @return null|KxAdminRole
+     * @throws BadArgumentException
+     * @throws ModelSaveFailedException
+     */
+    public static function disableRole($roleId, $disable=true)
+    {
+        $role = KxAdminRole::findOne($roleId);
+        if ($role) {
+            $role->enabled = $disable ? 0 : 1;  // ???
+            if ($role->save()) {
+                return $role;
+            } else {
+                throw new ModelSaveFailedException($role->getErrors());
+            }
+        }
+        throw new BadArgumentException('无效的角色ID');
+    }
+
+    /**
+     * @param $roleId
+     * @return array
+     * @throws BadArgumentException
+     */
+    public static function getNodesByRole($roleId)
+    {
+        $nodes = [];
+        if (self::checkRoleId($roleId))
+        {
+            // TODO: 我还需要一个Role和Nodes的关系表
+            // KxAdminNode::find()->where(['role_id'])
+        }
+
+        return $nodes;
+    }
+
+    /**
+     * @param $roleId
+     * @return array
+     * @throws BadArgumentException
+     */
+    public static function getMenusByRole($roleId)
+    {
+        $menus = [];
+        if (self::checkRoleId($roleId))
+        {
+            // TODO: 我还需要一个Role和Menus的关系表
+            // KxAdminNode::find()->where(['role_id'])
+        }
+
+        return $menus;
+    }
+
+
+    private static function checkRoleId($roleId)
+    {
+        if (is_numeric($roleId) && $roleId > 0)
+        {
+            return true;
+        }
+        $reason = '无效的RoleId';
+        throw new BadArgumentException($reason);
+    }
+
+    /**
+     * @param $roleId
+     * @param $menus
+     * @return bool
+     */
+    public static function flushMenus($roleId, $menus)
+    {
+
+        return true;
     }
 }
