@@ -49,11 +49,12 @@ class StationController extends BaseController
      */
     public function actionAddDevice($stationKey)
     {
-        $this->checkStationKey($stationKey);
+        $station = $this->checkStationKey($stationKey);
 
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
         $data['stationKey'] = $stationKey;
+        $data['stationName'] = $station->station_name;
         $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
         $data['doAddDevice'] = '/index.php?r=station/do-add-device';
@@ -100,16 +101,22 @@ class StationController extends BaseController
         return parent::result([]);
     }
 
+    /**
+     * @param $stationKey
+     * @return NucStation
+     * @throws AccessForbiddenException
+     */
     private function checkStationKey($stationKey)
     {
         if (!$stationKey) {
             throw new AccessForbiddenException('请提供自动站的StationKey');
         }
 
-        if (!StationService::getStationByKey($stationKey)) {
+        $station = StationService::getStationByKey($stationKey);
+        if (!$station) {
             throw new AccessForbiddenException('未知的自动站StationKey=' . $stationKey);
         }
-        return true;
+        return $station;
     }
 
 

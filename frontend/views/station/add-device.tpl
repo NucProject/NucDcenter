@@ -13,6 +13,7 @@
         <div class="form-group">
             <label for="exampleInputEmail1">选择设备类型</label>
             <select class="form-control" name="deviceType">
+                <option none-option>请选择要添加的设备类型</option>
                 {foreach from=$deviceTypes item=dt}
                     <option value="{$dt.type_key}">{$dt.type_name}</option>
                 {/foreach}
@@ -20,14 +21,20 @@
         </div>
 
         <div class="form-group">
-            <label for="exampleInputEmail1">设备图片</label>
+            <label for="exampleInputEmail1">设备类型信息</label>
             <!--dom结构部分-->
-            <div id="fileList" class="uploader-list">
-                <div class="file-item thumbnail"  style="width: 240px">
-                    <img style="width:240px; height:180px">
-                    <div class="info"></div>
-                </div>
-            </div>
+            <table id="typeInfoTable">
+                <tr>
+                    <td>
+                        <img style="width:240px; height:180px">
+                    </td>
+                    <td style="vertical-align: top">
+                        <div><span class="type-name"></span></div>
+                        <div><span></span></div>
+                        <div><span></span></div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="form-group">
@@ -46,7 +53,8 @@
         </div>
 
 
-        <a onclick="showConfirmDialog();" class="btn btn-info">添加</a>
+        <a href="javascript:history.back()" class="btn btn-grey">返回</a>
+        <a onclick="showConfirmDialog('{$stationName}');" class="btn btn-info">添加</a>
 
     </form>
 {/block}

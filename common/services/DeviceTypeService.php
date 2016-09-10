@@ -50,18 +50,18 @@ class DeviceTypeService
      */
     public static function getDeviceType($typeKey)
     {
-        return NucDeviceType::findOne(['type_key' => $typeKey]);
+        return NucDeviceType::find()->where(['type_key' => $typeKey])->one();
     }
 
     /**
      * @param $deviceTypes
-     * TODO: 得考虑网络状况
+     * TODO:
      * @throws ModelSaveFailedException
      * @return bool
      */
     public static function flushDeviceTypesToLocalDataCenter($deviceTypes)
     {
-        // 可能不删除比较好
+        //
         NucDeviceType::deleteAll([]);
 
         foreach ($deviceTypes as $deviceType)
@@ -69,7 +69,7 @@ class DeviceTypeService
             $type = new NucDeviceType();
             $type->setAttributes($deviceType);
             if ($type->save()) {
-                // 更新类型对应的字段
+                //
                 $field = new NucDeviceField();
                 $field->setAttributes($deviceTypes['fields']);
                 if (!$field->save()) {

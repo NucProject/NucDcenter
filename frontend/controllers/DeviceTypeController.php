@@ -61,7 +61,7 @@ class DeviceTypeController extends BaseController
     public function actionModify()
     {
         $data = ['doUpdateUrl' => 'index.php?r=device-type/do-modify'];
-        // 此处用一个tpl, 代码复用.
+        //
         return parent::renderPage('add.tpl', $data, []);
     }
 
@@ -93,6 +93,22 @@ class DeviceTypeController extends BaseController
         // TODO: Type info
 
         // TODO: Type Fields info
+
+    }
+
+    /**
+     * @param $typeKey
+     * @return bool
+     */
+    public function actionInfo($typeKey)
+    {
+        $deviceType = DeviceTypeService::getDeviceType($typeKey);
+        if ($deviceType)
+        {
+            $deviceType = $deviceType->toArray();
+            return parent::result(['typeKey' => $typeKey, 'deviceType' => $deviceType]);
+        }
+        return parent::error(['msg' => "No device type type-key=>{$typeKey}"], -1);
 
     }
 }

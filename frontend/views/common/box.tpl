@@ -1,4 +1,4 @@
-<div class="col-md-4 box-container">
+
     <div class="box {block name=style}border blue{/block}">
         <div class="box-title small">
             <h4><i class="fa fa-rocket"></i>{block name=title}{/block}</h4>
