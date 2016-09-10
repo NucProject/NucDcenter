@@ -85,6 +85,10 @@ class AdminRoleController extends BaseController
 
         $nodes = AdminRoleService::getNodesByRole($roleId);
 
+        foreach ($nodes as &$node)
+        {
+            $node['pageUrl'] = "S";
+        }
         $data = [
             'roleId'    => $roleId,
             'nodes'     => $nodes

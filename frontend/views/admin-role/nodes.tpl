@@ -3,17 +3,17 @@
     <table class="table table-striped table-bordered table-hover table-full-width dataTable">
         <thead>
             <tr>
+                <td>È°µÈù¢URL</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td>≤Àµ•œÓ</td>
+                <td>ËèúÂçïÈ°π</td>
             </tr>
         </thead>
         <tbody>
         {foreach from=$nodes item=n}
             <tr>
-                <td></td>
+                <td>{$n.pageUrl}</td>
                 <td></td>
                 <td></td>
                 <td></td>

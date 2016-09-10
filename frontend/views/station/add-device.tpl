@@ -29,6 +29,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">设备序列号</label>
+            <input class="form-control" placeholder="请填写设备唯一序列号">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">仪器启动时间</label>
+            <input class="form-control" type="text" name="launch_time" size="10" id="launch_time">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">仪器上一次校准时间</label>
+            <input class="form-control" type="text" name="modified_time" size="10" id="modified_time">
+        </div>
+
+
         <a onclick="showConfirmDialog();" class="btn btn-info">添加</a>
 
     </form>
