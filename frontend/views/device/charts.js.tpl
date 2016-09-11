@@ -1,5 +1,16 @@
 <script>
-    var data = [];
+    var chartTitle = '{$chartTitle}';
+    var chartVerticalLineTitle = '值';
+    {if isset($chartVerticalLineTitle)}
+    chartVerticalLineTitle = '{$chartVerticalLineTitle}';
+    {/if}
+
+    var jsonItemPoints = '{$itemPoints}';
+    if (jsonItemPoints.length > 0) {
+        var data = '{$itemPoints}'.toJson();
+    } else {
+        var data = [['1999-09-01', 0]];
+    }
 </script>
 {literal}
 <script>
@@ -8,7 +19,7 @@
 
         var option = {
             title: {
-                text: 'Beijing AQI'
+                text: chartTitle
             },
             tooltip: {
                 trigger: 'axis'
@@ -70,7 +81,7 @@
                 }
             },
             series: {
-                name: 'Beijing AQI',
+                name: chartVerticalLineTitle,
                 type: 'line',
                 data: data.map(function (item) {
                     return item[1];

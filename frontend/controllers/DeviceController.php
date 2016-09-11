@@ -22,60 +22,32 @@ use common\services\PagerService;
 class DeviceController extends BaseController
 {
     /**
-     * @page
-     * @comment 设备数据列表
      * @param $deviceKey
      * @return string
      * @throws AccessForbiddenException
+     * 曲线+列表
      */
-    public function actionDataList($deviceKey)
-    {
-        $device = $this->checkDevice($deviceKey);
-        // Pager about
-        $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
-        $page = Yii::$app->request->get('__page');
-        $options = ['pageSize' => $pageSize, 'page' => $page];
-        // Get data list items
-        $data = $this->getDeviceData($device, $options);
-
-
-        parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
-        return parent::renderPage('list.tpl', $data, [
-            'with' => ['datePicker', 'laydate']]);
-    }
-
-    /**
-     * @page
-     * @comment 设备数据曲线
-     * @param $deviceKey
-     * @return string
-     * @throws AccessForbiddenException
-     */
-    public function actionDataChart($deviceKey)
-    {
-        $device = $this->checkDevice($deviceKey);
-        $options = [];
-
-        $data['data'] = $this->getDeviceData($device, $options);
-
-        parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
-        return parent::renderPage('chart.tpl', $data);
-    }
-
-
     public function actionData($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
 
-
-        // Pager about
+        // options handler (including Pager)
         $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
         $page = Yii::$app->request->get('__page');
         $options = ['pageSize' => $pageSize, 'page' => $page];
 
         $data = $this->getDeviceData($device, $options);
+        $this->handleShowOptions($data);
 
-        parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
+        if (!$data['hideChart'])
+        {
+            $points = self::convertItemsToPoints($data);
+            $data['itemPoints'] = $points;
+            $data['chartTitle'] = 'XX设备五分钟曲线';
+        }
+
+
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
         return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 
@@ -113,11 +85,13 @@ class DeviceController extends BaseController
 
         $result = DeviceDataService::getDataList($deviceKey, $options);
 
+        $items = $result['items'];
+
         return [
             'deviceKey' => $deviceKey,
             'deviceName' => $deviceType->type_name,
             'columns' => $columns,
-            'items' => $result['items'],
+            'items' => $items,
             'pager' => $result['pager'],
             'get' => self::filterRequestItems($_GET, [
                 'begin_time' => '',
@@ -126,6 +100,12 @@ class DeviceController extends BaseController
                 '__pageSize' => $options['pageSize']
             ])
         ];
+    }
+
+    private function handleShowOptions(&$data)
+    {
+        $data['hideChart'] = Yii::$app->request->get('hideChart', 0);
+        $data['hideList']  = Yii::$app->request->get('hideList', 0);
     }
 
     /**
@@ -155,5 +135,14 @@ class DeviceController extends BaseController
 
         }
         return $results;
+    }
+
+    private static function convertItemsToPoints($data)
+    {
+        $points = [];
+        $points[] = ['2016-09-01', 133];
+        $points[] = ['2016-09-02', 143];
+        $points[] = ['2016-09-03', 123];
+        return json_encode($points);
     }
 }
