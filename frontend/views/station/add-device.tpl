@@ -26,10 +26,10 @@
             <table id="typeInfoTable">
                 <tr>
                     <td>
-                        <img style="width:240px; height:180px">
+                        <img style="width:240px; height:180px" alt="未提供图片">
                     </td>
-                    <td style="vertical-align: top">
-                        <div><span class="type-name"></span></div>
+                    <td style="vertical-align: top; padding-left: 30px">
+                        <div><h3><span class="type-name"></span></h3></div>
                         <div><span></span></div>
                         <div><span></span></div>
                     </td>
@@ -44,12 +44,12 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">仪器启动时间</label>
-            <input class="form-control" type="text" name="launch_time" size="10" id="launch_time">
+            <input class="form-control" type="text" name="launch_date" size="10" id="launch_date">
         </div>
 
         <div class="form-group">
             <label for="exampleInputEmail1">仪器上一次校准时间</label>
-            <input class="form-control" type="text" name="modified_time" size="10" id="modified_time">
+            <input class="form-control" type="text" name="rescale_date" size="10" id="rescale_date">
         </div>
 
 

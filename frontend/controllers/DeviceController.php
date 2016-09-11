@@ -62,6 +62,23 @@ class DeviceController extends BaseController
         return parent::renderPage('chart.tpl', $data);
     }
 
+
+    public function actionData($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+
+        // Pager about
+        $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
+        $page = Yii::$app->request->get('__page');
+        $options = ['pageSize' => $pageSize, 'page' => $page];
+
+        $data = $this->getDeviceData($device, $options);
+
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '曲线']);
+        return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
+    }
+
     /**
      * @param $device \common\models\NucDevice
      * @param $options

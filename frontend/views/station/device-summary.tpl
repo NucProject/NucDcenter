@@ -10,6 +10,6 @@
         <span>设备唯一Key: {$device.device_key}</span>
         <br>
 
-        <a class="btn btn-xs btn-info" href="index.php?r=device/data-list&deviceKey={$device.device_key}">进入</a>
+        <a class="btn btn-xs btn-info" href="index.php?r=device/data&deviceKey={$device.device_key}">进入</a>
     </div>
 {/block}

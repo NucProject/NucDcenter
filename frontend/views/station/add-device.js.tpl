@@ -10,7 +10,10 @@
         if (deviceType)
         {
             var tab = $('#typeInfoTable');
-            tab.find('img').attr('src', deviceType.type_pic);
+            if (deviceType.type_pic) {
+                tab.find('img').attr('src', deviceType.type_pic);
+            }
+
             tab.find('td span.type-name').text(deviceType.type_name);
         }
     }
@@ -36,19 +39,18 @@
                 if (result) {
                     $('#addDeviceForm').submit();
                 }
-            },
-
+            }
         });
     }
 
-    var beginTime = {
-        elem: '#launch_time',
+    var launchDate = {
+        elem: '#launch_date',
         istime: false,
         format: 'YYYY-MM-DD',
     };
 
-    var endTime = {
-        elem: '#modified_time',
+    var rescaleDate = {
+        elem: '#rescale_date',
         istime: false,
         format: 'YYYY-MM-DD',
     };
@@ -60,30 +62,27 @@
             if (!val) {
                 return false;
             }
-
             $(this).find('option[none-option]').remove();
 
             $.post('index.php?r=device-type/info&typeKey=' + val,
-                    {
-                        'typeKey': val, 'csrfToken': csrfToken
-                    },
-                    function(data) {
-                        var ret = data.toJson();
-                        if (ret.error == 0) {
-                            showDeviceTypeInfo(ret.data);
-                        }
-            });
+                {
+                    'typeKey': val, 'csrfToken': csrfToken
+                },
+                function(data) {
+                    var ret = data.toJson();
+                    if (ret.error == 0) {
+                        showDeviceTypeInfo(ret.data);
+                    }
+                }
+            );
 
         });
-
 
         // I would Like use Laydate as My datetime picker!
         // 可能由于字体的原因，我被迫改了一点need/laydate.css
         laydate.skin('dahong');
-        laydate(beginTime);
-        laydate(endTime);
-
-
+        laydate(launchDate);
+        laydate(rescaleDate);
     })
 </script>
 {/literal}

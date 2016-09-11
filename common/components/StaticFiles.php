@@ -8,18 +8,21 @@
 
 namespace common\components;
 
+use \yii\web\View;
 
 trait StaticFiles
 {
+    private $depends = [View::POS_END, 'depends' => 'frontend\assets\AppAsset'];
+
     public function addWebUploader($view)
     {
         $view->registerCssFile('webuploader/webuploader.css');
-        $view->registerJsFile('webuploader/webuploader.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('webuploader/webuploader.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 
     public function addDialog($view)
     {
-        $view->registerJsFile('js/bootbox/bootbox.min.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('js/bootbox/bootbox.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 
     public function addDatePicker($view)
@@ -30,12 +33,17 @@ trait StaticFiles
 
     public function addLaydate($view)
     {
-        $view->registerJsFile('js/laydate/laydate.js', [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('js/laydate/laydate.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 
     public function addBaiduMap($view)
     {
         $ak = 'ggjYaHk6xwUsbolZmlM4RD0wngHcbuCi';
-        $view->registerJsFile('http://api.map.baidu.com/api?v=2.0&ak=' . $ak, [\yii\web\View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('http://api.map.baidu.com/api?v=2.0&ak=' . $ak, [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
+
+    public function addEcharts($view)
+    {
+        $view->registerJsFile('js/echarts/echarts.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 }
