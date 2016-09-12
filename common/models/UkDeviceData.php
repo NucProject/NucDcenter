@@ -17,12 +17,14 @@ class UkDeviceData extends BaseModel
 {
     static $deviceKey = false;
 
+    static $avg = false;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return DeviceDataService::getTableName(self::$deviceKey);
+        return DeviceDataService::getTableName(self::$deviceKey, self::$avg);
     }
 
     /**
@@ -36,11 +38,13 @@ class UkDeviceData extends BaseModel
 
     /**
      * @param $deviceKey
+     * @param $avg = false
      * @return NucDataCenterQuery the active query used by this AR class.
      */
-    public static function findByKey($deviceKey)
+    public static function findByKey($deviceKey, $avg=false)
     {
         self::$deviceKey = $deviceKey;
+        self::$avg = $avg;
         return static::find();
     }
 }

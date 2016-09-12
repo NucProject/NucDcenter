@@ -50,16 +50,19 @@ class DatabaseController extends Controller
         }
     }
 
-    public function actionCreateDeviceDataTable($deviceKey, $typeId)
+    /**
+     * @param $deviceKey
+     * @param $typeKey
+     * @return bool
+     */
+    public function actionCreateDeviceDataTable($deviceKey, $typeKey)
     {
-        $tableName = "uk_device_data_{$deviceKey}";
+        if (DeviceDataService::createDeviceDataTables($deviceKey, $typeKey)) {
 
-        if (DeviceDataService::isTableExists($tableName))
-        {
-            echo "The device-data table exists!";
-            return false;
+        } else {
+
         }
-
-        DeviceDataService::createDeviceDataTable($tableName, $typeId);
     }
+
+
 }

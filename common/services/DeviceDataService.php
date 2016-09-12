@@ -8,6 +8,9 @@
 
 namespace common\services;
 
+use common\models\NucDeviceField;
+use yii;
+use yii\base;
 use yii\data\Pagination;
 use yii\db\Migration;
 use common\models\UkDeviceData;
@@ -36,11 +39,35 @@ class DeviceDataService
 
     /**
      * @param $deviceKey
+     * @param $avg boolean
      * @return string
      */
-    public static function getTableName($deviceKey)
+    public static function getTableName($deviceKey, $avg=false)
     {
-        return "uk_device_data_{$deviceKey}";
+        if ($avg) {
+            return "uk_device_data_{$deviceKey}_avg";
+        } else {
+            return "uk_device_data_{$deviceKey}";
+        }
+    }
+
+    /**
+     * @param $deviceKey
+     * @param $beginTime
+     * @param $endTime
+     * @return array
+     */
+    public static function itemsArray($deviceKey, $beginTime, $endTime)
+    {
+        // ? ???
+        $items = UkDeviceData::findByKey($deviceKey)
+            ->select('avg(inner_doserate), avg(outer_doserate)')
+            ->where(['>', 'data_time', $beginTime])
+            ->andWhere(['<', 'data_time', $endTime])
+            ->asArray()
+            ->all();
+
+        return $items;
     }
 
     /**
@@ -83,12 +110,45 @@ class DeviceDataService
         }
         return $defaultValue;
     }
+
     /**
-     * @param $tableName
-     * @param $typeId
+     * @param $deviceKey
+     * @param $typeKey
      * @return bool
      */
-    public static function createDeviceDataTable($tableName, $typeId)
+    public static function createDeviceDataTables($deviceKey, $typeKey)
+    {
+        // data table
+        $tableName = DeviceDataService::getTableName($deviceKey);
+        if (DeviceDataService::isTableExists($tableName))
+        {
+            echo "The device-data table exists!\n";
+            return false;
+        }
+
+        $r1 = DeviceDataService::createDeviceDataTable($tableName, $typeKey);
+
+        // Avg table!
+        $tableName = DeviceDataService::getTableName($deviceKey, true);
+        if (DeviceDataService::isTableExists($tableName))
+        {
+            echo "The device-data avg table exists!\n";
+            return false;
+        }
+
+        $r2 = DeviceDataService::createDeviceDataTable($tableName, $typeKey);
+
+        return $r1 && $r2;
+    }
+
+
+
+    /**
+     * @param $tableName
+     * @param $typeKey
+     * @return bool
+     */
+    public static function createDeviceDataTable($tableName, $typeKey)
     {
         $migration = new Migration();
 
@@ -97,7 +157,7 @@ class DeviceDataService
 
         $fields = ['data_id' => $migration->primaryKey()];
 
-        $fields = self::addDeviceDataFields($fields, $migration, $typeId, true);
+        $fields = self::addDeviceDataFields($fields, $migration, $typeKey, true);
 
         $fixedFields = [
             'alarm_status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
@@ -107,6 +167,11 @@ class DeviceDataService
         ];
 
         $fields = $fields + $fixedFields;
+
+        // Hacking the implements
+        // Otherwise $fieldBuilder->double([10, 5]) would lost $precision info
+        // See QueryBuilder::getColumnType Line 668
+        Yii::$app->db->getQueryBuilder()->typeMap[yii\db\mysql\Schema::TYPE_DOUBLE] = 'double(10, 4)';
 
         $migration->createTable($tableName, $fields, $tableOptions);
         return true;
@@ -132,18 +197,32 @@ class DeviceDataService
     /**
      * @param $fields
      * @param $migration Migration
-     * @param $typeId
+     * @param $typeKey
      * @param $movable
      * @return mixed
      */
-    public static function addDeviceDataFields($fields, $migration, $typeId, $movable=false)
+    public static function addDeviceDataFields($fields, $migration, $typeKey, $movable=false)
     {
+        $dataFields = NucDeviceField::find()->where(['type_key' => $typeKey])->asArray()->all();
+        foreach ($dataFields as $dataField)
+        {
+            $fieldBuilder = $migration;
+            // 0 is double
+            if ($dataField['field_value_type'] == 0) {
+                $fieldBuilder = $fieldBuilder->double([10, 5]);
+            }
+
+            $fieldName = $dataField['field_name'];
+            $fields[$fieldName] = $fieldBuilder
+                ->defaultValue($dataField['field_value_default'])
+                ->comment($dataField['field_desc']);
+        }
 
         if ($movable) {
             $fields['lng'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP经度');
             $fields['lat'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP纬度');
-            $fields['gps_lng'] = $migration->decimal("10, 6")->notNull()->defaultValue(0.0)->comment('GPS经度');
-            $fields['gps_lat'] = $migration->decimal("10, 6")->notNull()->defaultValue(0.0)->comment('GPS纬度');
+            $fields['gps_lng'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('GPS经度');
+            $fields['gps_lat'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('GPS纬度');
         }
 
         return $fields;
