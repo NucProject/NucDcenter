@@ -137,12 +137,19 @@ class DeviceController extends BaseController
         return $results;
     }
 
+    /**
+     * @param $data
+     * @return string
+     * 曲线要考虑时间连续性，没有值的点，也要给null值
+     */
     private static function convertItemsToPoints($data)
     {
         $points = [];
         $points[] = ['2016-09-01', 133];
         $points[] = ['2016-09-02', 143];
-        $points[] = ['2016-09-03', 123];
+        $points[] = ['2016-09-03', null];
+        $points[] = ['2016-09-04', 123];
+        $points[] = ['2016-09-05', 129];
         return json_encode($points);
     }
 }

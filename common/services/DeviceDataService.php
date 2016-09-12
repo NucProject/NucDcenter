@@ -97,14 +97,16 @@ class DeviceDataService
 
         $fields = ['data_id' => $migration->primaryKey()];
 
-        $fields = self::addDeviceDataFields($fields, $migration, $typeId);
+        $fields = self::addDeviceDataFields($fields, $migration, $typeId, true);
 
-        $fields = array_merge($fields, [
+        $fixedFields = [
             'alarm_status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
             'status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
             'create_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
             'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
-        ]);
+        ];
+
+        $fields = $fields + $fixedFields;
 
         $migration->createTable($tableName, $fields, $tableOptions);
         return true;
@@ -129,12 +131,20 @@ class DeviceDataService
 
     /**
      * @param $fields
-     * @param $migration
+     * @param $migration Migration
      * @param $typeId
+     * @param $movable
      * @return mixed
      */
-    public static function addDeviceDataFields($fields, $migration, $typeId)
+    public static function addDeviceDataFields($fields, $migration, $typeId, $movable=false)
     {
+
+        if ($movable) {
+            $fields['lng'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP经度');
+            $fields['lat'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP纬度');
+            $fields['gps_lng'] = $migration->decimal("10, 6")->notNull()->defaultValue(0.0)->comment('GPS经度');
+            $fields['gps_lat'] = $migration->decimal("10, 6")->notNull()->defaultValue(0.0)->comment('GPS纬度');
+        }
 
         return $fields;
     }
