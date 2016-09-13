@@ -1,6 +1,8 @@
 # yii console command
 # /yii
 
+composer.phar
+
 # phpstorm project files
 .idea
 

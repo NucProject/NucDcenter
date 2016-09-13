@@ -8,6 +8,8 @@
 
 namespace console\controllers;
 
+use common\components\Cache;
+use yii;
 use yii\console\Controller;
 
 /**
@@ -28,6 +30,16 @@ class RecordController extends Controller
             // 5sec 一次同步
             sleep(5);
         }
+    }
+
+    /**
+     *
+     * 从Redis拿数据转储到MySQL中
+     */
+    public function actionTest()
+    {
+
+
     }
 
     /**

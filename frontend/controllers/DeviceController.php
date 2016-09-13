@@ -10,14 +10,10 @@ namespace frontend\controllers;
 
 use yii;
 use common\components\AccessForbiddenException;
-use common\models\NucDevice;
 use common\models\NucDeviceField;
-use common\models\NucDeviceType;
 use common\services\DeviceDataService;
 use common\services\DeviceService;
-use common\models\UkDeviceData;
 use common\services\DeviceTypeService;
-use common\services\PagerService;
 
 class DeviceController extends BaseController
 {
@@ -139,18 +135,19 @@ class DeviceController extends BaseController
 
     /**
      * @param $data
+     * @param $field  string  *要显示在charts上面的字段*
      * @return string
      * 曲线要考虑时间连续性，没有值的点，也要给null值
      */
     private static function convertItemsToPoints($data, $field)
     {
-        // var_dump($data);
         $points = [];
         foreach ($data as $i)
         {
             $dataTime = $i['data_time'];
             $points[] = [$dataTime, $i[$field]];
         }
+
         return json_encode($points);
     }
 }
