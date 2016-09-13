@@ -8,6 +8,7 @@
 
 namespace console\controllers;
 
+use common\components\Helper;
 use common\services\DeviceDataService;
 use yii\console\Controller;
 
@@ -15,34 +16,51 @@ class DataController extends Controller
 {
     public function actionAvg()
     {
+        $counter = 0;
+        $dataTime = Helper::regular5mTime('2016-05-03 13:09:52');
+
         while (true)
         {
             $duration = 300;
-            $dataTime = '2016-05-01';
 
             foreach ($this->getWorkingDevices() as $deviceKey)
             {
-                $this->calcDataAvg($deviceKey, $dataTime, $duration);
+                $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
+
+                $this->flushAvgData($deviceKey, $dataTime, $avgData);
             }
+
+            $dataTime = date('Y-m-d H:i:s', strtotime($dataTime) + $duration);
+            $counter++;
+            if ($counter > 10)
+            {
+                break;
+            }
+
         }
     }
 
-    public function actionTest()
-    {
-        $duration = 300;
-        $dataTime = '2016-05-03 15:00:10';
-        foreach ($this->getWorkingDevices() as $deviceKey)
-        {
-            $this->calcDataAvg($deviceKey, $dataTime, $duration);
-        }
-    }
-
+    /**
+     * @param $deviceKey
+     * @param $dataTime
+     * @param $duration
+     * @return array
+     */
     private function calcDataAvg($deviceKey, $dataTime, $duration)
     {
         $beginTime = date('Y-m-d H:i:s', strtotime($dataTime) - $duration);
         $items = DeviceDataService::itemsArray($deviceKey, $beginTime, $dataTime);
 
-        var_dump($items);
+        return $items;
+
+    }
+
+    private function flushAvgData($deviceKey, $dataTime, $avgData)
+    {
+        $avgData['data_time'] = $dataTime;
+        $avgData['task_id'] = 6;
+         print_r($avgData);
+        DeviceDataService::addAvgEntry($deviceKey, $avgData);
     }
 
     private function getWorkingDevices()

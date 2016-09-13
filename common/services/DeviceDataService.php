@@ -25,7 +25,7 @@ class DeviceDataService
      */
     public static function addEntry($deviceKey, $data, $checkAlarm=true)
     {
-        $entry = new UkDeviceData($deviceKey);
+        $entry = new UkDeviceData();
         // $data里面应该含有data_time字段
         $entry->setAttributes($data);
         if ($checkAlarm)
@@ -35,6 +35,24 @@ class DeviceDataService
         }
 
         return $entry->save();
+    }
+
+    public static function addAvgEntry($deviceKey, $data)
+    {
+        UkDeviceData::$deviceKey = $deviceKey;
+        UkDeviceData::$avg = true;
+        $entry = new UkDeviceData();
+        
+        // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
+        foreach ($data as $field => $value)
+        {
+            if (in_array($field, ['lng', 'lat', 'lng_gps', 'lat_gps']))
+            {
+                $value = $value ?: '0.0';
+            }
+            $entry->$field = $value;
+        }
+        return $entry->save($data);
     }
 
     /**
@@ -61,11 +79,11 @@ class DeviceDataService
     {
         // ? ???
         $items = UkDeviceData::findByKey($deviceKey)
-            ->select('avg(inner_doserate), avg(outer_doserate)')
+            ->select('avg(inner_doserate) as inner_doserate, avg(outer_doserate) as outer_doserate, lng, lat, lng_gps, lat_gps')
             ->where(['>', 'data_time', $beginTime])
             ->andWhere(['<', 'data_time', $endTime])
             ->asArray()
-            ->all();
+            ->one();
 
         return $items;
     }

@@ -42,4 +42,18 @@ class Helper
         }
         return $value;
     }
+
+    /**
+     * @param $time
+     * @return bool|string
+     * 得到5分钟归一化时间
+     */
+    public static function regular5mTime($time)
+    {
+        $p = date_parse($time);
+        $m = intval($p['minute'] / 5) * 5;
+        $t = mktime($p['hour'], $m, 0, $p['month'], $p['day'], $p['year']);
+
+        return date("Y-m-d H:i:00", $t);
+    }
 }
