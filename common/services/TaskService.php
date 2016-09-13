@@ -19,5 +19,17 @@ class TaskService
         return NucTask::find()->where([])->asArray()->all();
     }
 
+    /**
+     * @param $taskId
+     * @return array|NucTask|null
+     */
+    public static function getTaskById($taskId)
+    {
+        $task = NucTask::find()
+            ->where(['task_id' => $taskId])
+            ->asArray()
+            ->one();
+        return $task;
+    }
 
 }

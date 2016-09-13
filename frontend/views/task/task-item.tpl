@@ -1,4 +1,5 @@
 <li class="current pull-left" style="margin-right: 30px">
+    <a href="index.php?r=task/detail&taskId={$task['task_id']}">
     <div style="position:relative;">
         <img src="working/map1.png" alt="" style="width: 240px;height: 240px">
 
@@ -27,5 +28,5 @@
         </div>
 
     </div>
-
+    </a>
 </li>

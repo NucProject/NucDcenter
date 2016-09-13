@@ -9,6 +9,8 @@
 namespace frontend\controllers;
 
 
+use common\components\BadArgumentException;
+use common\models\NucTask;
 use common\services\TaskService;
 
 class TaskController extends BaseController
@@ -56,7 +58,7 @@ class TaskController extends BaseController
         $taskId = 0;
 
         parent::setBreadcrumbs(['index.html' => '新建任务']);
-        return parent::renderPage('create.tpl', $data, ['with' => ['laydate']]);
+        return parent::renderPage('create.tpl', $data, ['with' => ['dialog', 'laydate', 'baiduMap']]);
     }
 
     public function actionDoCreate()
@@ -64,6 +66,17 @@ class TaskController extends BaseController
         $taskId = 0;
 
 
+    }
+
+    public function actionDetail($taskId)
+    {
+        $task = $this->getTaskById($taskId);
+        $data = [
+            'task' => $task
+        ];
+
+        parent::setBreadcrumbs(['index.html' => '新建任务']);
+        return parent::renderPage('detail.tpl', $data, ['with' => ['laydate']]);
     }
 
     /**
@@ -92,5 +105,19 @@ class TaskController extends BaseController
     private function checkHasCreateTaskPermission()
     {
         return true;
+    }
+
+    /**
+     * @param $taskId
+     * @return mixed
+     * @throws BadArgumentException
+     */
+    private function getTaskById($taskId)
+    {
+        $task = TaskService::getTaskById($taskId);
+        if (!$task) {
+            throw new BadArgumentException("Task (task_id=$taskId) Not Found!");
+        }
+        return $task;
     }
 }
