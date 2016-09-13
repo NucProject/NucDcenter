@@ -189,7 +189,7 @@ class DeviceDataService
 
         $fields = $fields + $fixedFields;
 
-        // Hacking the implements
+        // Hacking!
         // Otherwise $fieldBuilder->double([10, 5]) would lost $precision info
         // See QueryBuilder::getColumnType Line 668
         Yii::$app->db->getQueryBuilder()->typeMap[yii\db\mysql\Schema::TYPE_DOUBLE] = 'double(10, 4)';
@@ -240,6 +240,7 @@ class DeviceDataService
         }
 
         if ($movable) {
+            // For lng and lat, decimal(10, 6) is Good
             $fields['lng'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP经度');
             $fields['lat'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('MAP纬度');
             $fields['gps_lng'] = $migration->decimal("10, 6")->notNull()->defaultValue('0.0')->comment('GPS经度');

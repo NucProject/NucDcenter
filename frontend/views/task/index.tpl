@@ -16,5 +16,4 @@
 
     {include 'task/history-tasks.tpl'}
 
-
 </div>

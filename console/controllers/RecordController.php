@@ -8,9 +8,9 @@
 
 namespace console\controllers;
 
-use common\components\Cache;
 use yii;
 use yii\console\Controller;
+use common\components\Cache;
 
 /**
  * Class RecordController

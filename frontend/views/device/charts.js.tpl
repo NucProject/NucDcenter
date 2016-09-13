@@ -8,8 +8,12 @@
     var jsonItemPoints = '{$itemPoints}';
     if (jsonItemPoints.length > 0) {
         var data = '{$itemPoints}'.toJson();
+        var startValue = data[0][0];
+        var min = parseFloat("{$minVal}");
+        var max = parseFloat("{$maxVal}");
     } else {
         var data = [['1999-09-01', 0]];
+        var startValue = '2016-09-01';
     }
 </script>
 {literal}
@@ -32,7 +36,9 @@
             yAxis: {
                 splitLine: {
                     show: false
-                }
+                },
+                min: min - 20, // 纵轴的最小值控制
+                max: max + 20
             },
             toolbox: {
                 left: 'center',
@@ -45,7 +51,7 @@
                 }
             },
             dataZoom: [{
-                startValue: '2014-06-01'
+                startValue: startValue
             }, {
                 type: 'inside'
             }],
@@ -53,18 +59,6 @@
                 top: 10,
                 right: 10,
                 pieces: [{
-                    gt: 0,
-                    lte: 50,
-                    color: '#096'
-                }, {
-                    gt: 50,
-                    lte: 100,
-                    color: '#ffde33'
-                }, {
-                    gt: 100,
-                    lte: 150,
-                    color: '#ff9933'
-                }, {
                     gt: 150,
                     lte: 200,
                     color: '#cc0033'
@@ -72,10 +66,8 @@
                     gt: 200,
                     lte: 300,
                     color: '#660099'
-                }, {
-                    gt: 300,
-                    color: '#7e0023'
-                }],
+                }
+                ],
                 outOfRange: {
                     color: '#999'
                 }
@@ -88,7 +80,8 @@
                 }),
                 markLine: {
                     silent: true,
-                    data: [{
+                    data: [{ yAxis: min / 2 }, { yAxis: max }]
+/*                    || [{
                         yAxis: 50
                     }, {
                         yAxis: 100
@@ -98,7 +91,7 @@
                         yAxis: 200
                     }, {
                         yAxis: 300
-                    }]
+                    }]*/
                 }
             }
         };

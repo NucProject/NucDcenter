@@ -9,11 +9,14 @@
 namespace common\services;
 
 
+use common\models\NucTask;
+
 class TaskService
 {
     public static function getTasks()
     {
-        return [];
+        //
+        return NucTask::find()->where([])->asArray()->all();
     }
 
 

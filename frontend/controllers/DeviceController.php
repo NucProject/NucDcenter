@@ -38,7 +38,9 @@ class DeviceController extends BaseController
         if (!$data['hideChart'])
         {
             $points = self::convertItemsToPoints(array_reverse($data['items']), 'inner_doserate');
-            $data['itemPoints'] = $points;
+            $data['itemPoints'] = $points['points'];
+            $data['maxVal'] = $points['maxVal'];
+            $data['minVal'] = $points['minVal'];
             $data['chartTitle'] = 'XX设备五分钟曲线';
         }
 
@@ -142,12 +144,35 @@ class DeviceController extends BaseController
     private static function convertItemsToPoints($data, $field)
     {
         $points = [];
+        $first = self::getFirstNotNullValue($data, $field);
+        $minVal = $maxVal = $first;
         foreach ($data as $i)
         {
             $dataTime = $i['data_time'];
-            $points[] = [$dataTime, $i[$field]];
+            $val = $i[$field];
+            $points[] = [$dataTime, $val];
+            $maxVal = max($val, $maxVal);
+            if ($val)
+            {
+                $minVal = min($val, $minVal);
+            }
         }
 
-        return json_encode($points);
+        return [
+            'points' => json_encode($points),
+            'maxVal' => $maxVal ?: '0.0',
+            'minVal' => $minVal ?: '0.0'
+        ];
+    }
+
+    private static function getFirstNotNullValue($data, $field)
+    {
+        foreach ($data as $i) {
+            $val = $i[$field];
+            if ($val) {
+                return $val;
+            }
+        }
+        return null;
     }
 }

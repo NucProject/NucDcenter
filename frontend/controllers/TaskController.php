@@ -23,12 +23,18 @@ class TaskController extends BaseController
 
         $tasks = TaskService::getTasks();
 
-        $runningTasks = ["地图图片"];
-        $waitingTasks = ["地图图片"];
+        $runningTasks = [];
+        $waitingTasks = [];
         $historyTasks = [];
         foreach ($tasks as $task)
         {
-
+            if ($task['task_status'] == 1) {
+                $waitingTasks[] = $task;
+            } elseif ($task['task_status'] == 2) {
+                $runningTasks[] = $task;
+            } elseif ($task['task_status'] == 3) {
+                $historyTasks[] = $task;
+            }
         }
 
         $data['runningTasks'] = $runningTasks;

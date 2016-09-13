@@ -7,7 +7,9 @@
 
 
 {block name=content}
+    <ul class="team-list" style="list-style: none">
     {foreach from=$historyTasks item=t}
-        {json_encode($t)}
+        {include 'task/task-item.tpl' task=$t}
     {/foreach}
+    </ul>
 {/block}
