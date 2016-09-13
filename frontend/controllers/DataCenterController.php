@@ -81,10 +81,9 @@ class DataCenterController extends BaseController
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
 
-        // 我要在地图上找到它吗？
 
         parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加自动站']);
-        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
+        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap']]);
     }
 
     /**

@@ -29,10 +29,16 @@
             <label for="exampleInputEmail1">GPS信息</label>
             <div class="checkbox">
                 <label>
-                    <input type="text" class="form-control" name="lng" placeholder="请提供经度">
-                    <input type="text" class="form-control" name="lat" placeholder="请提供纬度">
+                    <input type="text" class="form-control" name="city" placeholder="试着输入城市名称">
+                    <br>
+                    <input type="text" class="form-control" name="lngAndLat" placeholder="请提供经、纬度（逗号分隔）">
+
+                    <input type="hidden" name="lng">
+                    <input type="hidden" name="lat">
                 </label>
             </div>
+
+            <div id="map" style="width: 400px; height: 300px; margin-left: 50px"></div>
         </div>
 
         <div class="form-group">

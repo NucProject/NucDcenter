@@ -55,23 +55,23 @@ class NucStation extends \common\models\BaseModel
     public function attributeLabels()
     {
         return [
-            'station_id' => '自动站ID',
-            'center_id' => '所在数据中心ID',
-            'station_key' => '自动站唯一KEY',
-            'station_name' => '自动站名称',
-            'station_desc' => '自动站描述',
-            'station_pic' => '自动站图片PATH',
-            'station_type' => '自动站移动属性',
-            'owner_lead' => '负责人姓名',
-            'owner_org' => '业主单位名称',
-            'builder_org' => '建设单位名称',
-            'ops_org' => '运维单位名称',
-            'completion_date' => '建成日期',
+            'station_id' => 'Station ID',
+            'center_id' => 'Center ID',
+            'station_key' => 'Station Key',
+            'station_name' => 'Station Name',
+            'station_desc' => 'Station Desc',
+            'station_pic' => 'Station Pic',
+            'station_type' => 'Station Type',
+            'owner_lead' => 'Owner Lead',
+            'owner_org' => 'Owner Org',
+            'builder_org' => 'Builder Org',
+            'ops_org' => 'Ops Org',
+            'completion_date' => 'Completion Date',
             'lng' => 'Lng',
             'lat' => 'Lat',
-            'status' => '状态',
-            'create_time' => '创建时间',
-            'update_time' => '修改时间',
+            'status' => 'Status',
+            'create_time' => 'Create Time',
+            'update_time' => 'Update Time',
         ];
     }
 

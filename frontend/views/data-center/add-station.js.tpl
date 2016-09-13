@@ -1,4 +1,18 @@
+{literal}
 <script>
+
+    var mapCenter = null;
+
+    function addStationMarker(map, point) {
+        // Clear the last selection
+        map.clearOverlays();
+        var markerIcon = new BMap.Icon("http://127.0.0.1:1001/img/red.png", new BMap.Size(32, 32));
+        // console.log(point, markerIcon);
+        var marker = new BMap.Marker(point, {icon: markerIcon});
+        marker.setZIndex(100);
+
+        map.addOverlay(marker);
+    }
 
     $(function () {
 
@@ -64,6 +78,41 @@
                 $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
         });
+
+
+        // Map about
+        // Map 选择区域
+        var map = new BMap.Map("map"); // 创建Map实例
+        map.clearOverlays();
+        var point = new BMap.Point(113.28155000, 22.33260667); // TODO: 中心点;创建点坐标
+        map.centerAndZoom(point, 11); // 初始化地图,设置中心点坐标和地图级别。
+        map.addControl(new BMap.NavigationControl());
+        map.addControl(new BMap.ScaleControl());
+        map.addControl(new BMap.OverviewMapControl());
+        map.addControl(new BMap.MapTypeControl());
+        map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+        mapCenter = map.getCenter();
+        map.enableScrollWheelZoom();
+
+        map.addEventListener("click", function(data) {
+            //
+            var markPoint = data.point;
+            addStationMarker(map, markPoint);
+
+            form.find('input[name=lng]').val(markPoint.lng);
+            form.find('input[name=lat]').val(markPoint.lat);
+        });
+
+
+        $('input[name=city]').blur(function () {
+            var city = $(this).val();
+            map.setCurrentCity(city.trim());
+            map.centerAndZoom(city.trim(), 11);
+
+            mapCenter = map.getCenter();
+
+        });
     });
 
 </script>
+{/literal}

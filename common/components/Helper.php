@@ -56,4 +56,26 @@ class Helper
 
         return date("Y-m-d H:i:00", $t);
     }
+
+    /**
+     * @param $fileName
+     * @param $lng
+     * @param $lat
+     * @param int $width
+     * @param int $height
+     * @return boolean|int
+     */
+    public static function saveBaiduMapRectByPoint($fileName, $lng, $lat, $width=400, $height=400)
+    {
+        $ak = \Yii::$app->params['baidu_map_ak'];
+        $center = "{$lng},{$lat}";
+        $api = "http://api.map.baidu.com/staticimage/v2?ak={$ak}&mcode=666666&center={$center}&width={$width}&height={$height}&zoom=11";
+
+        $img = file_get_contents($api);
+        if ($img)
+        {
+            return file_put_contents($fileName, $img);
+        }
+        return false;
+    }
 }
