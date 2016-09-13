@@ -42,7 +42,7 @@ class DeviceDataService
         UkDeviceData::$deviceKey = $deviceKey;
         UkDeviceData::$avg = true;
         $entry = new UkDeviceData();
-        
+
         // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
         foreach ($data as $field => $value)
         {
@@ -96,7 +96,8 @@ class DeviceDataService
      */
     public static function getDataList($deviceKey, $options=[])
     {
-        $query = UkDeviceData::findByKey($deviceKey)->where([]);
+        // List取均值
+        $query = UkDeviceData::findByKey($deviceKey, true)->where([]);
 
         // 如果调用者给出totalCount, 那么就省略了select count(*);
         $totalCount = static::getOptionValue($options, 'totalCount', 0);
@@ -114,6 +115,8 @@ class DeviceDataService
 
         $dataList = $query->offset($pager->offset)
             ->limit($pager->limit)
+            ->asArray()
+            ->orderBy('data_time desc')
             ->all();
 
         return [

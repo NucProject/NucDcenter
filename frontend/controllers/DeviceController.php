@@ -41,7 +41,7 @@ class DeviceController extends BaseController
 
         if (!$data['hideChart'])
         {
-            $points = self::convertItemsToPoints($data);
+            $points = self::convertItemsToPoints(array_reverse($data['items']), 'inner_doserate');
             $data['itemPoints'] = $points;
             $data['chartTitle'] = 'XX设备五分钟曲线';
         }
@@ -142,14 +142,15 @@ class DeviceController extends BaseController
      * @return string
      * 曲线要考虑时间连续性，没有值的点，也要给null值
      */
-    private static function convertItemsToPoints($data)
+    private static function convertItemsToPoints($data, $field)
     {
+        // var_dump($data);
         $points = [];
-        $points[] = ['2016-09-01', 133];
-        $points[] = ['2016-09-02', 143];
-        $points[] = ['2016-09-03', null];
-        $points[] = ['2016-09-04', 123];
-        $points[] = ['2016-09-05', 129];
+        foreach ($data as $i)
+        {
+            $dataTime = $i['data_time'];
+            $points[] = [$dataTime, $i[$field]];
+        }
         return json_encode($points);
     }
 }

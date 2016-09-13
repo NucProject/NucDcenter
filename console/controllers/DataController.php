@@ -14,13 +14,26 @@ use yii\console\Controller;
 
 class DataController extends Controller
 {
-    public function actionAvg()
+    private $lastRegular5mTime = false;
+
+    public function actionRealTimeAvg()
     {
         $counter = 0;
-        $dataTime = Helper::regular5mTime('2016-05-03 13:09:52');
+
 
         while (true)
         {
+            $now = date('Y-m-d H:i:s');
+            $dataTime = Helper::regular5mTime($now);
+            if ($this->lastRegular5mTime == $dataTime) {
+                // 如果当前时间的归一化时间未变, 则sleep 10s并且重新Loop
+                sleep(10);
+                continue;
+            }
+
+            // 更新上一次的归一化时间
+            $this->lastRegular5mTime = $dataTime;
+
             $duration = 300;
 
             foreach ($this->getWorkingDevices() as $deviceKey)
@@ -59,12 +72,16 @@ class DataController extends Controller
     {
         $avgData['data_time'] = $dataTime;
         $avgData['task_id'] = 6;
-         print_r($avgData);
+        // print_r($avgData);
         DeviceDataService::addAvgEntry($deviceKey, $avgData);
     }
 
+    /**
+     * @return array
+     */
     private function getWorkingDevices()
     {
+        // TODO: Get working device keys from Redis
         return ['dk06ee3d6938e78ba9d3'];
     }
 }
