@@ -23,7 +23,7 @@ class DeviceTypeService
     public static function createDeviceType($params)
     {
         $type = new NucDeviceType();
-        $type->setAttributes(($params));
+        $type->setAttributes($params);
         if ($type->save()) {
             return $type;
         } else {

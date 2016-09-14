@@ -49,6 +49,20 @@ class DeviceController extends BaseController
         return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 
+
+    /**
+     * @param $deviceKey
+     * @return string
+     * @throws AccessForbiddenException
+     * 曲线+列表
+     */
+    public function actionInfo($deviceKey)
+    {
+        $data = [];
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '信息']);
+        return parent::renderPage('info.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
+    }
+
     /**
      * @param $device \common\models\NucDevice
      * @param $options

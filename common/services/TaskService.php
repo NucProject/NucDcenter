@@ -40,9 +40,8 @@ class TaskService
      */
     public static function getTaskById($taskId)
     {
-        $task = NucTask::find()
-            ->where(['task_id' => $taskId])
-            ->one();
+        $task = NucTask::findOne($taskId);
+
         return $task;
     }
 

@@ -76,12 +76,13 @@
         // map.enableScrollWheelZoom(false); //禁用滚轮事件
 
         var delay = 800;
+        var offset = 400;
         console.log(stations);
         for (var i in stations)
         {
             var station = stations[i];
-            showStationMarkerDelay(map, station, delay);
-            delay += delay / 2; // Fast as fast
+            showStationMarkerDelay(map, station, delay + offset);
+            offset /= 2; // Fast as fast
         }
 
 
