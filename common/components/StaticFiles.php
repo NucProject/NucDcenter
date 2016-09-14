@@ -38,7 +38,7 @@ trait StaticFiles
 
     public function addBaiduMap($view)
     {
-        $ak = \Yii::$app->params['baidu_map_ak'];
+        $ak = \Yii::$app->params['baiduMapAk'];
         $view->registerJsFile('http://api.map.baidu.com/api?v=2.0&ak=' . $ak, [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 

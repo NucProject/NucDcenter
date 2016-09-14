@@ -13,6 +13,21 @@ use common\models\NucTask;
 
 class TaskService
 {
+    /**
+     * @param $data
+     * @return array|NucTask
+     */
+    public static function create($data)
+    {
+        $task = new NucTask();
+        $task->setAttribute($data);
+        if ($task->save()) {
+            return $task;
+        } else {
+            return $task->getErrors();
+        }
+    }
+
     public static function getTasks()
     {
         //
@@ -21,13 +36,12 @@ class TaskService
 
     /**
      * @param $taskId
-     * @return array|NucTask|null
+     * @return NucTask
      */
     public static function getTaskById($taskId)
     {
         $task = NucTask::find()
             ->where(['task_id' => $taskId])
-            ->asArray()
             ->one();
         return $task;
     }

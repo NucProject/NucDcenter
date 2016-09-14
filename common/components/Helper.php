@@ -67,14 +67,17 @@ class Helper
      */
     public static function saveBaiduMapRectByPoint($fileName, $lng, $lat, $width=400, $height=400)
     {
-        $ak = \Yii::$app->params['baidu_map_ak'];
+        $ak = \Yii::$app->params['baiduMapAk'];
         $center = "{$lng},{$lat}";
         $api = "http://api.map.baidu.com/staticimage/v2?ak={$ak}&mcode=666666&center={$center}&width={$width}&height={$height}&zoom=11";
 
         $img = file_get_contents($api);
         if ($img)
         {
-            return file_put_contents($fileName, $img);
+            if (file_put_contents($fileName, $img))
+            {
+                return true;
+            }
         }
         return false;
     }

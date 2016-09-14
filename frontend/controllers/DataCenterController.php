@@ -107,7 +107,7 @@ class DataCenterController extends BaseController
             'lat'             => Helper::getPost('lat', ['default' => '0.0', 'type' => 'is_numeric']),
         ];
 
-        file_put_contents("d:\\a2.txt", "ddd");
+        // file_put_contents("d:\\a2.txt", "ddd");
         if (StationService::addStation($centerId, $params)) {
             Yii::$app->session->setFlash('add-station', 'success');
             Yii::$app->response->redirect('index.php?r=data-center/stations');

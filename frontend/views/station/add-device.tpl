@@ -12,6 +12,8 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">选择设备类型</label>
+            <a href="#" style="color: #d2322d">（如未找到设备类型请点击这里通知管理员）</a>
+
             <select class="form-control" name="deviceType">
                 <option none-option>请选择要添加的设备类型</option>
                 {foreach from=$deviceTypes item=dt}
@@ -51,7 +53,6 @@
             <label for="exampleInputEmail1">仪器上一次校准时间</label>
             <input class="form-control" type="text" name="rescale_date" size="10" id="rescale_date">
         </div>
-
 
         <a href="javascript:history.back()" class="btn btn-grey">返回</a>
         <a onclick="showConfirmDialog('{$stationName}');" class="btn btn-info">添加</a>
