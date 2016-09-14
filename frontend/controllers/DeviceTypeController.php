@@ -23,6 +23,9 @@ class DeviceTypeController extends BaseController
     {
         $data = [];
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
+
+        parent::setPageMessage("自动站支持的全部设备类型");
+        parent::setBreadcrumbs(['#' => '设备类型列表']);
         return parent::renderPage('index.tpl', $data, []);
     }
 
@@ -34,8 +37,12 @@ class DeviceTypeController extends BaseController
     {
         $data = [
             'doUpdateUrl' => 'index.php?r=device-type/do-add',
-            'addNew' => true
+            'addNew'      => true,
+            'fields'      => []
         ];
+
+        parent::setPageMessage("增加一种新的设备类型");
+        parent::setBreadcrumbs(['index.php?device-type' => '设备类型列表', '#' => '新增']);
         return parent::renderPage('add.tpl', $data, []);
     }
 

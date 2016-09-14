@@ -44,8 +44,9 @@ class DeviceController extends BaseController
             $data['chartTitle'] = 'XX设备五分钟曲线';
         }
 
-
-        parent::setBreadcrumbs(['index.html' => '设备', '#' => '数据']);
+        $deviceName = $data['deviceName'];
+        parent::setPageMessage("{$deviceName} 数据曲线图表");
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);
         return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 

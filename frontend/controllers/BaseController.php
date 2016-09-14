@@ -20,6 +20,10 @@ class BaseController extends Controller
 
     private $breadcrumbs = [];
 
+    private $pageMessage = false;
+
+    private $pageMessage2 = false;
+
     public function behaviors()
     {
         return [
@@ -64,6 +68,14 @@ class BaseController extends Controller
 
         // Event
         // $this->getView()->on(yii\base\View::EVENT_BEFORE_RENDER, [$this, 'viewBeforeRender']);
+
+        if ($this->pageMessage) {
+            $data['pageMessage'] = $this->pageMessage;
+        }
+
+        if ($this->pageMessage2) {
+            $data['pageMessage2'] = $this->pageMessage2;
+        }
 
         //
         $data['currentPageJsFile'] = self::getPageJsFileName($page);
@@ -128,6 +140,12 @@ class BaseController extends Controller
             // Render the content only without $this->layout => for null
             return $content;
         }
+    }
+
+    public function setPageMessage($pageMessage, $pageMessage2=false)
+    {
+        $this->pageMessage = $pageMessage;
+        $this->pageMessage2 = $pageMessage2;
     }
 
     /**

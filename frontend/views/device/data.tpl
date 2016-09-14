@@ -1,6 +1,5 @@
 <div>
     {* 设置搜索条件 *}
-    {$deviceName}
     <form id="search-form" method="get" action="#">
         <input type="hidden" name="r" value="device/data">
 

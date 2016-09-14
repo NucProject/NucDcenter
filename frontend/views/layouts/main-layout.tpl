@@ -39,12 +39,15 @@
                                     {/foreach}
                                 </ul>
                                 <!-- /BREADCRUMBS -->
-                                <!--
+
+                                {if isset($pageMessage)}
                                 <div class="clearfix">
-                                    <h3 class="content-title pull-left">@</h3>
+                                    <h3 class="content-title pull-left">{$pageMessage}</h3>
                                 </div>
-                                <div class="description">abc</div>
-                                -->
+                                    {if isset($pageMessage2)}
+                                    <div class="description">{$pageMessage2}</div>
+                                    {/if}
+                                {/if}
                             </div>
                         </div>
                     </div>

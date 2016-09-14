@@ -10,6 +10,7 @@ namespace common\services;
 
 
 use common\models\NucTask;
+use common\models\NucTaskAttend;
 
 class TaskService
 {
@@ -41,6 +42,18 @@ class TaskService
     public static function getTaskById($taskId)
     {
         $task = NucTask::findOne($taskId);
+        if ($task)
+        {
+            $attends = NucTaskAttend::find()
+                ->where(['task_id' => $taskId])
+                ->with('device')
+                ->asArray()
+                ->all();
+
+            $task = $task->toArray();
+            $task['attends'] = $attends;
+        }
+
 
         return $task;
     }

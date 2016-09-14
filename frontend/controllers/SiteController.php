@@ -66,6 +66,7 @@ class SiteController extends BaseController
     {
         $data = [];
         $centerId = DataCenterService::deployedCenterId();
+        $dataCenter = DataCenterService::getDataCenter($centerId);
         /**
          * array(
          *  ['stationName' => , 'lng' => , 'lat' => ],
@@ -75,7 +76,7 @@ class SiteController extends BaseController
 
 
         $data['stations'] = json_encode($stations);
-        // var_dump($data);exit;
+        parent::setPageMessage("欢迎使用{$dataCenter['center_name']}");
         parent::setBreadcrumbs([]);
         return parent::renderPage('index.tpl', $data,
             ['with' => ['baiduMap']]);

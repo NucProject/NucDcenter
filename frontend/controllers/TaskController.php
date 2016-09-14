@@ -51,6 +51,8 @@ class TaskController extends BaseController
             $data['hasCreateTaskPermission'] = true;
         }
 
+        // $historyTasksCount = count($historyTasks);
+        parent::setPageMessage("任务管理列表");
         parent::setBreadcrumbs(['index.html' => '任务']);
         return parent::renderPage('index.tpl', $data, []);
     }
@@ -87,11 +89,20 @@ class TaskController extends BaseController
     public function actionDetail($taskId)
     {
         $task = $this->getTaskById($taskId);
+
         $data = [
-            'task' => $task->toArray()
+            'task' => $task
         ];
 
-        parent::setBreadcrumbs(['index.html' => '新建任务']);
+        if ($task['task_status'] == 1) {
+            parent::setPageMessage("任务即将于{$task['begin_set_time']}开始");
+        } elseif ($task['task_status'] == 2) {
+            parent::setPageMessage("任务正在进行中...");
+        } elseif ($task['task_status'] == 3) {
+            parent::setPageMessage("任务已结束", "{$task['begin_time']}~{$task['end_time']}");
+        }
+
+        parent::setBreadcrumbs(['index.html' => '任务详情']);
         return parent::renderPage('detail.tpl', $data, ['with' => ['laydate']]);
     }
 

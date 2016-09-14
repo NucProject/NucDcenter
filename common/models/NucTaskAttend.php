@@ -27,6 +27,12 @@ class NucTaskAttend extends \common\models\BaseModel
         return 'nuc_task_attend';
     }
 
+    public function getDevice()
+    {
+        return $this->hasOne(NucDevice::className(), ['device_key' => 'device_key']);
+
+    }
+
     /**
      * @inheritdoc
      */

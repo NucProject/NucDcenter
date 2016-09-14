@@ -9,6 +9,7 @@
 namespace common\services;
 
 use common\components\AccessForbiddenException;
+use common\models\NucDataCenter;
 use yii;
 
 class DataCenterService
@@ -55,5 +56,10 @@ class DataCenterService
 
         // TODO: json_decode
         return [];
+    }
+
+    public static function getDataCenter($dataCenterId=false)
+    {
+        return NucDataCenter::findOne($dataCenterId);
     }
 }
