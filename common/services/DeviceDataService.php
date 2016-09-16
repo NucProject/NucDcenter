@@ -134,6 +134,24 @@ class DeviceDataService
 
     /**
      * @param $deviceKey
+     * @param $taskId
+     * @param bool|false $options
+     * @return array|\common\models\NucDataCenter[]
+     * @comment 等到应急设备的任务数据(1min均值表取值)
+     */
+    public static function getTaskData($deviceKey, $taskId, $options=false)
+    {
+        // 任务数据不取均值的(可能就没有均值的)
+        $query = UkDeviceData::findByKey($deviceKey, false)
+            ->where(['task_id' => $taskId]);
+
+        $items = $query->asArray()->all();
+
+        return $items;
+    }
+
+    /**
+     * @param $deviceKey
      * @param $typeKey
      * @return bool
      */
@@ -250,13 +268,4 @@ class DeviceDataService
         return $fields;
     }
 
-    /**
-     * @param $fileName
-     * @param $columns
-     * @param $params
-     */
-    public static function exportToFile($fileName, $columns, $params)
-    {
-
-    }
 }

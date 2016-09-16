@@ -14,6 +14,7 @@ use common\components\Helper;
 use common\components\ModelSaveFailedException;
 use common\models\NucTask;
 use common\models\NucTaskAttend;
+use common\services\DeviceDataService;
 use common\services\TaskService;
 
 class TaskController extends BaseController
@@ -136,15 +137,50 @@ class TaskController extends BaseController
     {
         $task = $this->getTaskById($taskId);
 
-        $attends = NucTaskAttend::find()->where(['task_id' => $taskId])->asArray()->all();
+        $attends = $task['attends'];
+        $centerPoint = false;
+        $points = false;
+        $deviceKeys = [];
+        $deviceDataMap = [];
+        foreach ($attends as $attend)
+        {
+            $deviceKey = $attend['device_key'];
+            if (!$deviceKey) {
+                continue;
+            }
+            $deviceKeys[] = $deviceKey;
 
+            $deviceDataItems = DeviceDataService::getTaskData($deviceKey, $taskId);
+
+            if (!$centerPoint)
+            {
+                $deviceDataItem = $deviceDataItems[0];
+                $centerPoint = [
+                    'lng' => $deviceDataItem['lng'],
+                    'lat' => $deviceDataItem['lat']
+                ];
+            }
+
+            if (!$points) {
+                $points = json_encode(self::convertToHeatmapPoints($deviceDataItems, 'inner_doserate'));
+            }
+            $deviceDataMap[$deviceKey] = json_encode(self::convertToHeatmapPoints($deviceDataItems, 'inner_doserate'));
+        }
+
+        // var_dump($centerPoint);exit;
         $data = [
-            'task'      => $task->toArray(),
-            'attends'   => $attends
+            'task'      => $task,
+            'dataMap'   => $deviceDataMap,
+            'centerLng' => $centerPoint['lng'],
+            'centerLat' => $centerPoint['lat'],
+            'deviceKeys' => $deviceKeys,
+            'deviceDataMap' => $deviceDataMap
         ];
 
+        // var_dump($deviceDataMap);exit;
+
         parent::setBreadcrumbs(['index.html' => '任务', '#' => '轨迹回放']);
-        return parent::renderPage('replay.tpl', $data, ['with' => ['laydate']]);
+        return parent::renderPage('replay.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Heatmap']]);
     }
 
     /**
@@ -153,6 +189,21 @@ class TaskController extends BaseController
     private function checkHasCreateTaskPermission()
     {
         return true;
+    }
+
+    /**
+     * @param $data
+     * @param $field
+     */
+    private static function convertToHeatmapPoints($data, $field)
+    {
+        $results = [];
+        foreach ($data as $item)
+        {
+            $count = intval($item[$field] / 10);
+            $results[] = ['lng' => $item['lng'], 'lat' => $item['lat'], 'count' => $count];
+        }
+        return $results;
     }
 
     /**

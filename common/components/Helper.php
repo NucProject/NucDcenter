@@ -46,6 +46,32 @@ class Helper
     /**
      * @param $time
      * @return bool|string
+     * 得到30秒归一化时间
+     */
+    public static function regular30sTime($time)
+    {
+        $p = date_parse($time);
+        $second = intval($p['second'] / 30) * 30;
+        $t = mktime($p['hour'], $p['minute'], $second, $p['month'], $p['day'], $p['year']);
+        return date("Y-m-d H:i:s", $t);
+    }
+
+
+    /**
+     * @param $time
+     * @return bool|string
+     * 得到1分钟归一化时间
+     */
+    public static function regular1mTime($time)
+    {
+        $p = date_parse($time);
+        $t = mktime($p['hour'], $p['minute'], 0, $p['month'], $p['day'], $p['year']);
+        return date("Y-m-d H:i:00", $t);
+    }
+
+    /**
+     * @param $time
+     * @return bool|string
      * 得到5分钟归一化时间
      */
     public static function regular5mTime($time)
@@ -55,6 +81,22 @@ class Helper
         $t = mktime($p['hour'], $m, 0, $p['month'], $p['day'], $p['year']);
 
         return date("Y-m-d H:i:00", $t);
+    }
+
+    /**
+     * @param $time
+     * @param $type string (30s, 1min, 5min)
+     * @return bool|string
+     */
+    public static function getRegularTime($time, $type) {
+        if ($type == '1min') {
+            return self::regular1mTime($time);
+        } elseif ($type == '5min') {
+            return self::regular5mTime($time);
+        } elseif ($type == '30s') {
+            return self::regular30sTime($time);
+        }
+        return $time;
     }
 
     /**

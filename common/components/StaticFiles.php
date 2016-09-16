@@ -46,4 +46,11 @@ trait StaticFiles
     {
         $view->registerJsFile('js/echarts/echarts.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
+
+    public function addHeatmap($view)
+    {
+        // TODO: Heatmap.min.js has Error!
+        $view->registerJsFile('js/Heatmap/Heatmap.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
+
 }

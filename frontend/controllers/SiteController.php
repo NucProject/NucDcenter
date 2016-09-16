@@ -257,6 +257,23 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * @ajax
+     * @comment
+     * @return string json 获得服务器时间
+     */
+    public function actionTime()
+    {
+        $clientTime = Yii::$app->request->get('clientTime', 0);
+        if ($clientTime != 0)
+        {
+            return parent::result(['serverTime' => time(), 'clientTime' => $clientTime]);
+        }
+        else
+        {
+            return parent::error(['clientTime' => 0], -1);
+        }
+    }
 
     public function actionRequirements()
     {
@@ -268,5 +285,6 @@ class SiteController extends BaseController
 
         // TODO:
     }
+
 
 }

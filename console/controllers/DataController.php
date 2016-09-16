@@ -14,8 +14,13 @@ use yii\console\Controller;
 
 class DataController extends Controller
 {
+    private $lastRegular1mTime = false;
+
     private $lastRegular5mTime = false;
 
+    /**
+     * For common device calc 5 min avg values.
+     */
     public function actionRealTimeAvg()
     {
         $counter = 0;
@@ -54,6 +59,46 @@ class DataController extends Controller
     }
 
     /**
+     * 实时数据进行每分钟的均值处理
+     */
+    public function actionEveryMinutesAvg()
+    {
+        $counter = 0;
+        while (true)
+        {
+            $now = date('Y-m-d H:i:s');
+            $dataTime = Helper::getRegularTime($now, '1min');
+            if ($this->lastRegular1mTime == $dataTime) {
+                // 如果当前时间的归一化时间未变, 则sleep 2s并且重新尝试是否变化
+                sleep(2);
+                continue;
+            }
+
+            // 更新上一次的归一化时间
+            $this->lastRegular1mTime = $dataTime;
+
+            $duration = 60; // 1min
+
+            // 获取每一个在任务中的设备( 如果没有参与任务则不会select它的数据表 )
+            $deviceKeys = $this->getDeviceKeysInTask();
+            foreach ($deviceKeys as $deviceKey)
+            {
+                $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
+
+                $this->flushAvgData($deviceKey, $dataTime, $avgData);
+            }
+
+            $dataTime = date('Y-m-d H:i:s', strtotime($dataTime) + $duration);
+            $counter++;
+            if ($counter > 1000)
+            {
+                break;
+            }
+
+        }
+    }
+
+    /**
      * @param $deviceKey
      * @param $dataTime
      * @param $duration
@@ -82,6 +127,11 @@ class DataController extends Controller
     private function getWorkingDevices()
     {
         // TODO: Get working device keys from Redis
+        return ['dk06ee3d6938e78ba9d3'];
+    }
+
+    private function getDeviceKeysInTask()
+    {
         return ['dk06ee3d6938e78ba9d3'];
     }
 }
