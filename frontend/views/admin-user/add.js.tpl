@@ -3,7 +3,8 @@
     function showConfirmDialog()
     {
         var form = $('#addRoleForm');
-        var roleName = form.find('input[name=roleName]').val();
+        var username = form.find('input[name=username]').val();
+        var roleName = form.find('select option:selected').text();
         bootbox.confirm({
             buttons: {
                 confirm: {
@@ -16,8 +17,8 @@
                     className: 'btn-default'
                 }
             },
-            title: "添加角色",
-            message: '是否要添加“<b>{roleName}</b>”角色？'.format({'roleName': roleName}),
+            title: "添加用户",
+            message: '是否要添加用户“<b>{username}</b>”为<b>{roleName}</b>？'.format({'username': username, 'roleName': roleName}),
 
             callback: function(result) {
                 if (result) {

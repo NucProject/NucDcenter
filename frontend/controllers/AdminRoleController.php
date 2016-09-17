@@ -24,7 +24,6 @@ class AdminRoleController extends BaseController
         $data['roles'] = AdminRoleService::getAdminRoles();
 
         return parent::renderPage('list.tpl', $data, []);
-
     }
 
     /**
@@ -34,8 +33,8 @@ class AdminRoleController extends BaseController
     public function actionAdd()
     {
         $data = [];
-        $data['doAddUrl'] = 'index.php?r=admin-role/add';   // [1]
-        return parent::renderPage('add.tpl', $data, []);
+        $data['doAddUrl'] = 'index.php?r=admin-role/do-add';   // [1]
+        return parent::renderPage('add.tpl', $data, ['with' => ['dialog']]);
     }
 
     /**
@@ -73,6 +72,26 @@ class AdminRoleController extends BaseController
             }
         }
         return parent::error([], -1);
+    }
+
+
+    /**
+     * @page
+     * @comment 角色节点
+     * @param $roleId
+     * @return string
+     */
+    public function actionUsers($roleId)
+    {
+        // 每一个关系存在一个唯一的用户(目前一个用户只能有一个角色)
+        $relations = AdminRoleService::getUsersByRole($roleId);
+
+        $data = [
+            'roleId'        => $roleId,
+            'relations'     => $relations
+        ];
+
+        return parent::renderPage('users.tpl', $data, []);
     }
 
     /**

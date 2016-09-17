@@ -17,7 +17,7 @@ class UserService
      * @param $username
      * @param $password
      * 如果密码为空，则初始化为与用户名相同的字符串，登录后请尽快修改
-     * @return int
+     * @return \common\models\User
      */
     public static function addUser($username, $password=false)
     {
@@ -28,12 +28,16 @@ class UserService
         $user = new User();
         $user->username = $username;
         $user->password_hash = self::getPasswordHash($password);
+        $user->password_modified = 0;
         if ($user->save())
         {
-            return $user->user_id;
+            return $user;
         }
-
-        return false;
+        else
+        {
+            $errors = $user->getErrors();
+            return $errors;
+        }
     }
 
     public static function disableUser($userId)

@@ -12,6 +12,7 @@ namespace common\services;
 use common\components\BadArgumentException;
 use common\components\ModelSaveFailedException;
 use common\models\KxAdminNode;
+use common\models\KxAdminRelation;
 use common\models\KxAdminRole;
 
 class AdminRoleService
@@ -61,7 +62,28 @@ class AdminRoleService
                 throw new ModelSaveFailedException($role->getErrors());
             }
         }
-        throw new BadArgumentException('无效的角色ID');
+        throw new BadArgumentException('');
+    }
+
+
+    /**
+     * @param $roleId
+     * @return array
+     * @throws BadArgumentException
+     */
+    public static function getUsersByRole($roleId)
+    {
+        $users = [];
+        if (self::checkRoleId($roleId))
+        {
+            $users = KxAdminRelation::find()
+                ->with('user')
+                ->where(['role_id' => $roleId])
+                ->asArray()
+                ->all();
+        }
+
+        return $users;
     }
 
     /**
@@ -74,7 +96,7 @@ class AdminRoleService
         $nodes = [];
         if (self::checkRoleId($roleId))
         {
-            // TODO: 我还需要一个Role和Nodes的关系表
+
             // KxAdminNode::find()->where(['role_id'])
         }
 
@@ -91,7 +113,7 @@ class AdminRoleService
         $menus = [];
         if (self::checkRoleId($roleId))
         {
-            // TODO: 我还需要一个Role和Menus的关系表
+
             // KxAdminNode::find()->where(['role_id'])
         }
 
@@ -105,7 +127,7 @@ class AdminRoleService
         {
             return true;
         }
-        $reason = '无效的RoleId';
+        $reason = '鏃犳晥鐨凴oleId';
         throw new BadArgumentException($reason);
     }
 

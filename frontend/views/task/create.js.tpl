@@ -47,7 +47,7 @@
                 }
             },
             title: "新建任务",
-            message: '是否要新建任务"{taskName}"？'.format({'taskName': taskName}),
+            message: '是否要新建任务"<b>{taskName}</b>"？'.format({'taskName': taskName}),
 
             callback: function(result) {
                 if (result) {

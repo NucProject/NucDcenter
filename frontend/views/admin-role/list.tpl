@@ -22,7 +22,14 @@
             <td>{if $role.enabled == 1}<span class="label label-info">已启用</span>{else}<span class="label label-default">已禁用</span>{/if}</td>
             <td>{$role.create_time}</td>
             <td>{$role.update_time}</td>
-            <td><a class="btn btn-xs btn-info">用户列表</a><a class="btn btn-xs btn-danger">禁用</a></td>
+            <td>
+                <a class="btn btn-xs btn-info" href="index.php?r=admin-role/users&roleId={$role.role_id}">用户列表</a>
+                {if $role.enabled == 1}
+                    <a class="btn btn-xs btn-danger enable">禁用</a>
+                {else}
+                    <a class="btn btn-xs btn-warning disable">启用</a>
+                {/if}
+            </td>
         </tr>
         {/foreach}
         </tbody>

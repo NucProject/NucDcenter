@@ -33,7 +33,7 @@ class KxUser extends \common\models\BaseModel
         return [
             [['password_modified', 'status'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
-            [['username', 'password_hash'], 'string', 'max' => 32],
+            [['username', 'password_hash'], 'string', 'max' => 64],
         ];
     }
 
