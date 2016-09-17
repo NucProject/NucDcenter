@@ -91,7 +91,6 @@ class SiteController extends BaseController
     {
         $this->layout = null;
 
-
         return parent::renderPage('login.tpl', []);
     }
 

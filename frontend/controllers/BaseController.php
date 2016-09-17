@@ -80,6 +80,8 @@ class BaseController extends Controller
         //
         $data['currentPageJsFile'] = self::getPageJsFileName($page);
 
+        // To handle https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+        header('Access-Control-Allow-Origin "*"');
         return $this->render($page, $data);
     }
 
