@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use yii;
 use common\models\KxAdminNode;
 use yii\helpers\BaseInflector;
 
@@ -15,7 +16,7 @@ class AdminNodesController extends BaseController
 {
     private $controllers = [
         'DataCenter', 'Station', 'Device',
-        'AdminNodes',
+        'AdminNodes', 'AdminRole'
     ];
 
     /**
@@ -31,7 +32,28 @@ class AdminNodesController extends BaseController
             'controllers' => $nodes
         );
         parent::setBreadcrumbs(['index.html' => '权限管理', '#' => '页面节点设置']);
-        return parent::renderPage('index.tpl', $data, []);
+        return parent::renderPage('index.tpl', $data, ['with' => ['dialog']]);
+    }
+
+
+    public function actionUpdate()
+    {
+        $data = Yii::$app->request->post('data');
+        foreach ($data as $item)
+        {
+            if ($item['nodeId'] == 0)
+            {
+                $node = new KxAdminNode();
+                $node->setAttributes($item);
+                $node->save();
+            }
+            else
+            {
+                $node = KxAdminNode::findOne($item['nodeId']);
+                $node->setAttributes($item);
+                $node->save();
+            }
+        }
     }
 
     private static function hasControllerActionInNodes($controller, $action, &$nodes)
@@ -68,6 +90,7 @@ class AdminNodesController extends BaseController
                     $w['name'] = $node['name'];
                     $w['comment'] = $action['comment'];
                     $w['brand_new'] = false;
+                    $w['params'] = $this->convertToParams($node);
                 }
                 else
                 {
@@ -75,6 +98,7 @@ class AdminNodesController extends BaseController
                     $w['name'] = '';
                     $w['comment'] = $action['comment'];
                     $w['brand_new'] = true;
+                    $w['params'] = $action['params'];
                 }
 
                 array_push($a, $w);
@@ -108,7 +132,7 @@ class AdminNodesController extends BaseController
      */
     private function getAdminNodes()
     {
-        $nodes = KxAdminNode::findAll([]);
+        $nodes = KxAdminNode::find()->where([])->asArray()->all();
         return $nodes;
     }
 
@@ -170,11 +194,13 @@ class AdminNodesController extends BaseController
         $page = false;
         $access = '';
         $comment = '';
+        $params = [];
         foreach ($commentLines as $commentLine) {
 
             $p = strstr($commentLine, '@page');
             if ($p) {
                 $page = true;
+                $params = $this->parseParams(substr($p, 6));
                 continue;
             }
 
@@ -187,14 +213,66 @@ class AdminNodesController extends BaseController
             if ($c) {
                 $comment = trim(substr($c, 8));
             }
-
         }
 
+        // var_dump($params);exit;
         return array(
-            'action' => $actionName,
-            'access' => $access,
-            'page' => $page,
+            'action'  => $actionName,
+            'access'  => $access,
+            'page'    => $page,
+            'params'  => $params,
             'comment' => $comment);
+    }
+
+    private function parseParams($pageLine)
+    {
+        $rule  = "/\[(.*?)\]/";
+        $count = preg_match_all($rule, $pageLine, $result);
+        if ($count > 0)
+        {
+            $matches = $result[1];
+            $ret = [];
+            foreach ($matches as $match)
+            {
+                $p = preg_split('/:/', $match);
+                $paramName = $p[0];
+                $paramType = 'string';
+                if (count($p) > 1)
+                    $paramType = $p[1];
+                $ret[] = ['name' => $paramName, 'type' => $paramType];
+            }
+
+            return $ret;
+        }
+        return [];
+    }
+
+    /**
+     * @param $node \common\models\KxAdminNode
+     * @return array
+     */
+    private function convertToParams($node)
+    {
+        $i = 0;
+        $ret = [];
+        while (true)
+        {
+            $paramField = "param{$i}";
+            $i++;
+
+            if (!array_key_exists($paramField, $node) || !$node[$paramField]) {
+                break;
+            }
+            $param = $node[$paramField];
+
+            $p = preg_split('/:/', $param);
+            $paramName = $p[0];
+            $paramType = 'string';
+            if (count($p) > 1)
+                $paramType = $p[1];
+            $ret[] = ['name' => $paramName, 'type' => $paramType];
+        }
+        return $ret;
     }
 
     public function syncAction()

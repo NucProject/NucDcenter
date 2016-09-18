@@ -20,7 +20,7 @@ class StationController extends BaseController
 {
 
     /**
-     * @page
+     * @page [stationKey:string] [roleName:int]
      * @comment 自动站设备列表
      * @param $stationKey
      * @return string

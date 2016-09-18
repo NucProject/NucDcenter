@@ -18,6 +18,8 @@ use common\services\DeviceTypeService;
 class DeviceController extends BaseController
 {
     /**
+     * @page
+     * @comment 设备数据页面
      * @param $deviceKey
      * @return string
      * @throws AccessForbiddenException
@@ -52,6 +54,8 @@ class DeviceController extends BaseController
 
 
     /**
+     * @page
+     * @comment 设备详情
      * @param $deviceKey
      * @return string
      * @throws AccessForbiddenException
