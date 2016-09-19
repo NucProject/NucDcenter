@@ -53,6 +53,6 @@
     <div style="display: none" id="remove-confirm-dialog-content">
         <span>该菜单项可能被其他子菜单项依赖，您确定要删除它吗？</span>
         <br>
-        <span style="color:darkred">如果删除，请及时去'访问控制权限编辑'中重新选择菜单项</span>
+        <span style="color:darkred">如果需要删除，请删除后在'访问控制权限编辑'中重新选择菜单项</span>
     </div>
 </div>
