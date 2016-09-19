@@ -43,6 +43,20 @@ class Helper
         return $value;
     }
 
+    public static function makeUrl($node)
+    {
+        $controller = $node['controller'];
+        $action = $node['action'];
+        $params = '';
+        if ($node['param0']) {
+            $params = "&{$node['param0']}={$node['value0']}";
+        }
+        if ($node['param1']) {
+            $params = "&{$node['param1']}={$node['value1']}";
+        }
+        return "$controller/$action" . $params;
+    }
+
     /**
      * @param $time
      * @return bool|string

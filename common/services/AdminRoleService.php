@@ -15,6 +15,7 @@ use common\models\KxAdminNode;
 use common\models\KxAdminRelation;
 use common\models\KxAdminRole;
 use common\models\KxAdminRoleAccess;
+use common\models\KxSidebarMenu;
 
 class AdminRoleService
 {
@@ -122,8 +123,7 @@ class AdminRoleService
         $menus = [];
         if (self::checkRoleId($roleId))
         {
-
-            // KxAdminNode::find()->where(['role_id'])
+            return KxSidebarMenu::find()->where(['role_id' => $roleId])->all();
         }
 
         return $menus;
@@ -147,7 +147,24 @@ class AdminRoleService
      */
     public static function flushMenus($roleId, $menus)
     {
+        // $exists = KxSidebarMenu::find()->where(['role_id' => $roleId])->all();
+        // foreach ($exists as $exist) { $exist->delete(); }
+        file_put_contents("d:\\a.ddd", json_encode($menus));
+        foreach ($menus as $menu)
+        {
+            if ($menu['menuId'] == 0) {
+                $sidebarMenu = new KxSidebarMenu();
+            } else {
+                $sidebarMenu = KxSidebarMenu::findOne($menu['menuId']);
+            }
 
+            $sidebarMenu->role_id = $roleId;
+            $sidebarMenu->menu_name = $menu['name'];
+            if (!$sidebarMenu->save())
+            {
+                file_put_contents("d:\\a.txt", json_encode($sidebarMenu->getErrors()));
+            }
+        }
         return true;
     }
 }

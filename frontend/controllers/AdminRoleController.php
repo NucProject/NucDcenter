@@ -135,7 +135,7 @@ class AdminRoleController extends BaseController
 
         foreach ($nodes as &$node)
         {
-            $node['pageUrl'] = $this->makeUrl($node);
+            $node['pageUrl'] = Helper::makeUrl($node);
             $nodeId = $node['node_id'];
             $node['accessAllowed'] = false;
             $node['menu_id'] = 0;
@@ -209,7 +209,7 @@ class AdminRoleController extends BaseController
 
         parent::setPageMessage("编辑角色 {$role->role_name} 的侧边栏菜单组");
         parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '侧边栏菜单组编辑']);
-        return parent::renderPage('menus.tpl', $data, []);
+        return parent::renderPage('menus.tpl', $data, ['with' => ['dialog']]);
     }
 
     /**
@@ -230,20 +230,5 @@ class AdminRoleController extends BaseController
 
         }
         return parent::error([], -1);
-    }
-
-
-    private function makeUrl($node)
-    {
-        $controller = $node['controller'];
-        $action = $node['action'];
-        $params = '';
-        if ($node['param0']) {
-            $params = "&{$node['param0']}={$node['value0']}";
-        }
-        if ($node['param1']) {
-            $params = "&{$node['param1']}={$node['value1']}";
-        }
-        return "$controller/$action" . $params;
     }
 }

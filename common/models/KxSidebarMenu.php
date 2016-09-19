@@ -9,10 +9,12 @@ use Yii;
  *
  * @property integer $menu_id
  * @property string $menu_name
+ * @property string $menu_desc
+ * @property integer $menu_order
  * @property integer $role_id
  * @property integer $status
  * @property string $create_time
- * @property string $last_modified
+ * @property string $update_time
  */
 class KxSidebarMenu extends \common\models\BaseModel
 {
@@ -30,10 +32,9 @@ class KxSidebarMenu extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['role_id', 'status'], 'integer'],
-            [['status'], 'required'],
-            [['create_time', 'last_modified'], 'safe'],
-            [['menu_name'], 'string', 'max' => 255],
+            [['menu_order', 'role_id', 'status'], 'integer'],
+            [['create_time', 'update_time'], 'safe'],
+            [['menu_name', 'menu_desc'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,10 +46,12 @@ class KxSidebarMenu extends \common\models\BaseModel
         return [
             'menu_id' => 'Menu ID',
             'menu_name' => 'Menu Name',
+            'menu_desc' => 'Menu Desc',
+            'menu_order' => 'Menu Order',
             'role_id' => 'Role ID',
             'status' => 'Status',
             'create_time' => 'Create Time',
-            'last_modified' => 'Last Modified',
+            'update_time' => 'Update Time',
         ];
     }
 

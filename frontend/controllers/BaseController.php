@@ -8,7 +8,10 @@
 
 namespace frontend\controllers;
 
+use common\components\Helper;
 use common\models\KxAdminRole;
+use common\models\KxAdminRoleAccess;
+use common\models\KxSidebarMenu;
 use yii;
 use yii\web\Controller;
 use frontend\assets\AppAsset;
@@ -58,7 +61,21 @@ class BaseController extends Controller
             $data['pageTitle'] = DataCenterService::defaultPageTitle();
         }
 
-        $this->initSideBar($data);
+        $user = Yii::$app->user;
+        $roleId = 0;
+        if ($user)
+        {
+            $model = $user->getIdentity();
+            $data['user']['username'] = $model->getName();
+            $role = KxAdminRole::findOne($model->getRoleName());
+            if ($role)
+            {
+                $roleId = $role->role_id;
+                $data['user']['roleName'] = $role->role_desc;
+            }
+        }
+
+        $this->initSideBar($data, $roleId);
 
         $this->initBreadcrumbs($data);
 
@@ -78,17 +95,7 @@ class BaseController extends Controller
             $data['pageMessage2'] = $this->pageMessage2;
         }
 
-        $user = Yii::$app->user;
-        if ($user)
-        {
-            $model = $user->getIdentity();
-            $data['user']['username'] = $model->getName();
-            $role = KxAdminRole::findOne($model->getRoleName());
-            if ($role)
-            {
-                $data['user']['roleName'] = $role->role_desc;
-            }
-        }
+
         //
         $data['currentPageJsFile'] = self::getPageJsFileName($page);
 
@@ -206,9 +213,13 @@ class BaseController extends Controller
         return substr($page, 0, -4) . '.js.tpl';
     }
 
-    private function initSideBar(&$data)
+    /**
+     * @param $data
+     * @param $roleId
+     */
+    private function initSideBar(&$data, $roleId)
     {
-        $menuArray = $this->getMenuArrayByUserRole();
+        $menuArray = $this->getMenuArrayByUserRole($roleId);
 
         $sidebarMenus = [];
         foreach ($menuArray as $menuItem)
@@ -243,11 +254,33 @@ class BaseController extends Controller
     }
 
     /**
+     * @param $roleId
      * @return array
      * 注意数据结构
      */
-    private function getMenuArrayByUserRole()
+    private function getMenuArrayByUserRole($roleId)
     {
+        $access = KxAdminRoleAccess::find()
+            ->with('node')
+            ->where(['role_id' => $roleId])
+            ->andWhere(['>', 'menu_id', 0])
+            ->asArray()
+            ->all();
+
+        $menus = array_map(function($i) { return $i['menu_id']; }, $access);
+        $menuIdArray = array_unique(array_values($menus));
+
+        $menuArray = [];
+        foreach ($menuIdArray as $menuId)
+        {
+            $menu = KxSidebarMenu::findOne($menuId);
+            $menuArray[] = [
+                'title' => $menu->menu_name, 'href' => '#',
+                'subMenus' => $this->getSubMenus($menuId, $access)
+            ];
+        }
+        return $menuArray;
+        /*
         $menuArray = [
             ['title' => '数据中心首页',  'href' => 'index.php', 'badge' => "45"],
 
@@ -263,8 +296,29 @@ class BaseController extends Controller
                     ['href' => 'index.php?r=task/index', 'title' => '任务列表'],
                 ]
             ],
-        ];
-        return $menuArray;
+        ];*/
+    }
+
+    private function getSubMenus($menuId, $access)
+    {
+        $subMenus = [];
+        foreach ($access as $i)
+        {
+            if ($i['menu_id'] == $menuId)
+            {
+                $node = $i['node'];
+                if ($node)
+                {
+                    $url = 'index.php?r=' . Helper::makeUrl($node);
+                    $subMenus[] = [
+                        'title' => $node['name'] ?: "<错误的菜单名称>",
+                        'href'  => $url
+                    ];
+                }
+
+            }
+        }
+        return $subMenus;
     }
 
     public function setBreadcrumbs($breadcrumbs)
