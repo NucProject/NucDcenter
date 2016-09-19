@@ -8,10 +8,11 @@
 
 namespace frontend\controllers;
 
+use common\components\BadArgumentException;
 use common\components\Helper;
 use common\components\ModelSaveFailedException;
+use common\models\KxAdminRole;
 use common\models\KxAdminRoleAccess;
-use common\models\KxAdminRoleAccessQuery;
 use common\services\SidebarMenuService;
 use yii;
 use common\services\AdminRoleService;
@@ -27,6 +28,8 @@ class AdminRoleController extends BaseController
         $data = [];
         $data['roles'] = AdminRoleService::getAdminRoles();
 
+        parent::setPageMessage('当前系统全部角色列表');
+        parent::setBreadcrumbs(['#' => '角色管理']);
         return parent::renderPage('list.tpl', $data, []);
     }
 
@@ -38,6 +41,8 @@ class AdminRoleController extends BaseController
     {
         $data = [];
         $data['doAddUrl'] = 'index.php?r=admin-role/do-add';   // [1]
+        parent::setPageMessage('添加一个角色');
+        parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '添加角色']);
         return parent::renderPage('add.tpl', $data, ['with' => ['dialog']]);
     }
 
@@ -84,9 +89,15 @@ class AdminRoleController extends BaseController
      * @comment 角色节点
      * @param $roleId
      * @return string
+     * @throws BadArgumentException
      */
     public function actionUsers($roleId)
     {
+        $role = KxAdminRole::findOne($roleId);
+        if (!$role) {
+            throw new BadArgumentException('');
+        }
+
         // 每一个关系存在一个唯一的用户(目前一个用户只能有一个角色)
         $relations = AdminRoleService::getUsersByRole($roleId);
 
@@ -95,16 +106,26 @@ class AdminRoleController extends BaseController
             'relations'     => $relations
         ];
 
+        $roleName = $role->role_name;
+        parent::setPageMessage("角色为 {$roleName} 的用户列表");
+        parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '用户列表']);
         return parent::renderPage('users.tpl', $data, []);
     }
 
     /**
      * @page
      * @comment 角色节点
+     * @return string
+     * @throws BadArgumentException
      */
     public function actionNodes()
     {
         $roleId = Yii::$app->request->get('roleId', 0);
+
+        $role = KxAdminRole::findOne($roleId);
+        if (!$role) {
+            throw new BadArgumentException('');
+        }
 
         $results = AdminRoleService::getNodesByRole($roleId);
         $menus = SidebarMenuService::listMenuByRole($roleId);
@@ -131,6 +152,9 @@ class AdminRoleController extends BaseController
             'menus'     => $menus
         ];
 
+
+        parent::setPageMessage("编辑角色 {$role->role_name} 的访问控制权限");
+        parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '访问控制权限编辑']);
         return parent::renderPage('nodes.tpl', $data, []);
     }
 
@@ -171,6 +195,10 @@ class AdminRoleController extends BaseController
     public function actionMenus()
     {
         $roleId = Yii::$app->request->get('roleId', 0);
+        $role = KxAdminRole::findOne($roleId);
+        if (!$role) {
+            throw new BadArgumentException('');
+        }
 
         $menus = AdminRoleService::getMenusByRole($roleId);
 
@@ -179,6 +207,8 @@ class AdminRoleController extends BaseController
             'menus' => $menus
         ];
 
+        parent::setPageMessage("编辑角色 {$role->role_name} 的侧边栏菜单组");
+        parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '侧边栏菜单组编辑']);
         return parent::renderPage('menus.tpl', $data, []);
     }
 
@@ -189,6 +219,7 @@ class AdminRoleController extends BaseController
     public function actionMenusUpdate()
     {
         $roleId = Yii::$app->request->post('roleId', 0);
+
         if ($roleId > 0) {
             $menus = Yii::$app->request->post('menus');
 

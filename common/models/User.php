@@ -16,6 +16,8 @@ class User extends KxUser implements IdentityInterface
 
     private $isLoggedIn = false;
 
+    private $roleId = false;
+
     public function init()
     {
         parent::init();
@@ -43,7 +45,7 @@ class User extends KxUser implements IdentityInterface
      */
     public function getRoleName()
     {
-        return 1;   //$this->roleId;
+        return $this->roleId;
     }
 
     /**
@@ -80,7 +82,14 @@ class User extends KxUser implements IdentityInterface
      */
     public static function findIdentity($userId) //: \common\models\User
     {
-        return User::findOne($userId);
+        $user = User::findOne($userId);
+        if ($user)
+        {
+            $relation = KxAdminRelation::find()->where(['user_id' => $userId])->one();
+            $user->roleId = $relation->role_id;
+        }
+
+        return $user;
     }
 
     /**

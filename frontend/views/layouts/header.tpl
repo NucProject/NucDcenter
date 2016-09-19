@@ -303,8 +303,9 @@
             <!-- BEGIN USER LOGIN DROPDOWN -->
             <li class="dropdown user" id="header-user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <div></div>
-                    <span class="username">John Doe</span>
+                    <span class="roleName">{$user.roleName}</span>
+                    <br>
+                    <span class="username">{$user.username}</span>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">

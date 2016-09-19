@@ -184,9 +184,10 @@ class SiteController extends BaseController
 
         $errorHandler = Yii::$app->getErrorHandler();
         $exception = $errorHandler->exception;
+        $errorReason = 'Unhandled Exception type';
         if ($exception instanceof AccessForbiddenException)
         {
-            file_put_contents("d:\\b.txt", json_encode($exception->error));
+
             $errorReason = $exception->reason;
             $userInfo = $exception->userInfo;
             if ($userInfo)
@@ -196,12 +197,12 @@ class SiteController extends BaseController
         }
         elseif ($exception instanceof ModelSaveFailedException)
         {
-            file_put_contents("d:\\a.txt", json_encode($exception->error));
+
             $errorReason = json_encode($exception->error);
         }
         elseif ($exception instanceof BadArgumentException)
         {
-            file_put_contents("d:\\e.txt", json_encode($exception->error));
+
             $errorReason = json_encode($exception->reason);
         }
         return parent::renderPage('error.tpl', ['errorReason' => $errorReason]);

@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\models\KxAdminRole;
 use yii;
 use yii\web\Controller;
 use frontend\assets\AppAsset;
@@ -77,6 +78,17 @@ class BaseController extends Controller
             $data['pageMessage2'] = $this->pageMessage2;
         }
 
+        $user = Yii::$app->user;
+        if ($user)
+        {
+            $model = $user->getIdentity();
+            $data['user']['username'] = $model->getName();
+            $role = KxAdminRole::findOne($model->getRoleName());
+            if ($role)
+            {
+                $data['user']['roleName'] = $role->role_desc;
+            }
+        }
         //
         $data['currentPageJsFile'] = self::getPageJsFileName($page);
 

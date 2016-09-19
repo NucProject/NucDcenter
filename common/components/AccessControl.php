@@ -8,6 +8,7 @@
 
 namespace common\components;
 
+use common\models\KxAdminRoleAccess;
 use yii;
 
 class AccessControl extends \yii\filters\AccessControl
@@ -45,8 +46,31 @@ class AccessControl extends \yii\filters\AccessControl
         $controllerName = $action->controller->id;
         $actionName = $action->id ?: 'index';
 
+        $roleId = $model->getRoleName();
+        if ($roleId)
+        {
+            if ($roleId == 1)
+            {
+                // 我们需要把roleId=1的角色设置为超级管理员
+                return true;
+            }
+            $access = KxAdminRoleAccess::find()
+                ->with('node')
+                ->where(['role_id' => $roleId])
+                ->asArray()
+                ->all();
 
-        $roleName = $model->getRoleName();
-        return true;
+            foreach ($access as $item)
+            {
+                $node = $item['node'];
+                if ($node['controller'] == $controllerName &&
+                    $node['action'] == $actionName) {
+                    // 暂时不处理params的问题
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 }

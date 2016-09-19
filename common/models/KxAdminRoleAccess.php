@@ -60,4 +60,10 @@ class KxAdminRoleAccess extends \common\models\BaseModel
     {
         return new KxAdminRoleAccessQuery(get_called_class());
     }
+
+
+    public function getNode()
+    {
+        return $this->hasOne(KxAdminNode::className(), ['node_id' => 'node_id']);
+    }
 }
