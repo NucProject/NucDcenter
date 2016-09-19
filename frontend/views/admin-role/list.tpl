@@ -29,6 +29,8 @@
                 {else}
                     <a class="btn btn-xs btn-warning disable">启用</a>
                 {/if}
+
+                <a class="btn btn-xs btn-info" href="index.php?r=admin-role/nodes&roleId={$role.role_id}">访问控制</a>
             </td>
         </tr>
         {/foreach}

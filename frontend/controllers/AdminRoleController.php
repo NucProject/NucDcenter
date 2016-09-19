@@ -9,6 +9,10 @@
 namespace frontend\controllers;
 
 use common\components\Helper;
+use common\components\ModelSaveFailedException;
+use common\models\KxAdminRoleAccess;
+use common\models\KxAdminRoleAccessQuery;
+use common\services\SidebarMenuService;
 use yii;
 use common\services\AdminRoleService;
 
@@ -102,18 +106,62 @@ class AdminRoleController extends BaseController
     {
         $roleId = Yii::$app->request->get('roleId', 0);
 
-        $nodes = AdminRoleService::getNodesByRole($roleId);
+        $results = AdminRoleService::getNodesByRole($roleId);
+        $menus = SidebarMenuService::listMenuByRole($roleId);
+
+        $nodes = $results['nodes'];
+        $access = $results['access'];
 
         foreach ($nodes as &$node)
         {
-            $node['pageUrl'] = "S";
+            $node['pageUrl'] = $this->makeUrl($node);
+            $nodeId = $node['node_id'];
+            $node['accessAllowed'] = false;
+            $node['menu_id'] = 0;
+            if (array_key_exists($nodeId, $access))
+            {
+                $node['accessAllowed'] = true;
+                $node['menu_id'] = $access[$nodeId]['menu_id'];
+            }
+
         }
         $data = [
             'roleId'    => $roleId,
-            'nodes'     => $nodes
+            'nodes'     => $nodes,
+            'menus'     => $menus
         ];
 
         return parent::renderPage('nodes.tpl', $data, []);
+    }
+
+    public function actionUpdateNodes()
+    {
+        $roleId = Yii::$app->request->post('roleId');
+        $accessMap = Yii::$app->request->post('f');
+
+        $accesses = KxAdminRoleAccess::find()->where(['role_id' => $roleId])->all();
+        foreach ($accesses as $item)
+        {
+            // 通过删除之前的设定, 重新设定
+            $item->delete();
+        }
+
+        // 更新为新的访问设定
+        foreach ($accessMap as $nodeId => $accessItem)
+        {
+            if ($accessItem['accessAllowed'] == 'on')
+            {
+                $access = new KxAdminRoleAccess();
+                $access->node_id = $nodeId;
+                $access->role_id = $roleId;
+                $access->menu_id = $accessItem['menuId'];
+                if (!$access->save()) {
+                    throw new ModelSaveFailedException('');
+                }
+            }
+        }
+
+        Yii::$app->response->redirect('index.php?r=admin-role/index');
     }
 
     /**
@@ -151,5 +199,20 @@ class AdminRoleController extends BaseController
 
         }
         return parent::error([], -1);
+    }
+
+
+    private function makeUrl($node)
+    {
+        $controller = $node['controller'];
+        $action = $node['action'];
+        $params = '';
+        if ($node['param0']) {
+            $params = "&{$node['param0']}={$node['value0']}";
+        }
+        if ($node['param1']) {
+            $params = "&{$node['param1']}={$node['value1']}";
+        }
+        return "$controller/$action" . $params;
     }
 }

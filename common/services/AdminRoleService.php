@@ -14,6 +14,7 @@ use common\components\ModelSaveFailedException;
 use common\models\KxAdminNode;
 use common\models\KxAdminRelation;
 use common\models\KxAdminRole;
+use common\models\KxAdminRoleAccess;
 
 class AdminRoleService
 {
@@ -96,11 +97,19 @@ class AdminRoleService
         $nodes = [];
         if (self::checkRoleId($roleId))
         {
+            $nodes = KxAdminNode::find()->where([])->asArray()->all();
 
-            // KxAdminNode::find()->where(['role_id'])
+            $access = KxAdminRoleAccess::find()
+                ->where(['role_id' => $roleId])->asArray()->all();
+
+            $accessMap = [];
+            foreach ($access as $entry)
+            {
+                $accessMap[$entry['node_id']] = $entry;
+            }
         }
 
-        return $nodes;
+        return ['nodes' => $nodes, 'access' => $accessMap];
     }
 
     /**
