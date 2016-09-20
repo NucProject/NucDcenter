@@ -324,7 +324,7 @@ class BaseController extends Controller
     public function setBreadcrumbs($breadcrumbs)
     {
         // Home
-        $this->breadcrumbs[] = array('href' => '', 'title' => '首页', 'home' => true);
+        $this->breadcrumbs[] = array('href' => '/', 'title' => '首页', 'home' => true);
         foreach ($breadcrumbs as $href => $title)
         {
             $this->breadcrumbs[] = array('href' => $href, 'title' => $title, 'home' => false);;
