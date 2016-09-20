@@ -21,7 +21,7 @@ class AppAsset extends AssetBundle
         'css/responsive.min.css',
         'font-awesome/fonts/fontawesome-webfont.woff',
         'font-awesome/css/font-awesome.min.css',
-        'css/fonts.css'
+        //'css/fonts.css'
         //// 'css/print.css', * CAN NOT LOAD THIS CSS
     ];
 

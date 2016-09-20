@@ -10,6 +10,10 @@ namespace frontend\controllers;
 
 use common\components\Helper;
 use common\services\DataCenterService;
+use common\services\DeviceDataService;
+use common\services\DeviceService;
+use common\services\DeviceTypeService;
+use common\services\EntityIdService;
 use common\services\StationService;
 use yii;
 /**
@@ -130,8 +134,52 @@ class DataCenterController extends BaseController
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
 
-        parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加移动编写设备']);
-        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader']]);
+
+        $centerId = DataCenterService::deployedCenterId();
+        $data['centerId'] = $centerId;
+        $data['stationKey'] = '';
+        $data['stationName'] = '';
+        $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
+        $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
+        $data['doAddDevice'] = '/index.php?r=data-center/do-add-device';
+
+        parent::setPageMessage('添加移动便携设备');
+        parent::setBreadcrumbs(['#' => '添加移动便携设备']);
+        return parent::renderPage('add-device.tpl', $data,
+            ['with' => ['dialog', 'laydate']]);
+    }
+
+    /**
+     * POST -> redirect
+     * @return bool
+     *
+     */
+    public function actionDoAddDevice()
+    {
+
+        $centerId = DataCenterService::deployedCenterId();
+        // TODO: Check the $centerId is not root center
+
+        // Generate device-key
+        $deviceKey = EntityIdService::genDeviceKey($centerId);
+
+        // 1. Device表里面插入一条数据
+        $deviceId = DeviceService::addDevice($centerId, '', $deviceKey);
+        if (!$deviceId)
+        {
+            return parent::error([], -1);
+        }
+
+        // 2. 新建device-data表
+        $tableName = "uk_device_data_{$deviceKey}";
+
+        if (DeviceDataService::isTableExists($tableName))
+        {
+            return parent::error([], -2);
+        }
+
+        DeviceDataService::createDeviceDataTable($tableName, $typeKey);
+        return parent::result([]);
     }
 
     /**
