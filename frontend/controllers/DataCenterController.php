@@ -49,6 +49,7 @@ class DataCenterController extends BaseController
 
         $data['stations'] = StationService::getStationList($centerId);
 
+        parent::setPageMessage("自动站列表");
         parent::setBreadcrumbs(['index.html' => '自动站']);
         return parent::renderPage('stations.tpl', $data);
     }
@@ -64,10 +65,13 @@ class DataCenterController extends BaseController
         $centerId = DataCenterService::deployedCenterId();
 
         $data = [];
-        $data['movable_devices'] = StationService::getMovableDevicesList($centerId);
+        $data['devices'] = DataCenterService::getMovableDevicesList($centerId);
+        // stationKey is Empty for movable-devices
+        $data['stationKey'] = '';
 
+        parent::setPageMessage("移动设备列表");
         parent::setBreadcrumbs(['index.html' => '移动式便携设备']);
-        return parent::renderPage('movable-devices', $data);
+        return parent::renderPage('movable-devices.tpl', $data);
     }
 
     /**

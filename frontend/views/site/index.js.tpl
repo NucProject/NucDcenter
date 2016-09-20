@@ -61,16 +61,51 @@
         }, delay);
     }
 
+
+
+    function MovableDevicesNavigator()
+    {
+        this.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
+        this.defaultOffset = new BMap.Size(30, 30);
+    }
+
+    function createMovableDevicesNavigator()
+    {
+        MovableDevicesNavigator.prototype = new BMap.Control();
+
+        MovableDevicesNavigator.prototype.initialize = function(map){
+
+
+            var div = $('#movable-devices-template');
+            div.click(function () {
+                window.location.href = 'index.php?r=data-center/movable-devices';
+            });
+
+            // 添加DOM元素到地图中
+            var domNode = div.get(0);
+            map.getContainer().appendChild(domNode);
+            // 将DOM元素返回
+            return domNode;
+        };
+
+        return new MovableDevicesNavigator();
+    }
+
     $(function () {
 
         var map = new BMap.Map("map"); // 创建Map实例
+
+        var myCtrl = createMovableDevicesNavigator();
+
         map.clearOverlays();
         var point = new BMap.Point(113.28155000, 22.33260667); // TODO: 中心点;创建点坐标
         map.centerAndZoom(point, 11); // 初始化地图,设置中心点坐标和地图级别。
         map.addControl(new BMap.NavigationControl());
         map.addControl(new BMap.ScaleControl());
         map.addControl(new BMap.OverviewMapControl());
-        map.addControl(new BMap.MapTypeControl());
+        map.addControl(myCtrl)
+
+        // map.addControl(new BMap.MapTypeControl());
         map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
 
         // map.enableScrollWheelZoom(false); //禁用滚轮事件

@@ -63,9 +63,9 @@ class BaseController extends Controller
 
         $user = Yii::$app->user;
         $roleId = 0;
-        if ($user)
+        $data['user'] = ['username' => '', 'roleName' => ''];
+        if ($user && $model = $user->getIdentity())
         {
-            $model = $user->getIdentity();
             $data['user']['username'] = $model->getName();
             $role = KxAdminRole::findOne($model->getRoleName());
             if ($role)

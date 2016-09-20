@@ -152,7 +152,6 @@ class AdminRoleController extends BaseController
             'menus'     => $menus
         ];
 
-
         parent::setPageMessage("编辑角色 {$role->role_name} 的访问控制权限");
         parent::setBreadcrumbs(['index.html' => '角色管理', '#' => '访问控制权限编辑']);
         return parent::renderPage('nodes.tpl', $data, []);

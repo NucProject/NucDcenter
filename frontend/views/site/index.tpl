@@ -59,4 +59,17 @@
             </tr>
         </table>
     </div>
+
+    <div id="movable-devices-template">
+        <div style="background-color: #3C3C3C; opacity: 0.8">
+            <div style="padding: 3px">
+                <span>
+                    <i class="fa fa-rocket"></i>
+                    <a href="javascript:void(0)">
+                        <b>点击进入移动设备列表</b>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>

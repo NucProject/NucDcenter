@@ -1,4 +1,5 @@
 <div>
+
     <form id="roleNodesForm" method="post" action="index.php?r=admin-role/update-nodes">
         <input type="hidden" name="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
         <input type="hidden" name="roleId" value="{$roleId}" />
@@ -6,10 +7,14 @@
     <table class="table table-striped table-bordered table-hover table-full-width dataTable">
         <thead>
             <tr>
-                <td>页面名称</td>
+                <td><b>页面名称</b></td>
                 <td>页面URL</td>
                 <td>访问控制</td>
-                <td>导航栏选项</td>
+                <td>
+                    <span>导航栏选项</span>
+                    {* 编辑菜单要谨慎! *}
+                    <a class="btn btn-xs btn-danger pull-right" href="index.php?r=admin-role/menus&roleId={$roleId}">导航栏编辑</a>
+                </td>
             </tr>
         </thead>
         <tbody>

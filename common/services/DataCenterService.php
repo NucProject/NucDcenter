@@ -10,6 +10,7 @@ namespace common\services;
 
 use common\components\AccessForbiddenException;
 use common\models\NucDataCenter;
+use common\models\NucDevice;
 use yii;
 
 class DataCenterService
@@ -61,5 +62,19 @@ class DataCenterService
     public static function getDataCenter($dataCenterId=false)
     {
         return NucDataCenter::findOne($dataCenterId);
+    }
+
+    /**
+     * @param $centerId
+     * @return array
+     * 根据$centerId获得它所管理的移动设备列表
+     */
+    public static function getMovableDevicesList($centerId)
+    {
+        $movableDevices = NucDevice::find()
+            ->where(['center_id' => $centerId, 'is_movable' => 1])
+            ->asArray()
+            ->all();
+        return $movableDevices;
     }
 }

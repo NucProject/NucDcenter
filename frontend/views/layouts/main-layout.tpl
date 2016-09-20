@@ -9,7 +9,6 @@
 
 <link href="css/fonts.css" rel="stylesheet">
 
-<link href="http://fonts.useso.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css">
 
 {$this->head()}
 {$this->beginBody()}

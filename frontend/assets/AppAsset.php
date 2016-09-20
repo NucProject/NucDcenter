@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
         'js/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.min.css',
         'css/inbox.css',
         'css/responsive.min.css',
+        'font-awesome/fonts/fontawesome-webfont.woff',
         'font-awesome/css/font-awesome.min.css',
         'css/fonts.css'
         //// 'css/print.css', * CAN NOT LOAD THIS CSS

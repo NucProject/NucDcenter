@@ -47,16 +47,6 @@ class StationService
         return NucStation::findOne(['station_key' => $stationKey]);
     }
 
-    /**
-     * @param $centerId
-     * @return array
-     * 根据$centerId获得它所管理的移动设备列表
-     */
-    public static function getMovableDevicesList($centerId)
-    {
-
-    }
-
     public static function addStation($centerId, $params)
     {
         $station = new NucStation();

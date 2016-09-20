@@ -49,7 +49,7 @@ class AccessControl extends \yii\filters\AccessControl
         $roleId = $model->getRoleName();
         if ($roleId)
         {
-            if ($roleId == 1)
+            if ($model->isSuper())
             {
                 // 我们需要把roleId=1的角色设置为超级管理员
                 return true;
@@ -68,7 +68,6 @@ class AccessControl extends \yii\filters\AccessControl
                     // 暂时不处理params的问题
                     return true;
                 }
-
             }
         }
         return false;

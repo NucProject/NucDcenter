@@ -18,6 +18,8 @@ class User extends KxUser implements IdentityInterface
 
     private $roleId = false;
 
+    private $isSuper = false;
+
     public function init()
     {
         parent::init();
@@ -71,6 +73,11 @@ class User extends KxUser implements IdentityInterface
         ];
     }
 
+    public function isSuper()
+    {
+        return $this->isSuper;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // implements IdentityInterface
     /**
@@ -87,6 +94,7 @@ class User extends KxUser implements IdentityInterface
         {
             $relation = KxAdminRelation::find()->where(['user_id' => $userId])->one();
             $user->roleId = $relation->role_id;
+            $user->isSuper = $relation->is_super;
         }
 
         return $user;
