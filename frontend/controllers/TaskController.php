@@ -194,6 +194,7 @@ class TaskController extends BaseController
     /**
      * @param $data
      * @param $field
+     * @return array
      */
     private static function convertToHeatmapPoints($data, $field)
     {

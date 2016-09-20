@@ -144,12 +144,12 @@ class AdminRoleService
      * @param $roleId
      * @param $menus
      * @return bool
+     * @throws ModelSaveFailedException
      */
     public static function flushMenus($roleId, $menus)
     {
         // $exists = KxSidebarMenu::find()->where(['role_id' => $roleId])->all();
         // foreach ($exists as $exist) { $exist->delete(); }
-        file_put_contents("d:\\a.ddd", json_encode($menus));
         foreach ($menus as $menu)
         {
             if ($menu['menuId'] == 0) {
@@ -162,7 +162,7 @@ class AdminRoleService
             $sidebarMenu->menu_name = $menu['name'];
             if (!$sidebarMenu->save())
             {
-                file_put_contents("d:\\a.txt", json_encode($sidebarMenu->getErrors()));
+                throw new ModelSaveFailedException($sidebarMenu->getErrors());
             }
         }
         return true;
