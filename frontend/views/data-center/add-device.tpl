@@ -6,15 +6,13 @@
     <form id="addDeviceForm" action="{$doAddDevice}" method="post">
         {* hidden keys *}
         <input type="hidden" name="centerId" value="{$centerId}">
-        <input type="hidden" name="stationKey" value="{$stationKey}">
-        <input type="hidden" name="deviceKey" value="{$deviceKey}">
         <input type="hidden" name="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
 
         <div class="form-group">
             <label for="exampleInputEmail1">选择设备类型</label>
             <a href="#" style="color: #d2322d">（如未找到设备类型请点击这里通知管理员）</a>
 
-            <select class="form-control" name="deviceType">
+            <select class="form-control" name="typeKey">
                 <option none-option>请选择要添加的设备类型</option>
                 {foreach from=$deviceTypes item=dt}
                     <option value="{$dt.type_key}">{$dt.type_name}</option>
@@ -41,7 +39,7 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">设备序列号</label>
-            <input class="form-control" placeholder="请填写设备唯一序列号">
+            <input class="form-control" name="device_sn" placeholder="请填写设备唯一序列号">
         </div>
 
         <div class="form-group">
@@ -55,7 +53,7 @@
         </div>
 
         <a href="javascript:history.back()" class="btn btn-grey">返回</a>
-        <a onclick="showConfirmDialog('{$stationName}');" class="btn btn-info">添加</a>
+        <a onclick="showConfirmDialog();" class="btn btn-info">添加</a>
 
     </form>
 {/block}

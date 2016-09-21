@@ -211,6 +211,10 @@ class SiteController extends BaseController
 
             $errorReason = json_encode($exception->reason);
         }
+        else
+        {
+            file_put_contents("d:\\ex.log", json_encode($exception));
+        }
         return parent::renderPage('error.tpl', ['errorReason' => $errorReason]);
     }
 

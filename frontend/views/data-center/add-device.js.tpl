@@ -1,6 +1,3 @@
-<script>
-    var csrfToken = "{Yii::$app->request->getCsrfToken(true)}";
-</script>
 {literal}
 <script>
 
@@ -18,7 +15,7 @@
         }
     }
 
-    function showConfirmDialog(stationName)
+    function showConfirmDialog()
     {
         bootbox.confirm({
             buttons: {
@@ -33,7 +30,7 @@
                 }
             },
             title: "添加设备",
-            message: '是否要在\'{stationName}\'中添加设备？'.format({'stationName': stationName}),
+            message: '是否要添加移动便携设备？',// .format({'stationName': stationName}),
 
             callback: function(result) {
                 if (result) {
@@ -63,6 +60,9 @@
                 return false;
             }
             $(this).find('option[none-option]').remove();
+
+            // 注意这里, 之前我在tpl的开头又调用了一次getCsrfToken(true), 导致Ajax或者submit失败
+            var csrfToken = $('#addDeviceForm input[name=csrfToken]').val();
 
             $.post('index.php?r=device-type/info&typeKey=' + val,
                 {

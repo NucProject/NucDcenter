@@ -9,6 +9,7 @@
 namespace common\services;
 
 
+use common\components\ModelSaveFailedException;
 use common\models\NucDevice;
 
 class DeviceService
@@ -28,17 +29,32 @@ class DeviceService
 
     /**
      * @param $centerId
+     * @param $typeKey
+     * @param $params
      * @param $stationKey
-     * @param $deviceKey
-     * @return int
+     * @return \common\models\NucDevice
+     * @throws
      */
-    public static function addDevice($centerId, $stationKey, $deviceKey)
+    public static function addDevice($centerId, $typeKey, $params, $stationKey='')
     {
-        $deviceId = 0;
+        $deviceKey = EntityIdService::genDeviceKey($centerId);
 
+        $device = new NucDevice();
+        $device->setAttributes($params);
+        $device->center_id = $centerId;
+        $device->station_key = $stationKey;
+        $device->type_key = $typeKey;
+        $device->device_key = $deviceKey;
 
-        // TODO: create deviceData table for $deviceId
-        return $deviceId;
+        if ($device->save())
+        {
+            return $device;
+        }
+        else
+        {
+            // file_put_contents("d:\\a.y", json_encode($device->getErrors()));
+            throw new ModelSaveFailedException($device->getErrors());
+        }
     }
 
     /**

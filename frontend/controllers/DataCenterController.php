@@ -70,6 +70,9 @@ class DataCenterController extends BaseController
         // stationKey is Empty for movable-devices
         $data['stationKey'] = '';
 
+        $flashes = Yii::$app->session->getAllFlashes(true);
+        $data['flashes'] = $flashes;
+
         parent::setPageMessage("移动设备列表");
         parent::setBreadcrumbs(['index.html' => '移动式便携设备']);
         return parent::renderPage('movable-devices.tpl', $data);
@@ -137,7 +140,7 @@ class DataCenterController extends BaseController
         $data['stationName'] = '';
         $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
-        $data['doAddDevice'] = '/index.php?r=data-center/do-add-device';
+        $data['doAddDevice'] = 'index.php?r=data-center/do-add-device';
 
         parent::setPageMessage('添加移动便携设备');
         parent::setBreadcrumbs(['#' => '添加移动便携设备']);
@@ -152,30 +155,38 @@ class DataCenterController extends BaseController
      */
     public function actionDoAddDevice()
     {
-
         $centerId = DataCenterService::deployedCenterId();
         // TODO: Check the $centerId is not root center
 
-        // Generate device-key
-        $deviceKey = EntityIdService::genDeviceKey($centerId);
+        $typeKey = Helper::getPost('typeKey', ['required' => true]);
 
+        $deviceType = DeviceTypeService::getDeviceType($typeKey);
+
+        $params = [
+            'device_sn'         => Helper::getPost('device_sn', []),
+            'type_name'         => $deviceType->type_name,
+            'is_movable'        => 1,
+            'launch_date'       => Helper::getPost('launch_date', []),
+            'rescale_date'      => Helper::getPost('rescale_date', []),
+
+        ];
         // 1. Device表里面插入一条数据
-        $deviceId = DeviceService::addDevice($centerId, '', $deviceKey);
-        if (!$deviceId)
+        $device = DeviceService::addDevice($centerId, $typeKey, $params);
+        if (!$device)
         {
             return parent::error([], -1);
         }
 
-        // 2. 新建device-data表
-        $tableName = "uk_device_data_{$deviceKey}";
-
-        if (DeviceDataService::isTableExists($tableName))
+        $result = DeviceDataService::createDeviceDataTables($device->device_key, $typeKey);
+        if ($result)
         {
-            return parent::error([], -2);
+            Yii::$app->session->setFlash("add-device-success", "添加设备成功");
+            $this->redirect(array('data-center/movable-devices'));
         }
+        else
+        {
 
-        DeviceDataService::createDeviceDataTable($tableName, $typeKey);
-        return parent::result([]);
+        }
     }
 
     private function getStationList($centerId)

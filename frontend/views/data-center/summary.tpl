@@ -7,6 +7,9 @@
 {/block}
 
 {block name=content}
+    {if isset($flashes)}
+        TODO: {json_encode($flashes)}
+    {/if}
     <div>
         <a class="btn btn-info" href="index.php?r=data-center/add-movable-device">添加新的便携设备</a>
     </div>

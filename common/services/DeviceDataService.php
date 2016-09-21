@@ -154,9 +154,10 @@ class DeviceDataService
     /**
      * @param $deviceKey
      * @param $typeKey
+     * @param $createAvgTable
      * @return bool
      */
-    public static function createDeviceDataTables($deviceKey, $typeKey)
+    public static function createDeviceDataTables($deviceKey, $typeKey, $createAvgTable=true)
     {
         // data table
         $tableName = DeviceDataService::getTableName($deviceKey);
@@ -167,6 +168,9 @@ class DeviceDataService
         }
 
         $r1 = DeviceDataService::createDeviceDataTable($tableName, $typeKey);
+        if (!$createAvgTable) {
+            return true;
+        }
 
         // Avg table!
         $tableName = DeviceDataService::getTableName($deviceKey, true);
