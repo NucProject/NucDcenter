@@ -240,7 +240,7 @@
             <!-- END TODO DROPDOWN -->
             <!-- BEGIN USER LOGIN DROPDOWN -->
             <li class="dropdown user" id="header-user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0px">
                     <span class="roleName">{$user.roleName}</span>
                     <br>
                     <span class="username">{$user.username}</span>

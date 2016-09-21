@@ -28,12 +28,12 @@ class StationController extends BaseController
      */
     public function actionIndex($stationKey)
     {
-        $this->checkStationKey($stationKey);
+        $station = $this->checkStationKey($stationKey);
 
         $data['stationKey'] = $stationKey;
         $data['devices'] = $this->getDevices($stationKey);
 
-        parent::setPageMessage("自动站和设备概况");
+        parent::setPageMessage("{$station->station_name} 详情和设备概况");
         parent::setBreadcrumbs([
             'index.html' => '自动站',
             '#' => '设备列表',

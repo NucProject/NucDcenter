@@ -9,11 +9,7 @@
 {block name=content}
     <div>
         <span>
-            珠海大气监测站
-        </span>
-        <br>
-        <span>
-            其他信息
+            TODO: 其他信息
         </span>
         <br>
 

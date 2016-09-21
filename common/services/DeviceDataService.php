@@ -9,6 +9,7 @@
 namespace common\services;
 
 use common\models\NucDeviceField;
+use common\models\NucDeviceType;
 use yii;
 use yii\base;
 use yii\data\Pagination;
@@ -196,13 +197,20 @@ class DeviceDataService
 
         $fields = ['data_id' => $migration->primaryKey()];
 
-        $fields = self::addDeviceDataFields($fields, $migration, $typeKey, true);
+        $deviceType = NucDeviceType::find()->where(['type_key' => $typeKey])->one();
+        if (!$deviceType) {
+            // Device not exists
+            return false;
+        }
+
+        $fields = self::addDeviceDataFields($fields, $migration, $typeKey, $deviceType->is_movable);
 
         $fixedFields = [
-            'alarm_status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
-            'status' => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
-            'create_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
-            'update_time' => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
+            'alarm_status'  => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
+            'status'        => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
+            'data_time'     => $migration->dateTime()->notNull()->defaultValue(0)->comment('数据设备时间'),
+            'create_time'   => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),
+            'update_time'   => $migration->dateTime()->notNull()->defaultValue(0)->comment('修改时间'),
         ];
 
         $fields = $fields + $fixedFields;
