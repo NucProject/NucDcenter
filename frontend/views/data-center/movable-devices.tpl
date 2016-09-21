@@ -1,6 +1,6 @@
 <div>
     <div class="col-md-12 box-container">
-        {include 'data-center/add-movable-device.tpl'}
+        {include 'data-center/summary.tpl'}
     </div>
 
     <div class="clearfix"></div>

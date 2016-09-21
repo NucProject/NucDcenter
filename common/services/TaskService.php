@@ -35,6 +35,15 @@ class TaskService
         return NucTask::find()->where([])->asArray()->all();
     }
 
+    public static function getTasksByDevice($deviceKey)
+    {
+        return NucTaskAttend::find()
+            ->with('task')
+            ->where(['device_key' => $deviceKey])
+            ->asArray()
+            ->all();
+    }
+
     /**
      * @param $taskId
      * @return NucTask

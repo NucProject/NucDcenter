@@ -3,7 +3,7 @@
 {block name=color}orange{/block}
 {*  *}
 {block name=title}
-    <span>自动站概况</span>
+    <span>移动便携设备管理</span>
 {/block}
 
 {block name=content}

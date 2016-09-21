@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\services\TaskService;
 use yii;
 use common\components\AccessForbiddenException;
 use common\models\NucDeviceField;
@@ -63,7 +64,11 @@ class DeviceController extends BaseController
      */
     public function actionInfo($deviceKey)
     {
+        $device = $this->checkDevice($deviceKey);
+
         $data = [];
+        $data['device'] = $device;
+        $data['tasks'] = TaskService::getTasksByDevice($device['device_key']);
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '信息']);
         return parent::renderPage('info.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
