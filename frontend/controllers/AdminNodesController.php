@@ -15,13 +15,13 @@ use yii\helpers\BaseInflector;
 class AdminNodesController extends BaseController
 {
     private $controllers = [
-        'DataCenter', 'Station', 'Device',
-        'AdminNodes', 'AdminRole'
+        'DataCenter', 'Station', 'Device', 'Task', 'DeviceType',
+        'AdminNodes', 'AdminRole', 'AdminUser'
     ];
 
     /**
      * @page
-     * @comment 站内页面编辑页面
+     * @comment 页面地址编辑页面
      * @return string
      */
     public function actionIndex()
@@ -35,7 +35,9 @@ class AdminNodesController extends BaseController
         return parent::renderPage('index.tpl', $data, ['with' => ['dialog']]);
     }
 
-
+    /**
+     * @ajax
+     */
     public function actionUpdate()
     {
         $data = Yii::$app->request->post('data');
@@ -275,6 +277,9 @@ class AdminNodesController extends BaseController
         return $ret;
     }
 
+    /**
+     * @ajax
+     */
     public function syncAction()
     {
         $entries = $_POST['entries'];

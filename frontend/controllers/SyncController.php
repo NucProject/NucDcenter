@@ -17,7 +17,7 @@ class SyncController extends BaseController
 {
     /**
      * @ajax
-     * @comment 返回全部设备类型数组, 总中心的接口
+     * @comment
      */
     public function actionDeviceTypes()
     {
@@ -31,12 +31,12 @@ class SyncController extends BaseController
 
     /**
      * @ajax
-     * @comment 子中心通过网络获取总中心的设备类型信息,
+     * @comment
      */
     public function actionFetchDeviceTypes()
     {
         if (!$this->checkDataCenterType()) {
-            $reason = '请配置数据中心的类型 params[DataCenterType]';
+            $reason = '锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥碉拷锟斤拷锟斤拷 params[DataCenterType]';
             throw new AccessForbiddenException($reason);
         }
 

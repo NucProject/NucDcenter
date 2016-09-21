@@ -16,6 +16,10 @@ class UploadFileController extends BaseController
     //
     public $enableCsrfValidation = false;
 
+    /**
+     * @ajax
+     * @return bool
+     */
     public function actionStationPicture()
     {
         // TODO: convert?

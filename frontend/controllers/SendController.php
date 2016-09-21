@@ -10,6 +10,10 @@ namespace frontend\controllers;
 
 use yii;
 
+/**
+ * Class SendController
+ * @package frontend\controllers
+ */
 class SendController extends BaseController
 {
     const CommonData = 1;

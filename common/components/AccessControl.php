@@ -46,6 +46,12 @@ class AccessControl extends \yii\filters\AccessControl
         $controllerName = $action->controller->id;
         $actionName = $action->id ?: 'index';
 
+        if ($controllerName == 'site' &&
+            ($actionName == 'index' || $actionName == 'login' || $actionName == 'error')) {
+
+            return true;
+        }
+
         $roleId = $model->getRoleName();
         if ($roleId)
         {

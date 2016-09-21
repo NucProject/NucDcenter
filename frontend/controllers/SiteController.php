@@ -25,7 +25,7 @@ class SiteController extends BaseController
      */
     public function behaviors()
     {
-        // TODO: Merge from parent::behaviors()
+        // TODO: Merge from parent::behaviors() if Not site/* can NOT AccessControl
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -59,7 +59,8 @@ class SiteController extends BaseController
 
     /**
      * Displays homepage.
-     *
+     * @page
+     * @comment 首页
      * @return mixed
      */
     public function actionIndex()
@@ -83,7 +84,8 @@ class SiteController extends BaseController
     }
 
     /**
-     * Login Page
+     * @page
+     * @comment 登录页面
      *
      * @return mixed
      */
@@ -126,6 +128,7 @@ class SiteController extends BaseController
     }
 
     /**
+     * @ajax
      * Logs out the current user.
      *
      * @return mixed
@@ -161,7 +164,8 @@ class SiteController extends BaseController
     }
 
     /**
-     * Displays about page.
+     * @page
+     * @comment 关于
      *
      * @return mixed
      */
@@ -174,6 +178,8 @@ class SiteController extends BaseController
 
 
     /**
+     * @page
+     * @comment
      * ExceptionPage show Errors
      *
      * @return mixed

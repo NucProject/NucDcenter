@@ -17,7 +17,7 @@ class DeviceTypeController extends BaseController
 {
     /**
      * @page
-     * @comment
+     * @comment 设备类型列表
      */
     public function actionIndex()
     {
@@ -31,7 +31,7 @@ class DeviceTypeController extends BaseController
 
     /**
      * @page
-     * @comment
+     * @comment 添加新的设备类型
      */
     public function actionAdd()
     {
@@ -47,7 +47,7 @@ class DeviceTypeController extends BaseController
     }
 
     /**
-     * @api
+     * @ajax
      * @comment
      */
     public function actionDoAdd()
@@ -63,7 +63,7 @@ class DeviceTypeController extends BaseController
 
     /**
      * @page
-     * @comment
+     * @comment 设备类型修改
      */
     public function actionModify()
     {
@@ -82,7 +82,7 @@ class DeviceTypeController extends BaseController
     }
 
     /**
-     * @api
+     * @ajax
      * @comment
      */
     public function actionDisable()
@@ -90,6 +90,11 @@ class DeviceTypeController extends BaseController
 
     }
 
+    /**
+     * @page
+     * @comment 设备类型详情
+     * @throws BadArgumentException
+     */
     public function actionView()
     {
         $typeKey = Yii::$app->request->get('typeKey');
@@ -104,6 +109,8 @@ class DeviceTypeController extends BaseController
     }
 
     /**
+     * @page
+     * @comment 设备类型详情2
      * @param $typeKey
      * @return bool
      */

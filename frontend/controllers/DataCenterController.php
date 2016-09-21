@@ -26,23 +26,20 @@ class DataCenterController extends BaseController
 
     /**
      * @page
-     * @comment 数据中心首页
+     * @comment 数据中心首页2
      * @return string
      * 列出数据中心($centerId)的首页
      * 列出简介, 所有的stations和所有的移动设备
      */
     public function actionIndex()
     {
-        $centerId = DataCenterService::deployedCenterId();
-        $data = [];
-
-
-        return parent::renderPage('index.tpl', $data);
+        // TODO: 以后可能不跳转首页了
+        $this->redirect(array('site/index'));
     }
 
     /**
      * @page
-     * @comment 数据中心自动站列表页
+     * @comment 数据中心自动站列表
      * @return string
      * 列出数据中心($centerId)所辖的自动站
      */
@@ -95,7 +92,7 @@ class DataCenterController extends BaseController
     }
 
     /**
-     *
+     * @ajax
      */
     public function actionDoAddStation()
     {
@@ -115,7 +112,6 @@ class DataCenterController extends BaseController
             'lat'             => Helper::getPost('lat', ['default' => '0.0', 'type' => 'is_numeric']),
         ];
 
-        // file_put_contents("d:\\a2.txt", "ddd");
         if (StationService::addStation($centerId, $params)) {
             Yii::$app->session->setFlash('add-station', 'success');
             Yii::$app->response->redirect('index.php?r=data-center/stations');
@@ -180,15 +176,6 @@ class DataCenterController extends BaseController
 
         DeviceDataService::createDeviceDataTable($tableName, $typeKey);
         return parent::result([]);
-    }
-
-    /**
-     *
-     */
-    public function actionDoAddMovableDevice()
-    {
-
-        // $this->redirect();
     }
 
     private function getStationList($centerId)

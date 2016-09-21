@@ -20,7 +20,7 @@ class DeviceController extends BaseController
 {
     /**
      * @page
-     * @comment 设备数据页面
+     * @comment 设备数据
      * @param $deviceKey
      * @return string
      * @throws AccessForbiddenException

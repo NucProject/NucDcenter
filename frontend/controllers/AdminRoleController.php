@@ -86,7 +86,7 @@ class AdminRoleController extends BaseController
 
     /**
      * @page
-     * @comment 角色节点
+     * @comment 角色用户列表
      * @param $roleId
      * @return string
      * @throws BadArgumentException
@@ -114,7 +114,7 @@ class AdminRoleController extends BaseController
 
     /**
      * @page
-     * @comment 角色节点
+     * @comment 角色访问控制编辑
      * @return string
      * @throws BadArgumentException
      */
@@ -189,7 +189,7 @@ class AdminRoleController extends BaseController
 
     /**
      * @page
-     * @comment 角色菜单
+     * @comment 角色菜单编辑
      */
     public function actionMenus()
     {

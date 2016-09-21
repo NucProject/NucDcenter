@@ -11,7 +11,7 @@ namespace frontend\controllers;
 use yii\web\Controller;
 
 /**
- * 移动设备访问的N个页面, 目前涉及到的页面比较少, 暂时按照Movable的维度划分
+ *
  * Class MovableController
  * @package frontend\controllers
  */

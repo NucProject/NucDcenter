@@ -58,6 +58,11 @@ class TaskController extends BaseController
         return parent::renderPage('index.tpl', $data, []);
     }
 
+    /**
+     * @page
+     * @comment 新建任务
+     * @return string
+     */
     public function actionCreate()
     {
         $data = [];
@@ -67,6 +72,11 @@ class TaskController extends BaseController
         return parent::renderPage('create.tpl', $data, ['with' => ['dialog', 'laydate', 'baiduMap']]);
     }
 
+    /**
+     * @ajax
+     * @return bool
+     * @throws BadArgumentException
+     */
     public function actionDoCreate()
     {
         $now = time();
@@ -87,6 +97,13 @@ class TaskController extends BaseController
         return parent::result($task);
     }
 
+    /**
+     * @page
+     * @comment 任务详情
+     * @param $taskId
+     * @return string
+     * @throws BadArgumentException
+     */
     public function actionDetail($taskId)
     {
         $task = $this->getTaskById($taskId);
@@ -129,7 +146,7 @@ class TaskController extends BaseController
 
     /**
      * @page
-     * @comment 轨迹回放
+     * @comment 任务回放
      * @param $taskId int
      * @return string
      */
