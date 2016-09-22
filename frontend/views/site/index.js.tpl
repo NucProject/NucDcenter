@@ -35,7 +35,7 @@
         var point = new BMap.Point(s.lng, s.lat);
 
         // TODO: relative resource
-        var markerIcon = new BMap.Icon("http://127.0.0.1:1001/img/red.png", new BMap.Size(32, 32));
+        var markerIcon = new BMap.Icon("/img/red.png", new BMap.Size(32, 32));
         console.log(point, markerIcon);
         var marker = new BMap.Marker(point, {icon: markerIcon});
         marker.setZIndex(100);

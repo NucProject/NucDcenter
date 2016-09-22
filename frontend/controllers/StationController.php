@@ -8,8 +8,8 @@
 
 namespace frontend\controllers;
 
-use common\components\Helper;
 use yii;
+use common\components\Helper;
 use common\components\AccessForbiddenException;
 use common\services\DataCenterService;
 use common\services\DeviceDataService;
@@ -95,8 +95,8 @@ class StationController extends BaseController
             'is_movable'        => $deviceType->is_movable,
             'launch_date'       => Helper::getPost('launch_date', []),
             'rescale_date'      => Helper::getPost('rescale_date', []),
-
         ];
+
         // 1. Device表里面插入一条数据
         $device = DeviceService::addDevice($centerId, $typeKey, $params, $stationKey);
         if (!$device)
