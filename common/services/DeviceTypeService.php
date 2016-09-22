@@ -32,11 +32,15 @@ class DeviceTypeService
     }
 
     /**
+     * @param $condition
      * @return static[] with NucDeviceField
      */
-    public static function getDeviceTypeList()
+    public static function getDeviceTypeList($condition=[])
     {
-        return NucDeviceType::find()->with('fields')->where([])->all();
+        return NucDeviceType::find()
+            ->with('fields')
+            ->where($condition)
+            ->all();
     }
 
     public static function syncDeviceTypes()

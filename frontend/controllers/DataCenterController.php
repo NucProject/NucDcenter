@@ -132,14 +132,10 @@ class DataCenterController extends BaseController
     {
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
-
-
-        $centerId = DataCenterService::deployedCenterId();
-        $data['centerId'] = $centerId;
         $data['stationKey'] = '';
         $data['stationName'] = '';
         $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
-        $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
+        $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList(['is_movable' => 1]);
         $data['doAddDevice'] = 'index.php?r=data-center/do-add-device';
 
         parent::setPageMessage('添加移动便携设备');
@@ -165,7 +161,7 @@ class DataCenterController extends BaseController
         $params = [
             'device_sn'         => Helper::getPost('device_sn', []),
             'type_name'         => $deviceType->type_name,
-            'is_movable'        => 1,
+            'is_movable'        => $deviceType->is_movable,
             'launch_date'       => Helper::getPost('launch_date', []),
             'rescale_date'      => Helper::getPost('rescale_date', []),
 

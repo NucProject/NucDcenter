@@ -1,6 +1,3 @@
-<script>
-    var csrfToken = "{Yii::$app->request->getCsrfToken(true)}";
-</script>
 {literal}
 <script>
 
@@ -64,6 +61,8 @@
             }
             $(this).find('option[none-option]').remove();
 
+            // 注意这里, 之前我在tpl的开头又调用了一次getCsrfToken(true), 导致Ajax或者submit失败
+            var csrfToken = $('#addDeviceForm input[name=csrfToken]').val();
             $.post('index.php?r=device-type/info&typeKey=' + val,
                 {
                     'typeKey': val, 'csrfToken': csrfToken

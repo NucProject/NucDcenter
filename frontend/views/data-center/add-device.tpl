@@ -1,6 +1,6 @@
 {extends 'common/common-box.tpl'}
-
-{block name=title}添加设备{/block}
+{* 数据中心添加 **移动 便携** 设备 *}
+{block name=title}添加移动便携设备{/block}
 {block name=content}
     <h3 class="form-title">请填写设备信息</h3>
     <form id="addDeviceForm" action="{$doAddDevice}" method="post">

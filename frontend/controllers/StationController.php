@@ -8,6 +8,8 @@
 
 namespace frontend\controllers;
 
+use common\components\Helper;
+use yii;
 use common\components\AccessForbiddenException;
 use common\services\DataCenterService;
 use common\services\DeviceDataService;
@@ -57,8 +59,11 @@ class StationController extends BaseController
         $data['stationKey'] = $stationKey;
         $data['stationName'] = $station->station_name;
         $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
+        // 全部设备, 也允许出现移动设备
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
         $data['doAddDevice'] = '/index.php?r=station/do-add-device';
+
+        parent::setPageMessage("为 {$station->station_name} 添加设备");
         parent::setBreadcrumbs([
             'index.html' => '自动站',
             '#' => '添加新设备']);
@@ -77,35 +82,44 @@ class StationController extends BaseController
         $stationKey = $_POST['stationKey'];
         $this->checkStationKey($stationKey);
 
-        return $this->redirect("index.php?r=station&stationKey=$stationKey");
         $centerId = DataCenterService::deployedCenterId();
         // TODO: Check the $centerId is not root center
 
-        // Generate device-key
-        $deviceKey = EntityIdService::genDeviceKey($centerId);
+        $typeKey = Helper::getPost('typeKey', ['required' => true]);
 
+        $deviceType = DeviceTypeService::getDeviceType($typeKey);
+
+        $params = [
+            'device_sn'         => Helper::getPost('device_sn', []),
+            'type_name'         => $deviceType->type_name,
+            'is_movable'        => $deviceType->is_movable,
+            'launch_date'       => Helper::getPost('launch_date', []),
+            'rescale_date'      => Helper::getPost('rescale_date', []),
+
+        ];
         // 1. Device表里面插入一条数据
-        $deviceId = DeviceService::addDevice($centerId, $stationKey, $deviceKey);
-        if (!$deviceId)
+        $device = DeviceService::addDevice($centerId, $typeKey, $params, $stationKey);
+        if (!$device)
         {
             return parent::error([], -1);
         }
 
-        // 2. 新建device-data表
-        $tableName = "uk_device_data_{$deviceKey}";
-
-        if (DeviceDataService::isTableExists($tableName))
+        $result = DeviceDataService::createDeviceDataTables($device->device_key, $typeKey);
+        if ($result)
         {
-            return parent::error([], -2);
+            Yii::$app->session->setFlash("add-device-success", "添加设备成功");
+            $this->redirect(array('station/index', 'stationKey' => $stationKey));
         }
-
-        DeviceDataService::createDeviceDataTable($tableName, $typeId);
-        return parent::result([]);
+        else
+        {
+            Yii::$app->session->setFlash("add-device-success", "添加设备失败");
+            $this->redirect(array('station/add-device', 'stationKey' => $stationKey));
+        }
     }
 
     /**
      * @param $stationKey
-     * @return NucStation
+     * @return \common\models\NucStation
      * @throws AccessForbiddenException
      */
     private function checkStationKey($stationKey)
