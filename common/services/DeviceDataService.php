@@ -39,11 +39,13 @@ class DeviceDataService
         return $entry->save();
     }
 
-    public static function addAvgEntry($deviceKey, $data)
+    public static function updateAvgEntry($deviceKey, $data)
     {
         UkDeviceData::$deviceKey = $deviceKey;
         UkDeviceData::$avg = true;
-        $entry = new UkDeviceData();
+
+        $dataTime = $data['data_time'];
+        $entry = UkDeviceData::find()->where(['data_time' => $dataTime])->one();
 
         // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
         foreach ($data as $field => $value)
@@ -92,7 +94,7 @@ class DeviceDataService
 
     /**
      * @param $deviceKey
-     * @return array|\common\models\NucDataCenter
+     * @return \common\models\UkDeviceData
      */
     public static function lastEntry($deviceKey)
     {

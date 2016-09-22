@@ -46,7 +46,8 @@ class DataController extends Controller
             {
                 $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
 
-                $this->flushAvgData($deviceKey, $dataTime, $avgData);
+                $avgData['data_time'] = $dataTime;
+                DeviceDataService::updateAvgEntry($deviceKey, $avgData);
             }
 
             $dataTime = date('Y-m-d H:i:s', strtotime($dataTime) + $duration);
@@ -59,17 +60,38 @@ class DataController extends Controller
         }
     }
 
-    public function prepareAvgData($deviceKey)
+    /**
+     * 生成次日数据集合, 应该在当日晚8:00-10:00直接生成, 这样出现问题, 我还有可能去解决
+     * @param $deviceKey
+     * @param $date
+     * @throws yii\db\Exception
+     */
+    public function prepareTomorrowAvgData($deviceKey, $date)
     {
-        $entry = DeviceDataService::lastEntry($deviceKey);
-        if ($entry)
-        {
-            $dataTime = strtotime($entry->data_time);
-            while (true)
-            {
-
-            }
+        if (!$deviceKey) {
         }
+
+        $tableName = '';
+        $fields = 'data_id, alert_status, status, data_time, create_time, update_time';
+
+        $begin = strtotime($date);
+        $end = $begin + 3600 * 24;
+        $time = $begin;
+        $entries = [];
+        while ($time <= $end)
+        {
+            $dataTime = date('Y-m-d H:i:s', $time);
+
+            $time += 300;   // 每5分钟一个数值
+            $entry = "(null, 0, 0, '$dataTime', '$dataTime', '$dataTime')";
+            $entries[] = $entry;
+        }
+
+        $values = implode(',', $entries);
+        $sql = "insert into {$tableName} ($fields) values {$values};";
+
+        Yii::$app->db->createCommand($sql)->execute();
+
     }
 
     /**
@@ -99,7 +121,7 @@ class DataController extends Controller
             {
                 $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
 
-                $this->flushAvgData($deviceKey, $dataTime, $avgData);
+                // $this->flushAvgData($deviceKey, $dataTime, $avgData);
             }
 
             $dataTime = date('Y-m-d H:i:s', strtotime($dataTime) + $duration);
@@ -125,14 +147,6 @@ class DataController extends Controller
 
         return $items;
 
-    }
-
-    private function flushAvgData($deviceKey, $dataTime, $avgData)
-    {
-        $avgData['data_time'] = $dataTime;
-        $avgData['task_id'] = 6;
-        // print_r($avgData);
-        DeviceDataService::addAvgEntry($deviceKey, $avgData);
     }
 
     /**
