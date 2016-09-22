@@ -79,7 +79,7 @@
         heatmapOverlay = new BMapLib.HeatmapOverlay({"radius": 20});
         map.addOverlay(heatmapOverlay);
 
-        heatmapOverlay.setDataSet({data: [], max:100});
+        heatmapOverlay.setDataSet({data: [], max:200});
         heatmapOverlay.show();
         /*setInterval(function () {
             centerLng += 0.000001;

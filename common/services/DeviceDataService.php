@@ -8,6 +8,7 @@
 
 namespace common\services;
 
+use common\components\Heatmap;
 use common\models\NucDeviceField;
 use common\models\NucDeviceType;
 use yii;
@@ -158,6 +159,9 @@ class DeviceDataService
             ->where(['task_id' => $taskId]);
 
         $items = $query->asArray()->all();
+
+        $items = Heatmap::refresh($items);
+        file_put_contents("d:\\lines", json_encode($items));
 
         return $items;
     }

@@ -148,4 +148,78 @@ class DataController extends Controller
     {
         return ['dk06ee3d6938e78ba9d3'];
     }
+
+    public function actionTaskReplay($taskId, $deviceKey)
+    {
+        $deviceDataItems = DeviceDataService::getTaskData($deviceKey, $taskId);
+        var_dump(count($deviceDataItems));
+        $b = false;
+        $ps = [0];
+        foreach ($deviceDataItems as $a)
+        {
+            if (!$b) {
+                $b = $a;
+                continue;
+            }
+
+            $p = pow(($a['lng'] - $b['lng']), 2) + pow(($a['lat'] - $b['lat']), 2) * 10000;
+            $ps[] = $p;
+
+        }
+
+        $avg = self::avg($ps);
+
+        $index = 0;
+        $dist = 0;
+        $points = [];
+        $section = [];
+        $counter = 0;
+        foreach ($deviceDataItems as $i)
+        {
+            $section[] = $i;
+
+
+            $dist += $ps[$index];
+
+            if ($dist >= $avg)
+            {
+                // $counter += count($section);
+
+                $points = array_merge($points, self::leverage($section));
+
+                // $pointCount = count($points);
+                // echo "$counter == $pointCount\n";
+
+                $dist = 0;
+                $section = [];
+            }
+
+            $index++;
+
+        }
+        $points = array_merge($points, self::leverage($section));
+
+        var_dump(count($points));
+
+
+    }
+
+    private static function leverage($section)
+    {
+        foreach ($section as &$i)
+        {
+            $i['inner_doserate'] = $i['inner_doserate'] / count($section);
+        }
+        return $section;
+    }
+
+    private static function avg($p)
+    {
+        $sum = 0;
+        foreach ($p as $i)
+        {
+            $sum += $i;
+        }
+        return $sum / count($p);
+    }
 }
