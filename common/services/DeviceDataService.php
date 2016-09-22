@@ -91,14 +91,25 @@ class DeviceDataService
 
     /**
      * @param $deviceKey
+     * @return array|\common\models\NucDataCenter
+     */
+    public static function lastEntry($deviceKey)
+    {
+        $entry = UkDeviceData::findByKey($deviceKey, true)->orderBy('data_id desc')->limit(1)->one();
+        return $entry;
+    }
+
+    /**
+     * @param $deviceKey
      * @param array $options [totalCount|pageSize]
      * @return array|\common\models\NucDataCenter[]
      * 支持分页的设备数据获取
      */
     public static function getDataList($deviceKey, $options=[])
     {
+        $condition = [];
         // List取均值
-        $query = UkDeviceData::findByKey($deviceKey, true)->where([]);
+        $query = UkDeviceData::findByKey($deviceKey, true)->where($condition);
 
         // 如果调用者给出totalCount, 那么就省略了select count(*);
         $totalCount = static::getOptionValue($options, 'totalCount', 0);

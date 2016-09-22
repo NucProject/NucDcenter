@@ -10,6 +10,7 @@ use Yii;
  *
  * @property integer    $data_id
  * @property integer    $status
+ * @property string     $data_time
  * @property string     $create_time
  * @property string     $update_time
  */

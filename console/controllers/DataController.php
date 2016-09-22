@@ -8,6 +8,7 @@
 
 namespace console\controllers;
 
+use yii;
 use common\components\Helper;
 use common\services\DeviceDataService;
 use yii\console\Controller;
@@ -55,6 +56,19 @@ class DataController extends Controller
                 break;
             }
 
+        }
+    }
+
+    public function prepareAvgData($deviceKey)
+    {
+        $entry = DeviceDataService::lastEntry($deviceKey);
+        if ($entry)
+        {
+            $dataTime = strtotime($entry->data_time);
+            while (true)
+            {
+
+            }
         }
     }
 
