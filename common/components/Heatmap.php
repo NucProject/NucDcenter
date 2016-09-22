@@ -59,7 +59,7 @@ class Heatmap
     {
         foreach ($section as &$i)
         {
-            $i['inner_doserate'] = $i['inner_doserate'] / count($section) / 20;
+            $i['inner_doserate'] = $i['inner_doserate'] / count($section) / count($section) / 20;
         }
         return $section;
     }

@@ -146,6 +146,60 @@ class TaskController extends BaseController
 
     /**
      * @page
+     * @comment 辐射分布图
+     * @param $taskId int
+     * @return string
+     */
+    public function actionDistribute($taskId)
+    {
+        $task = $this->getTaskById($taskId);
+
+        $attends = $task['attends'];
+        $centerPoint = false;
+        $points = false;
+        $deviceKeys = [];
+        $deviceDataMap = [];
+        foreach ($attends as $attend)
+        {
+            $deviceKey = $attend['device_key'];
+            if (!$deviceKey) {
+                continue;
+            }
+            $deviceKeys[] = $deviceKey;
+
+            $deviceDataItems = DeviceDataService::getTaskData($deviceKey, $taskId);
+
+            if (!$centerPoint)
+            {
+                $deviceDataItem = $deviceDataItems[0];
+                $centerPoint = [
+                    'lng' => $deviceDataItem['lng'],
+                    'lat' => $deviceDataItem['lat']
+                ];
+            }
+
+            if (!$points) {
+                $points = json_encode(self::convertToHeatmapPoints($deviceDataItems, 'inner_doserate'));
+            }
+            $deviceDataMap[$deviceKey] = json_encode(self::convertToHeatmapPoints($deviceDataItems, 'inner_doserate'));
+        }
+
+        // var_dump($centerPoint);exit;
+        $data = [
+            'task'      => $task,
+            'dataMap'   => $deviceDataMap,
+            'centerLng' => $centerPoint['lng'],
+            'centerLat' => $centerPoint['lat'],
+            'deviceKeys' => $deviceKeys,
+            'deviceDataMap' => $deviceDataMap
+        ];
+
+        parent::setBreadcrumbs(['index.html' => '任务', '#' => '辐射分布']);
+        return parent::renderPage('doserate-grid.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Mapgrid']]);
+    }
+
+    /**
+     * @page
      * @comment 任务回放
      * @param $taskId int
      * @return string

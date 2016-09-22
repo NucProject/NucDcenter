@@ -20,7 +20,7 @@
 {literal}
 <script>
 
-    function onStartButtonClick(button, heatmapOverlay)
+    function onStartButtonClick(button, mapgridOverlay)
     {
         setInterval(function() {
             for (var deviceKey in deviceStatus)
@@ -30,10 +30,10 @@
                 var devicePoints = points[deviceKey];
                 if (index < devicePoints.length)
                 {
-                    console.log(index)
+                    // console.log(index)
                     var p = devicePoints[index];
 
-                    heatmapOverlay.addDataPoint(p['lng'], p['lat'], p['count']);
+                    mapgridOverlay.addDataPoint(p['lng'], p['lat'], p['count']);
 
                     deviceStatus[deviceKey]['index'] += 1;
                 }
@@ -77,23 +77,17 @@
         map.enableScrollWheelZoom(false); //禁用滚轮事件
 
 
-        /*setInterval(function () {
-            centerLng += 0.000001;
-            centerLat += 0.0001;
-            heatmapOverlay.addDataPoint(centerLng, centerLat, 50);
-        }, 100);*/
+
 
         // 可能需要从新生成Overlay的方式来搞定拖动和缩放带来的问题
-
-
         $('a.start').click(function () {
-            heatmapOverlay = new BMapLib.HeatmapOverlay({"radius": 20});
-            map.addOverlay(heatmapOverlay);
+            var mapgridOverlay = new BMapLib.MapgridOverlay({"radius": 20});
+            map.addOverlay(mapgridOverlay);
 
-            heatmapOverlay.setDataSet({data: [], max:200});
-            heatmapOverlay.show();
+            mapgridOverlay.setDataSet({data: [], max:200});
+            mapgridOverlay.show();
 
-            onStartButtonClick($(this), heatmapOverlay);
+            onStartButtonClick($(this), mapgridOverlay);
         });
 
     });
