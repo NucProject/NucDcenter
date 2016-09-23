@@ -20,6 +20,7 @@ use common\models\UkDeviceData;
 class DeviceDataService
 {
     /**
+     *
      * @param $deviceKey    string
      * @param $data         array
      * @param $checkAlarm   boolean
@@ -48,6 +49,7 @@ class DeviceDataService
         $entry = UkDeviceData::find()->where(['data_time' => $dataTime])->one();
 
         // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
+        // 设置具体每一个字段
         foreach ($data as $field => $value)
         {
             if (in_array($field, ['lng', 'lat', 'lng_gps', 'lat_gps']))

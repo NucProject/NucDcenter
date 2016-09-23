@@ -24,8 +24,7 @@ class DataController extends Controller
      */
     public function actionRealTimeAvg()
     {
-        $counter = 0;
-
+        $duration = 300;
 
         while (true)
         {
@@ -40,24 +39,52 @@ class DataController extends Controller
             // 更新上一次的归一化时间
             $this->lastRegular5mTime = $dataTime;
 
-            $duration = 300;
-
-            foreach ($this->getWorkingDevices() as $deviceKey)
+            if ($this->isTimeToPrepareTomorrowAvgData($dataTime))
             {
-                $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
 
-                $avgData['data_time'] = $dataTime;
-                DeviceDataService::updateAvgEntry($deviceKey, $avgData);
             }
 
-            $dataTime = date('Y-m-d H:i:s', strtotime($dataTime) + $duration);
-            $counter++;
-            if ($counter > 10)
-            {
-                break;
-            }
-
+            $this->calcDevicesAvg($dataTime, $duration);
         }
+    }
+
+    public function actionHistoryAvg($begin, $end)
+    {
+        $counter = 0;
+        $duration = 300;
+
+        $beginTime = strtotime(Helper::regular5mTime($begin));
+        $endTime = strtotime(Helper::regular5mTime($end));
+        $cursorTime = $beginTime;
+        while ($cursorTime <= $endTime)
+        {
+            $dataTime = date('Y-m-d H:i:s', $cursorTime);
+            $this->calcDevicesAvg($dataTime, $duration);
+            $cursorTime += $duration;
+        }
+    }
+
+    private function calcDevicesAvg($dataTime, $duration)
+    {
+        foreach ($this->getWorkingDevices() as $deviceKey)
+        {
+            $this->calcDeviceAvg($deviceKey, $dataTime, $duration);
+        }
+    }
+
+    private function calcDeviceAvg($deviceKey, $dataTime, $duration)
+    {
+        $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
+
+        $avgData['data_time'] = $dataTime;
+        DeviceDataService::updateAvgEntry($deviceKey, $avgData);
+    }
+
+    public function isTimeToPrepareTomorrowAvgData($time)
+    {
+        $dateTime = strtotime($time);
+        $time = date('H:i:s', $dateTime);
+        return $time >= '21:00:00' && $time < '22:00:00';
     }
 
     /**
