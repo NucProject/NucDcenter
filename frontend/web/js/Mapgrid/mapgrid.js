@@ -570,7 +570,7 @@
                 for (var i in points)
                 {
                     var p = points[i];
-                    counts += p['count'];
+                    counts += parseFloat( p['count'] );
                 }
                 var avg = counts / points.length;
                 console.log(counts, points.length, avg);
@@ -598,14 +598,14 @@
 
                 var data = this.store.get("data");
                 var pointsSet = [];
+                var x = 0, y = 0, index = '';
                 for (var i in data)
                 {
                     // in format Object {x: 220, y: 19, count: 0}
                     // Has convert from lng/lat to x/y
                     var item = data[i];
-                    var x = parseInt(item.x / dw);
-                    var y = parseInt(item.y / dw);
-                    var index = "{x},{y}".format({x:x, y:y});
+                    x = parseInt(item.x / dw), y = parseInt(item.y / dw);
+                    index = "{x},{y}".format({x:x, y:y});
                     if (pointsSet[index]) {
                         pointsSet[index].push(item);
                     } else {
@@ -613,7 +613,6 @@
                     }
                 }
 
-                var count = 0;
                 for (var index in pointsSet)
                 {
                     var points = pointsSet[index];
@@ -622,7 +621,6 @@
                     var y = parseInt(i[1]);
                     this.drawGridPointRect(ctx, x, y, dw, points);
                 }
-                console.log("C", count)
             },
 
             drawGrid: function (bounds) {
@@ -679,7 +677,7 @@
 
             drawAlpha: function (x, y, count, colorize) {
                 console.log('drawAlpha')
-                 return;
+                return;
                 // storing the variables because they will be often used
                 var me = this,
                     radius = me.get("radius"),
@@ -795,21 +793,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
 
 (function () {
 
-    /**
-     * 热力图的覆盖物
-     * @class 热力图的覆盖物
-     * 实例化该类后，使用map.addOverlay即可以添加势力图
-     *
-     * @constructor
-     * @param {Json Object} opts 可选的输入参数，非必填项。可输入选项包括：<br />
-     * {"<b>radius</b>" : {String} 热力图的半径,
-     * <br />"<b>visible</b>" : {Number} 热力图是否显示,
-     * <br />"<b>gradient</b>" : {JSON} 热力图的渐变区间,
-     * <br />"<b>opacity</b>" : {Number} 势力的透明度,
-     *
-     * @example <b>参考示例：</b><br />
-     * var map = new BMap.Map("container");<br />map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);<br />var MapgridOverlay = new BMapLib.MapgridOverlay({"radius":10, "visible":true, "opacity":70});<br />MapgridOverlay.setDataSet(data);//data是热力图的详细数据
-     */
+    // Grid辐射分布图覆盖物
     var MapgridOverlay = BMapLib.MapgridOverlay = function (opts) {
         this.conf = opts;
         this.Mapgrid = null;
@@ -835,6 +819,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
         return el;
     };
 
+    // TODO:-----------
     MapgridOverlay.prototype.redraw = function () {
         // this.Mapgrid.store.get("Mapgrid").resize();
         this.draw();
@@ -850,7 +835,6 @@ var BMapLib = window.BMapLib = BMapLib || {};
         }
 
         this.bounds = currentBounds;
-        console.log(this.bounds.toSpan());
 
         var ne = this._map.pointToOverlayPixel(currentBounds.getNorthEast()),
             sw = this._map.pointToOverlayPixel(currentBounds.getSouthWest()),
@@ -865,7 +849,6 @@ var BMapLib = window.BMapLib = BMapLib || {};
         this.conf.element.style.height = h + 'px';
         this.Mapgrid.store.get("Mapgrid").resize();
 
-        console.log(this.latlngs, "DDD");
         if (this.latlngs.length > 0) {
             this.Mapgrid.clear();
 
@@ -896,7 +879,6 @@ var BMapLib = window.BMapLib = BMapLib || {};
         }
         // this.Mapgrid.colorize();
         this.Mapgrid.drawGrid(this.bounds);
-        console.log(1);
     };
 
 
@@ -972,7 +954,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
         }
         this.Mapgrid.clear();
         this.Mapgrid.store.setDataSet(mapdata);
-    }
+    };
 
     /**
      * 添加势力图的详细坐标点
@@ -989,10 +971,10 @@ var BMapLib = window.BMapLib = BMapLib || {};
             latlng: latlng,
             c: count
         });
-    }
+    };
 
     /**
-     * 更改势力图的展现或者关闭
+     * 更改图的展现或者关闭
      */
     MapgridOverlay.prototype.toggle = function () {
         this.Mapgrid.toggleDisplay();
