@@ -14,7 +14,7 @@
         deviceStatus[i] = { index: 0 };
         allPoints = allPoints.concat(points[i])
     }
-    console.log(allPoints);
+    console.log("4444", allPoints);
 
 </script>
 {literal}
@@ -76,18 +76,19 @@
         // map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
         map.enableScrollWheelZoom(false); //禁用滚轮事件
 
+        var mapgridOverlay = new BMapLib.MapgridOverlay({"radius": 20});
+        map.addOverlay(mapgridOverlay);
 
 
+        //
+
+        mapgridOverlay.setDataSet({'data':allPoints, 'max':200});
+        // mapgridOverlay.drawGrid();
 
         // 可能需要从新生成Overlay的方式来搞定拖动和缩放带来的问题
         $('a.start').click(function () {
-            var mapgridOverlay = new BMapLib.MapgridOverlay({"radius": 20});
-            map.addOverlay(mapgridOverlay);
 
-            mapgridOverlay.setDataSet({data: [], max:200});
-            mapgridOverlay.show();
-
-            onStartButtonClick($(this), mapgridOverlay);
+            mapgridOverlay.redraw();
         });
 
     });

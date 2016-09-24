@@ -272,7 +272,7 @@ class TaskController extends BaseController
         $results = [];
         foreach ($data as $item)
         {
-            $count = intval($item[$field] / 10);
+            $count = $item[$field];
             $results[] = ['lng' => $item['lng'], 'lat' => $item['lat'], 'count' => $count];
         }
         return $results;

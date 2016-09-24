@@ -72,6 +72,7 @@
                 Mapgrid.clear();
                 this.max = obj.max; // TODO: Maybe no use.
                 // if a legend is set, update it
+                // console.log(Mapgrid.get("legend"));
                 Mapgrid.get("legend") && Mapgrid.get("legend").update(obj.max);
 
                 if (internal != null && internal) {
@@ -552,7 +553,133 @@
                 image.data = imageData;
                 ctx.putImageData(image, left, top);
             },
+
+            // 为了速度暂时不调用了
+            getGridX: function(p, dw) {
+                return parseInt(p.x / dw);
+            },
+
+            getGridY: function(p, dw) {
+                return parseInt(p.y / dw);
+            },
+
+            // 100以下是蓝色，100-200是绿色，200-300是黄色，300-400是橙色，超过400是红色
+            drawGridPointRect: function(ctx, x, y, dw, points)
+            {
+                var counts = 0;
+                for (var i in points)
+                {
+                    var p = points[i];
+                    counts += p['count'];
+                }
+                var avg = counts / points.length;
+                console.log(counts, points.length, avg);
+
+                var fillStyle = '';
+                if (avg < 100) {
+                    fillStyle = 'rgba(0, 0, 225, 0.5)';
+                } else if (avg >= 100 && avg < 200) {
+                    fillStyle = 'rgba(0, 255, 0, 0.5)';
+                } else if (avg >= 200 && avg < 300) {
+                    fillStyle = 'rgba(255, 255, 0, 0.5)';
+                } else if (avg >= 300 && avg < 400) {
+                    fillStyle = 'rgba(255, 80, 0, 0.5)';
+                } else if (avg >= 400) {
+                    fillStyle = 'rgba(255, 0, 0, 0.5)';
+                }
+
+                ctx.fillStyle = fillStyle;
+                ctx.fillRect(x * dw, y * dw, dw, dw);
+                ctx.fill();
+
+            },
+
+            drawGridPoints: function(ctx, bounds, dw) {
+
+                var data = this.store.get("data");
+                var pointsSet = [];
+                for (var i in data)
+                {
+                    // in format Object {x: 220, y: 19, count: 0}
+                    // Has convert from lng/lat to x/y
+                    var item = data[i];
+                    var x = parseInt(item.x / dw);
+                    var y = parseInt(item.y / dw);
+                    var index = "{x},{y}".format({x:x, y:y});
+                    if (pointsSet[index]) {
+                        pointsSet[index].push(item);
+                    } else {
+                        pointsSet[index] = [item];
+                    }
+                }
+
+                var count = 0;
+                for (var index in pointsSet)
+                {
+                    var points = pointsSet[index];
+                    var i = index.split(',');
+                    var x = parseInt(i[0]);
+                    var y = parseInt(i[1]);
+                    this.drawGridPointRect(ctx, x, y, dw, points);
+                }
+                console.log("C", count)
+            },
+
+            drawGrid: function (bounds) {
+                // storing the variables because they will be often used
+                var me = this,
+                    radius = me.get("radius"),
+                    ctx = me.get("ctx"),
+                    max = me.get("max");
+                    //bounds = me.get("bounds");
+                    //xb = x - (1.5 * radius) >> 0, yb = y - (1.5 * radius) >> 0,
+                    //xc = x + (1.5 * radius) >> 0, yc = y + (1.5 * radius) >> 0;
+
+                var cc = 100;
+
+                var width = me.get("width"), height = me.get("height");
+
+                var dw = width / cc, dh = height / cc;
+                // dw = dw;
+                if (bounds)
+                {
+                   // var lanSpan = (bounds.toSpan().lng);
+                    //var latSpan = (bounds.toSpan().lat);
+                }
+
+                ctx.fillStyle = "#FF0000";
+                ctx.lineCap = 'square';
+                ctx.lineWidth = 0.1;
+                var x = 0, y = 0;
+                ctx.beginPath();
+                for (var i = 0; i < cc; i++) {
+                    x = i * dw;
+                    y = i * dw;
+                    // |||| Vertical line
+
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+
+                    // ------------
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+
+                }
+                ctx.closePath();
+                ctx.fill();
+                this.drawGridPoints(ctx, bounds, dw, 0);
+
+                console.log('after-drawGrid')
+
+            },
+
+
             drawAlpha: function (x, y, count, colorize) {
+                console.log('drawAlpha')
+                 return;
                 // storing the variables because they will be often used
                 var me = this,
                     radius = me.get("radius"),
@@ -608,6 +735,7 @@
                 return this.get("canvas").toDataURL();
             },
             clear: function () {
+                console.log('clear')
                 var me = this,
                     w = me.get("width"),
                     h = me.get("height");
@@ -707,6 +835,12 @@ var BMapLib = window.BMapLib = BMapLib || {};
         return el;
     };
 
+    MapgridOverlay.prototype.redraw = function () {
+        // this.Mapgrid.store.get("Mapgrid").resize();
+        this.draw();
+        //
+    };
+
     MapgridOverlay.prototype.draw = function () {
 
         var currentBounds = this._map.getBounds();
@@ -714,7 +848,9 @@ var BMapLib = window.BMapLib = BMapLib || {};
         if (currentBounds.equals(this.bounds)) {
             return;
         }
+
         this.bounds = currentBounds;
+        console.log(this.bounds.toSpan());
 
         var ne = this._map.pointToOverlayPixel(currentBounds.getNorthEast()),
             sw = this._map.pointToOverlayPixel(currentBounds.getSouthWest()),
@@ -729,6 +865,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
         this.conf.element.style.height = h + 'px';
         this.Mapgrid.store.get("Mapgrid").resize();
 
+        console.log(this.latlngs, "DDD");
         if (this.latlngs.length > 0) {
             this.Mapgrid.clear();
 
@@ -755,8 +892,12 @@ var BMapLib = window.BMapLib = BMapLib || {};
                 });
             }
             this.Mapgrid.store.setDataSet(d);
+
         }
-    }
+        // this.Mapgrid.colorize();
+        this.Mapgrid.drawGrid(this.bounds);
+        console.log(1);
+    };
 
 
     //内部使用的坐标转化

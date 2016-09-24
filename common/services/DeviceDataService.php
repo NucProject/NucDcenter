@@ -164,8 +164,8 @@ class DeviceDataService
 
         $items = $query->asArray()->all();
 
-        $items = Heatmap::refresh($items);
-        file_put_contents("d:\\lines", json_encode($items));
+        // $items = Heatmap::refresh($items);
+        // file_put_contents("d:\\lines", json_encode($items));
 
         return $items;
     }
