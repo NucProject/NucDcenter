@@ -573,7 +573,7 @@
                     counts += parseFloat( p['count'] );
                 }
                 var avg = counts / points.length;
-                console.log(counts, points.length, avg);
+                // console.log(counts, points.length, avg);
 
                 var fillStyle = '';
                 if (avg < 100) {
@@ -604,6 +604,7 @@
                     // in format Object {x: 220, y: 19, count: 0}
                     // Has convert from lng/lat to x/y
                     var item = data[i];
+                    console.log(item.x)
                     x = parseInt(item.x / dw), y = parseInt(item.y / dw);
                     index = "{x},{y}".format({x:x, y:y});
                     if (pointsSet[index]) {
@@ -619,6 +620,7 @@
                     var i = index.split(',');
                     var x = parseInt(i[0]);
                     var y = parseInt(i[1]);
+
                     this.drawGridPointRect(ctx, x, y, dw, points);
                 }
             },
@@ -636,6 +638,7 @@
                 var cc = 100;
 
                 var width = me.get("width"), height = me.get("height");
+                console.log("Wwidth", width);
 
                 var dw = width / cc, dh = height / cc;
                 // dw = dw;
@@ -891,9 +894,11 @@ var BMapLib = window.BMapLib = BMapLib || {};
             p.x += w;
         }
 
+        // Why you do this?
+        /*
         while (p.x > w) {
             p.x -= w;
-        }
+        }*/
 
         while (p.y < 0) {
             p.y += h;
