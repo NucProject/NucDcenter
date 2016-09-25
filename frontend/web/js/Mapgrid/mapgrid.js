@@ -369,6 +369,7 @@
                 this.set("width", canvas.width);
                 canvas.height = acanvas.height = me.get("height") || element.style.height.replace(/px/, "") || me.getHeight(element);
                 this.set("height", canvas.height);
+                console.log(canvas.width, acanvas.width)
             },
 
             init: function () {
@@ -604,7 +605,7 @@
                     // in format Object {x: 220, y: 19, count: 0}
                     // Has convert from lng/lat to x/y
                     var item = data[i];
-                    console.log(item.x)
+                    // console.log(item.x)
                     x = parseInt(item.x / dw), y = parseInt(item.y / dw);
                     index = "{x},{y}".format({x:x, y:y});
                     if (pointsSet[index]) {
@@ -845,11 +846,13 @@ var BMapLib = window.BMapLib = BMapLib || {};
             leftX = sw.x,
             h = sw.y - ne.y,
             w = ne.x - sw.x;
-
+        console.log(ne, sw, w);
         this.conf.element.style.left = leftX + 'px';
         this.conf.element.style.top = topY + 'px';
         this.conf.element.style.width = w + 'px';
         this.conf.element.style.height = h + 'px';
+        // Fix BUG: Map's right edge can NOT be covered by grid!
+        this.Mapgrid.set('width', w);
         this.Mapgrid.store.get("Mapgrid").resize();
 
         if (this.latlngs.length > 0) {
