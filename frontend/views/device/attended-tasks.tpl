@@ -24,8 +24,8 @@
                 <td>
                     <a class="btn btn-xs btn-info" href="index.php?r=task/detail&taskId={$i.task.task_id}">任务详情</a>
                     {if $i.task.task_status == 3}
-                    <a class="btn  btn-xs btn-danger" href="index.php?r=task/replay&taskId={$i.task.task_id}">
-                        <i class="fa fa-play"></i>&nbsp;任务回放</a>
+                    <a class="btn  btn-xs btn-danger" href="index.php?r=task/distribute&taskId={$i.task.task_id}">
+                        <i class="fa fa-play"></i>&nbsp;查看辐射分布</a>
                     {/if}
                 </td>
             </tr>
