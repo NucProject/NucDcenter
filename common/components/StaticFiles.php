@@ -59,4 +59,11 @@ trait StaticFiles
         $view->registerJsFile('js/Mapgrid/mapgrid.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
     }
 
+    public function addSlim($view)
+    {
+        $view->registerJsFile('js/jquery-slimscroll-1.3.0/jquery.slimscroll.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('js/jquery-slimscroll-1.3.0/slim.scroll.horizontal.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+        $view->registerJsFile('js/jquery-slimscroll-1.3.0/slimScrollHorizontal.min.js', [View::POS_END, 'depends' => 'frontend\assets\AppAsset']);
+    }
+
 }

@@ -30,7 +30,7 @@ class SiteController extends BaseController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -128,7 +128,7 @@ class SiteController extends BaseController
     }
 
     /**
-     * @ajax
+     * GET
      * Logs out the current user.
      *
      * @return mixed
@@ -136,7 +136,6 @@ class SiteController extends BaseController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

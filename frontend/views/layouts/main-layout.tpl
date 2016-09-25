@@ -70,9 +70,11 @@
 <script>
     jQuery(document).ready(function() {
         //Set current page with mini-sidebar
+
         App.setPage("mini_sidebar");
 
         App.init(); //Initialise plugins and elements
+
     });
 </script>
 </html>

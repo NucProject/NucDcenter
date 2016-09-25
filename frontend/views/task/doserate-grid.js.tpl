@@ -1,20 +1,82 @@
 <script>
+    // TODO: Move common place
+    Date.prototype.format = function(fmt)
+    { //author: meizz
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+    };
+
     var centerLng = parseFloat('{$centerLng}') || 0;
     var centerLat = parseFloat('{$centerLat}') || 0;
 
-    var points = {};
+    var points = { };
     {foreach from=$deviceKeys item=deviceKey}
     points['{$deviceKey}'] = '{$deviceDataMap[$deviceKey]}'.toJson();
     {/foreach}
 
     var allPoints = [];
-    var deviceStatus = {};
+    var deviceStatus = { };
     for (var i in points)
     {
         deviceStatus[i] = { index: 0 };
         allPoints = allPoints.concat(points[i])
     }
-    console.log("4444", allPoints);
+
+    var minTime = allPoints[0]['data_time'], maxTime = minTime;
+    for (var i in allPoints)
+    {
+        var p = allPoints[i];
+        if (p['data_time'] > maxTime) {
+            maxTime = p['data_time'];
+            continue;
+        }
+        if (p['data_time'] < minTime) {
+            minTime = p['data_time'];
+            continue;
+        }
+    }
+
+    var minTimestamp = +new Date(minTime);
+    var maxTimestamp = +new Date(maxTime);
+    var dt = (maxTimestamp - minTimestamp) / 100;
+
+    function updateTimeRange(min, max)
+    {
+        var minTime = new Date(minTimestamp + min * dt).format('yyyy-MM-dd hh:mm:ss');
+        var maxTime = new Date(minTimestamp + max * dt).format('yyyy-MM-dd hh:mm:ss');
+        {literal}
+        var timeRange = "从 {minTime} 到 {maxTime}".format({ minTime: minTime, maxTime: maxTime });
+        {/literal}
+        $('#timeRange').text(timeRange)
+    }
+
+    // 初始化Slider
+    $("#slider-range").slider({
+        range:true,
+        min:0, max:100,
+        values:[0, 60],
+        slide: function( event, ui ) {
+            var min = ui.values[0];
+            var max = ui.values[1];
+
+            updateTimeRange(min, max);
+        }
+    });
+
+    updateTimeRange(0, 60); // 初始化
 
 </script>
 {literal}

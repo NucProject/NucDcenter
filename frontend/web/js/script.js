@@ -3301,7 +3301,9 @@ var App = function () {
 			handleSidebarCollapse(); //Function to hide or show sidebar
 			handleSidebarAndContentHeight();  //Function to hide sidebar and main content height
 			responsiveSidebar();		//Function to handle sidebar responsively
-			handleTeamView(); //Function to toggle team view
+            // handleSliders(); //Function to display sliders
+            // handleProgress(); //Function to display progress bars
+			// handleTeamView(); //Function to toggle team view
 			handleHomePageTooltips(); //Function to handle tooltips
 			handleBoxTools(); //Function to handle box tools
 			handleSlimScrolls(); //Function to handle slim scrolls

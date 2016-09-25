@@ -195,7 +195,7 @@ class TaskController extends BaseController
         ];
 
         parent::setBreadcrumbs(['index.html' => '任务', '#' => '辐射分布']);
-        return parent::renderPage('doserate-grid.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Mapgrid']]);
+        return parent::renderPage('doserate-grid.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Mapgrid', 'Slim']]);
     }
 
     /**
@@ -273,7 +273,10 @@ class TaskController extends BaseController
         foreach ($data as $item)
         {
             $count = $item[$field];
-            $results[] = ['lng' => $item['lng'], 'lat' => $item['lat'], 'count' => $count];
+            $results[] = ['lng' => $item['lng'],
+                          'lat' => $item['lat'],
+                          'count' => $count,
+                          'data_time' => $item['data_time']];
         }
         return $results;
     }

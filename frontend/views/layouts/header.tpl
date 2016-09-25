@@ -239,6 +239,7 @@
             </li>
             <!-- END TODO DROPDOWN -->
             <!-- BEGIN USER LOGIN DROPDOWN -->
+            {if strlen($user.username) > 0}
             <li class="dropdown user" id="header-user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 4px">
                     <span class="roleName">{$user.roleName}</span>
@@ -250,9 +251,10 @@
                     <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
                     <li><a href="#"><i class="fa fa-cog"></i> Account Settings</a></li>
                     <li><a href="#"><i class="fa fa-eye"></i> Privacy Settings</a></li>
-                    <li><a href="index.php?r=site/login"><i class="fa fa-power-off"></i> Log Out</a></li>
+                    <li><a href="index.php?r=site/logout"><i class="fa fa-power-off"></i> Log Out</a></li>
                 </ul>
             </li>
+            {/if}
             <!-- END USER LOGIN DROPDOWN -->
         </ul>
         <!-- END TOP NAVIGATION MENU -->

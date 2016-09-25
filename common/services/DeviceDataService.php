@@ -160,7 +160,8 @@ class DeviceDataService
     {
         // 任务数据不取均值的(可能就没有均值的)
         $query = UkDeviceData::findByKey($deviceKey, false)
-            ->where(['task_id' => $taskId]);
+            ->where(['task_id' => $taskId])
+            ->orderBy('data_time desc');
 
         $items = $query->asArray()->all();
 
