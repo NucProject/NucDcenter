@@ -72,9 +72,22 @@ class DataCenterService
     public static function getMovableDevicesList($centerId)
     {
         $movableDevices = NucDevice::find()
+            ->with('deviceType')
             ->where(['center_id' => $centerId, 'is_movable' => 1])
             ->asArray()
             ->all();
+
+
+        foreach ($movableDevices as &$device)
+        {
+            $device['last_data_time'] = '';
+            if ($device['device_status'] == 1)
+            {
+                $entry = DeviceDataService::lastEntry($device['device_key'], false);
+                $device['last_data_time'] = $entry['data_time'];
+            }
+        }
+
         return $movableDevices;
     }
 }

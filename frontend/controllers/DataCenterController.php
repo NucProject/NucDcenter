@@ -52,7 +52,7 @@ class DataCenterController extends BaseController
 
         parent::setPageMessage("自动站列表");
         parent::setBreadcrumbs(['index.html' => '自动站']);
-        return parent::renderPage('stations.tpl', $data);
+        return parent::renderPage('index.tpl', $data);
     }
 
     /**

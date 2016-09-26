@@ -1,8 +1,13 @@
-<div>
-{*    <div class="col-md-12 box-container">
-        {include 'data-center/none-station.tpl' has_remove=true}
-    </div>*}
+{* *}
+{extends 'common/common-box.tpl'}
+{block name=color}orange{/block}
+{*  *}
+{block name=title}
+    <span>当前自动站</span>
+{/block}
 
+{block name=content}
+<div>
     {* N个自动站 *}
     {foreach from=$stations item=s}
     <div class="col-md-6 box-container">
@@ -12,3 +17,4 @@
 
 
 </div>
+{/block}

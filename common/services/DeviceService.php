@@ -63,8 +63,21 @@ class DeviceService
      */
     public static function getDeviceList($stationKey)
     {
-        $devices = NucDevice::findAll(['station_key' => $stationKey]);
+        $devices = NucDevice::find()
+            ->with('deviceType')
+            ->asArray()
+            ->where(['station_key' => $stationKey])
+            ->all();
 
+        foreach ($devices as &$device)
+        {
+            $device['last_data_time'] = '';
+            if ($device['device_status'] == 1)
+            {
+                $entry = DeviceDataService::lastEntry($device['device_key'], false);
+                $device['last_data_time'] = $entry['data_time'];
+            }
+        }
         return $devices;
     }
 

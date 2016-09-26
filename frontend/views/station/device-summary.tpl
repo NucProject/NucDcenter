@@ -1,8 +1,8 @@
-{* 一个device的展示HTML *}
+{* 一个device的展示HTML (Deprecated) *}
 {extends 'common/box.tpl'}
 {* summary的展现 *}
 {block name=title}
-    <span>{$device.type_name}</span>
+    <span>{$device.type_name} Deprecated !</span>
 {/block}
 
 {block name=content}

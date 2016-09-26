@@ -96,11 +96,12 @@ class DeviceDataService
 
     /**
      * @param $deviceKey
+     * @param $avg
      * @return \common\models\UkDeviceData
      */
-    public static function lastEntry($deviceKey)
+    public static function lastEntry($deviceKey, $avg=true)
     {
-        $entry = UkDeviceData::findByKey($deviceKey, true)->orderBy('data_id desc')->limit(1)->one();
+        $entry = UkDeviceData::findByKey($deviceKey, $avg)->orderBy('data_id desc')->limit(1)->one();
         return $entry;
     }
 

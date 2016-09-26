@@ -17,6 +17,9 @@ use Yii;
  * @property integer $is_movable
  * @property string $launch_date
  * @property string $rescale_date
+ * @property integer $device_status
+ * @property string $device_lng
+ * @property string $device_lat
  * @property integer $status
  * @property string $create_time
  * @property string $update_time
@@ -31,14 +34,20 @@ class NucDevice extends \common\models\BaseModel
         return 'nuc_device';
     }
 
+    public function getDeviceType()
+    {
+        return $this->hasOne(NucDeviceType::className(), ['type_key' => 'type_key']);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['center_id', 'is_movable', 'status'], 'integer'],
+            [['center_id', 'is_movable', 'device_status', 'status'], 'integer'],
             [['launch_date', 'rescale_date', 'create_time', 'update_time'], 'safe'],
+            [['device_lng', 'device_lat'], 'number'],
             [['station_key', 'type_key', 'device_key'], 'string', 'max' => 32],
             [['device_sn'], 'string', 'max' => 64],
             [['type_name'], 'string', 'max' => 255],
@@ -61,6 +70,9 @@ class NucDevice extends \common\models\BaseModel
             'is_movable' => 'Is Movable',
             'launch_date' => 'Launch Date',
             'rescale_date' => 'Rescale Date',
+            'device_status' => 'Device Status',
+            'device_lng' => 'Device Lng',
+            'device_lat' => 'Device Lat',
             'status' => 'Status',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',

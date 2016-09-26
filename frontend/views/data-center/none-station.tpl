@@ -1,7 +1,7 @@
 {* 添加一个新的station的入口 *}
-{extends 'common/box.tpl'}
+{extends 'common/common-box.tpl'}
 {* 具体的细节 *}
-{block name=color}{/block}
+{block name=color}orange{/block}
 
 {block name=title}
     <span>添加新的...</span>

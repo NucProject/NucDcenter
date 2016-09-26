@@ -14,7 +14,7 @@
             <br>
             <span>描述: {$station.station_desc}</span>
             <br>
-            <span>唯一键: {$station.station_key}</span>
+            <span style="display: none">唯一键: {$station.station_key}</span>
             <br>
             <span>创建时间: {$station.create_time}</span>
     

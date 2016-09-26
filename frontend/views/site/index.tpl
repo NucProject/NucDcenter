@@ -34,7 +34,7 @@
 {/literal}
 
 <!--百度地图容器-->
-<div style="padding: 10px">
+<div style="margin-left: -10px;margin-right: -10px; padding-top: -10px">
     <div id="map" class="baidu-map"></div>
 </div>
 

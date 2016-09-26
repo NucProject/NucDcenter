@@ -7,7 +7,7 @@
     {* N个自动站 *}
     {foreach from=$devices item=d}
         <div class="col-md-4 box-container">
-            {include 'station/device-summary.tpl' device=$d}
+            {include 'device/summary.tpl' device=$d}
         </div>
     {/foreach}
 

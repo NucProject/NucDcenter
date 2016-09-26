@@ -897,7 +897,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
             p.x += w;
         }
 
-        // Why you do this?
+        // Why do this?
         /*
         while (p.x > w) {
             p.x -= w;
