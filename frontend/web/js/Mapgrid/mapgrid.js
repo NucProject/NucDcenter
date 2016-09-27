@@ -825,7 +825,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
 
     // TODO:-----------
     MapgridOverlay.prototype.redraw = function () {
-        // this.Mapgrid.store.get("Mapgrid").resize();
+        this.bounds = null;
         this.draw();
         //
     };

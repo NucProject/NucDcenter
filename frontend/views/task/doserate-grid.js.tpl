@@ -53,10 +53,13 @@
     var maxTimestamp = +new Date(maxTime);
     var dt = (maxTimestamp - minTimestamp) / 100;
 
+    var minTime = 0;
+    var maxTime = 0;
+
     function updateTimeRange(min, max)
     {
-        var minTime = new Date(minTimestamp + min * dt).format('yyyy-MM-dd hh:mm:ss');
-        var maxTime = new Date(minTimestamp + max * dt).format('yyyy-MM-dd hh:mm:ss');
+        minTime = new Date(minTimestamp + min * dt).format('yyyy-MM-dd hh:mm:ss');
+        maxTime = new Date(minTimestamp + max * dt).format('yyyy-MM-dd hh:mm:ss');
         {literal}
         var timeRange = "从 {minTime} 到 {maxTime}".format({ minTime: minTime, maxTime: maxTime });
         {/literal}
@@ -104,17 +107,21 @@
     }
 
 
-    function addHeatmapData() {
-
+    function filterPoints(allPoints, beginTime, endTime) {
+        var points = [];
+        for (var i in allPoints)
+        {
+            var point = allPoints[i];
+            if (point['data_time'] > beginTime && point['data_time'] < endTime)
+            {
+                points.push(point);
+            }
+        }
+        return points;
     }
 
     function setGradient(heatmapOverlay){
-        /*格式如下所示:
-         {
-         0:'rgb(102, 255, 0)',
-         .5:'rgb(255, 170, 0)',
-         1:'rgb(255, 0, 0)'
-         }*/
+
         var gradient = {};
         var colors = document.querySelectorAll("input[type='color']");
         colors = [].slice.call(colors,0);
@@ -142,14 +149,14 @@
         map.addOverlay(mapgridOverlay);
 
 
-        //
-
-        mapgridOverlay.setDataSet({'data':allPoints, 'max':200});
+        // mapgridOverlay.setDataSet({'data':allPoints, 'max':200});
         // mapgridOverlay.drawGrid();
 
         // 可能需要从新生成Overlay的方式来搞定拖动和缩放带来的问题
         $('a.start').click(function () {
 
+            var points = filterPoints(allPoints, minTime, maxTime);
+            mapgridOverlay.setDataSet({'data':points, 'max':200});
             mapgridOverlay.redraw();
         });
 

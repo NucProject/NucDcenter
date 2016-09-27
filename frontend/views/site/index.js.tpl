@@ -1,11 +1,13 @@
-{* 数据中心的首页, 显示地图和N个自动站 *}
+{* 数据中心的首页, 显示地图和N个自动站, 激活设备 *}
 <script>
     var stations = eval('({$stations})');
+    var activeDevices = eval('({$activeDevices})');
+
 </script>
 {literal}
 <script>
 
-    function getMarkerEventHandler(station) {
+    function getStationMarkerEventHandler(station) {
         return function() {
             var infoPane = $('#station-point-info-template').clone();
 
@@ -20,6 +22,30 @@
             var link = infoPane.find('td a');
 
             link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);
+
+            // 创建信息窗口对象
+            var infoWindow = new BMap.InfoWindow(infoPane.html());
+            console.log(this /* this means marker */);
+            this.openInfoWindow(infoWindow);
+        }
+    }
+
+    function getDeviceMarkerEventHandler(activeDevice) {
+        var a = activeDevice;
+        return function() {
+            var infoPane = $('#station-point-info-template').clone();
+
+            var typeName = a.deviceType.type_name;
+
+
+            infoPane.find('h3.title').text(typeName);
+            infoPane.find('td.connection').text('联通');
+            infoPane.find('td.last-data-time').text('2016-09-05 23:45:00');
+            infoPane.find('td.gps').text('{lng}, {lat}'.format({ 'lng': a.device_lng, 'lat': a.device_lat }));
+            infoPane.find('td.address').text('珠海市XXXXXXX');
+            var link = infoPane.find('td a');
+
+            // link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);
 
             // 创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());
@@ -51,13 +77,48 @@
         marker.setLabel(label);
 
         //信息窗
-        marker.addEventListener( "click", getMarkerEventHandler(station) );
+        marker.addEventListener( "click", getStationMarkerEventHandler(station) );
     }
+
+    function showActiveDeviceMarker(map, activeDevice) {
+
+        var a = activeDevice;
+        console.log(a)
+
+        var point = new BMap.Point(a.device_lng, a.device_lat);
+
+        // TODO: relative resource
+        var markerIcon = new BMap.Icon("/img/red.png", new BMap.Size(32, 32));
+
+        var marker = new BMap.Marker(point, {icon: markerIcon});
+        marker.setZIndex(100);
+
+        map.addOverlay(marker);
+
+        //文字标注
+        var typeName = a.deviceType.type_name;
+        var labelHtml = '<span style="background-color: inherit;padding:3px"><i class="fa fa-home"></i>&nbsp;{typeName}</span>'.format({typeName:typeName});
+        console.log(labelHtml);
+        var label = new BMap.Label(labelHtml, {offset: new BMap.Size(28, 3)});
+        label.setStyle({color:"#FFFFFF", backgroundColor:"#3C3C3C", fontSize:"14px", border:"none" });
+        marker.setLabel(label);
+
+        //信息窗
+        marker.addEventListener( "click", getDeviceMarkerEventHandler(activeDevice) );
+    }
+
 
     function showStationMarkerDelay(map, station, delay)
     {
         setTimeout(function() {
             showStationMarker(map, station);
+        }, delay);
+    }
+
+    function showActiveDeviceMarkerDelay(map, activeDevice, delay)
+    {
+        setTimeout(function() {
+            showActiveDeviceMarker(map, activeDevice);
         }, delay);
     }
 
@@ -73,8 +134,8 @@
     {
         MovableDevicesNavigator.prototype = new BMap.Control();
 
+        // 右上角的移动设备列表入口!
         MovableDevicesNavigator.prototype.initialize = function(map){
-
 
             var div = $('#movable-devices-template');
             div.click(function () {
@@ -112,11 +173,19 @@
 
         var delay = 800;
         var offset = 400;
-        console.log(stations);
+        // 自动站显示marker
         for (var i in stations)
         {
             var station = stations[i];
             showStationMarkerDelay(map, station, delay + offset);
+            offset /= 2; // Fast as fast
+        }
+
+        // 已经激活的设备显示为marker
+        for (var i in activeDevices)
+        {
+            var activeDevice = activeDevices[i];
+            showActiveDeviceMarkerDelay(map, activeDevice, delay + offset);
             offset /= 2; // Fast as fast
         }
 

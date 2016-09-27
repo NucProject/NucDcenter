@@ -75,8 +75,12 @@ class SiteController extends BaseController
          */
         $stations = StationService::getStationList($centerId);
 
+        $activeDevices = DataCenterService::getActiveMovableDevices($centerId);
+
 
         $data['stations'] = json_encode($stations);
+        $data['activeDevices'] = json_encode($activeDevices);
+
         parent::setPageMessage("欢迎使用{$dataCenter['center_name']}");
         parent::setBreadcrumbs([]);
         return parent::renderPage('index.tpl', $data,

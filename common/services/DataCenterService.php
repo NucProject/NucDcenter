@@ -90,4 +90,20 @@ class DataCenterService
 
         return $movableDevices;
     }
+
+    /**
+     * @param $centerId
+     * @return array
+     * 根据$centerId获得它所管理的移动设备列表
+     */
+    public static function getActiveMovableDevices($centerId)
+    {
+        $movableDevices = NucDevice::find()
+            ->with('deviceType')
+            ->where(['center_id' => $centerId, 'is_movable' => 1, 'device_status' => 1])
+            ->asArray()
+            ->all();
+
+        return $movableDevices;
+    }
 }
