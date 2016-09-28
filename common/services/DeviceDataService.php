@@ -47,6 +47,10 @@ class DeviceDataService
 
         $dataTime = $data['data_time'];
         $entry = UkDeviceData::find()->where(['data_time' => $dataTime])->one();
+        if (!$entry) {
+            echo "Not Found the data entry places";
+            return false;
+        }
 
         // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
         // 设置具体每一个字段
@@ -79,13 +83,26 @@ class DeviceDataService
      * @param $deviceKey
      * @param $beginTime
      * @param $endTime
-     * @return array
+     * @param $avgFields array
+     * @param bool|false $otherFields
+     * @return array|\common\models\NucDataCenter|null
      */
-    public static function itemsArray($deviceKey, $beginTime, $endTime)
+    public static function itemsArray($deviceKey, $beginTime, $endTime, $avgFields, $otherFields=false)
     {
-        // ? ???
+        $selects = [];
+        foreach ($avgFields as $selectField)
+        {
+            $selects[] = "avg({$selectField}) as {$selectField}";
+        }
+
+        if ($otherFields)
+        {
+            $selects = array_merge($selects, $otherFields);
+        }
+
+        $selectStr = implode(',', $selects);
         $items = UkDeviceData::findByKey($deviceKey)
-            ->select('avg(inner_doserate) as inner_doserate, avg(outer_doserate) as outer_doserate, lng, lat, lng_gps, lat_gps')
+            ->select($selectStr)
             ->where(['>', 'data_time', $beginTime])
             ->andWhere(['<', 'data_time', $endTime])
             ->asArray()

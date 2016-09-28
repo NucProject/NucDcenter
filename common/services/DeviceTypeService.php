@@ -54,7 +54,7 @@ class DeviceTypeService
      */
     public static function getDeviceType($typeKey)
     {
-        return NucDeviceType::find()->where(['type_key' => $typeKey])->one();
+        return NucDeviceType::find()->with('fields')->where(['type_key' => $typeKey])->one();
     }
 
     /**

@@ -8,6 +8,9 @@
 
 namespace console\controllers;
 
+use common\models\NucDevice;
+use common\services\DeviceService;
+use common\services\DeviceTypeService;
 use yii;
 use common\components\Helper;
 use common\services\DeviceDataService;
@@ -48,18 +51,40 @@ class DataController extends Controller
         }
     }
 
-    public function actionHistoryAvg($begin, $end)
+    public function actionHistoryAvg($deviceKey, $begin, $end)
     {
-        $counter = 0;
         $duration = 300;
 
         $beginTime = strtotime(Helper::regular5mTime($begin));
         $endTime = strtotime(Helper::regular5mTime($end));
         $cursorTime = $beginTime;
+
+        while ($cursorTime <= $endTime)
+        {
+            $dataTime = date('Y-m-d', $cursorTime);
+            $this->prepareTomorrowAvgData($deviceKey, $dataTime);
+            $cursorTime += 3600 * 24;
+        }
+
+        $cursorTime = $beginTime;
+        $device = DeviceService::getDeviceByKey($deviceKey);
+
+        $deviceType = DeviceTypeService::getDeviceType($device->type_key);
+        $avgFields = [];
+        foreach ($deviceType->fields as $field) {
+            $avgFields[] = $field->field_name;
+        }
+
+        $otherFields = [];
+        if ($device->is_movable)
+        {
+            $otherFields = ['lng', 'lat', 'lng_gps', 'lat_gps'];
+        }
         while ($cursorTime <= $endTime)
         {
             $dataTime = date('Y-m-d H:i:s', $cursorTime);
-            $this->calcDevicesAvg($dataTime, $duration);
+            $this->calcDeviceAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields);
+
             $cursorTime += $duration;
         }
     }
@@ -72,9 +97,10 @@ class DataController extends Controller
         }
     }
 
-    private function calcDeviceAvg($deviceKey, $dataTime, $duration)
+    private function calcDeviceAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields)
     {
-        $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration);
+        $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields);
+
 
         $avgData['data_time'] = $dataTime;
         DeviceDataService::updateAvgEntry($deviceKey, $avgData);
@@ -90,20 +116,40 @@ class DataController extends Controller
     /**
      * 生成次日数据集合, 应该在当日晚8:00-10:00直接生成, 这样出现问题, 我还有可能去解决
      * @param $deviceKey
-     * @param $date
+     * @param $date string 某一天的任意一刻
+     * @return bool
      * @throws yii\db\Exception
      */
     public function prepareTomorrowAvgData($deviceKey, $date)
     {
         if (!$deviceKey) {
+            return false;
         }
 
-        $tableName = '';
-        $fields = 'data_id, alert_status, status, data_time, create_time, update_time';
+        $tableName = DeviceDataService::getTableName($deviceKey, true);
 
-        $begin = strtotime($date);
+        $time = strtotime($date);
+        $dateBegin = date('Y-m-d', $time);
+        $begin = strtotime($dateBegin);
         $end = $begin + 3600 * 24;
-        $time = $begin;
+        $dateBegin = date('Y-m-d', $begin);
+        $dateEnd = date('Y-m-d', $end);
+
+        $counter = "select count(*) count from {$tableName} where data_time> '{$dateBegin}' and data_time<= '{$dateEnd}'";
+        $result = Yii::$app->db->createCommand($counter)->queryOne();
+        $count = $result['count'];
+        if ($count == 288) {
+            // 已经存在了
+            return false;
+        } elseif ($count >= 0 && $count < 288) {
+            // 不完整, 重新建立
+            $deleteSql = "delete from {$tableName} where data_time> '{$dateBegin}' and data_time<= '{$dateEnd}'";
+            Yii::$app->db->createCommand($deleteSql)->execute();
+        }
+
+
+        // 凌晨00:00:00不算, 第一个是00:05:00
+        $time = $begin + 300;
         $entries = [];
         while ($time <= $end)
         {
@@ -114,6 +160,7 @@ class DataController extends Controller
             $entries[] = $entry;
         }
 
+        $fields = 'data_id, alarm_status, status, data_time, create_time, update_time';
         $values = implode(',', $entries);
         $sql = "insert into {$tableName} ($fields) values {$values};";
 
@@ -165,12 +212,14 @@ class DataController extends Controller
      * @param $deviceKey
      * @param $dataTime
      * @param $duration
-     * @return array
+     * @param $avgFields
+     * @param $otherFields
+     * @return array|\common\models\NucDataCenter|null
      */
-    private function calcDataAvg($deviceKey, $dataTime, $duration)
+    private function calcDataAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields)
     {
         $beginTime = date('Y-m-d H:i:s', strtotime($dataTime) - $duration);
-        $items = DeviceDataService::itemsArray($deviceKey, $beginTime, $dataTime);
+        $items = DeviceDataService::itemsArray($deviceKey, $beginTime, $dataTime, $avgFields, $otherFields);
 
         return $items;
 

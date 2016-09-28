@@ -82,7 +82,7 @@ class SiteController extends BaseController
         $data['activeDevices'] = json_encode($activeDevices);
 
         parent::setPageMessage("欢迎使用{$dataCenter['center_name']}");
-        parent::setBreadcrumbs([]);
+        // parent::setBreadcrumbs([]);
         return parent::renderPage('index.tpl', $data,
             ['with' => ['baiduMap']]);
     }

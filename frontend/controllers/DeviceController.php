@@ -38,16 +38,29 @@ class DeviceController extends BaseController
         $data = $this->getDeviceData($device, $options);
         $this->handleShowOptions($data);
 
+        $deviceType = DeviceTypeService::getDeviceType($device->type_key);
+        $displayFieldName = '';
+        foreach ($deviceType->fields as $field)
+        {
+            if ($field['display_flag'] == 1)
+            {
+                $displayFieldName = $field->field_name;
+                break;
+            }
+        }
+        $deviceName = $data['deviceName'];
+
         if (!$data['hideChart'])
         {
-            $points = self::convertItemsToPoints(array_reverse($data['items']), 'inner_doserate');
+            $points = self::convertItemsToPoints(array_reverse($data['items']), $displayFieldName);
             $data['itemPoints'] = $points['points'];
             $data['maxVal'] = $points['maxVal'];
             $data['minVal'] = $points['minVal'];
-            $data['chartTitle'] = 'XX设备五分钟曲线';
+
+            $data['chartTitle'] = $deviceName . ' 五分钟曲线';
         }
 
-        $deviceName = $data['deviceName'];
+
         parent::setPageMessage("{$deviceName} 数据曲线图表");
         parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);
         return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
