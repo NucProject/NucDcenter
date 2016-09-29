@@ -6,12 +6,19 @@
     function addStationMarker(map, point) {
         // Clear the last selection
         map.clearOverlays();
-        var markerIcon = new BMap.Icon("http://127.0.0.1:1001/img/red.png", new BMap.Size(32, 32));
+        var markerIcon = new BMap.Icon("/img/red.png", new BMap.Size(32, 32));
         // console.log(point, markerIcon);
         var marker = new BMap.Marker(point, {icon: markerIcon});
         marker.setZIndex(100);
 
         map.addOverlay(marker);
+
+        var geo = new BMap.Geocoder();
+        geo.getLocation(point, function(data) {
+            if (data) {
+                $('form input[name=stationAddress]').val(data.address);
+            }
+        });
     }
 
     $(function () {
@@ -22,6 +29,17 @@
                 $('#gps-info').removeClass('display-none');
             } else {
                 $('#gps-info').addClass('display-none');
+            }
+        });
+
+        $('#hasGPS').change(function () {
+            var checked = $(this).prop('checked');
+            if (checked) {
+                $('#city').addClass('display-none');
+                $('#lngAndLat').removeClass('display-none').val('');
+            } else {
+                $('#lngAndLat').addClass('display-none');
+                $('#city').removeClass('display-none').val('');
             }
         });
 
@@ -54,8 +72,6 @@
             }
         });
 
-
-
         uploader.on( 'fileQueued', function( file ) {
 
             var $list = $('#fileList');
@@ -77,6 +93,18 @@
 
                 $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
+        });
+
+        uploader.on('uploadSuccess', function(file, data) {
+            console.log(file);
+
+            if (data)
+            {
+                var result = data.data.result;
+                var fileName = result.file;
+                $('form input[name=stationPic]').val(fileName);
+
+            }
         });
 
 

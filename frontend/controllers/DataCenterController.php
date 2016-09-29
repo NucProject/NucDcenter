@@ -100,12 +100,14 @@ class DataCenterController extends BaseController
     public function actionDoAddStation()
     {
         $centerId = DataCenterService::deployedCenterId();
+        file_put_contents("d:\\a.ots", json_encode($_POST));
 
         $params = [
             'station_name'    => Helper::getPost('stationName', ['required' => true]),
             'station_desc'    => Helper::getPost('stationDesc', ['default' => '']),
             'station_pic'     => Helper::getPost('stationPic', ['default' => '']),
             'station_type'    => Helper::getPost('stationType', ['default' => 0, 'type' => 'is_numeric']),
+            'station_addr'    => Helper::getPost('stationAddress', ['default' => '']),
             'owner_lead'      => Helper::getPost('ownerLead', ['default' => '']),
             'owner_org'       => Helper::getPost('ownerOrg', ['default' => '']),
             'builder_org'     => Helper::getPost('builderOrg', ['default' => '']),

@@ -1,6 +1,8 @@
 <?php
 
 namespace common\services;
+use common\components\Strings;
+
 /**
  * Class FileUploaderService
  *

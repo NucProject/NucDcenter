@@ -27,18 +27,22 @@
 
         <div class="form-group" id="gps-info">
             <label for="exampleInputEmail1">GPS信息</label>
+            <br>
+            <label><input type="checkbox" id="hasGPS" />&nbsp;我知道确切的GPS位置</label>
+
             <div class="checkbox">
                 <label>
-                    <input type="text" class="form-control" name="city" placeholder="试着输入城市名称">
-                    <br>
-                    <input type="text" class="form-control" name="lngAndLat" placeholder="请提供经、纬度（逗号分隔）">
+                    <input type="text" class="form-control" id='city' name="city" placeholder="试着输入城市名称">
+
+                    <input type="text" class="form-control display-none" id="lngAndLat" name="lngAndLat" placeholder="请提供经、纬度（逗号分隔）">
 
                     <input type="hidden" name="lng">
                     <input type="hidden" name="lat">
+                    <input type="hidden" name="stationAddress">
                 </label>
             </div>
 
-            <div id="map" style="width: 400px; height: 300px; margin-left: 50px"></div>
+            <div id="map" style="width: 600px; height: 400px; margin-left: 50px"></div>
         </div>
 
         <div class="form-group">
@@ -52,7 +56,7 @@
             </div>
             <div id="uploader-demo">
                 <!--用来存放item-->
-
+                <input type="hidden" name="stationPic">
                 <div id="filePicker">选择图片</div>
             </div>
         </div>

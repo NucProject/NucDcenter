@@ -81,7 +81,7 @@
     {* 点击进入移动设备列表 *}
     <div id="movable-devices-template">
         <div style="background-color: #3C3C3C; opacity: 0.8">
-            <div style="padding: 3px">
+            <div style="padding: 3px 10px 10px 3px">
                 <span>
                     <i class="fa fa-rocket"></i>
                     <a href="javascript:void(0)">

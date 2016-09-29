@@ -14,11 +14,12 @@
             var stationName = station.station_name;
             var stationKey = station.station_key;
 
+
             infoPane.find('h3.title').text(stationName);
             infoPane.find('td.connection').text('联通');
             infoPane.find('td.last-data-time').text('2016-09-05 23:45:00');
             infoPane.find('td.gps').text('{lng}, {lat}'.format({ 'lng': station.lng, 'lat': station.lat }));
-            infoPane.find('td.address').text('珠海市XXXXXXX');
+            infoPane.find('td.address').text(station.station_addr);
             var link = infoPane.find('td a');
 
             link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);

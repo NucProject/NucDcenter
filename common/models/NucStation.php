@@ -14,6 +14,7 @@ use Yii;
  * @property string $station_desc
  * @property string $station_pic
  * @property integer $station_type
+ * @property string $station_addr
  * @property string $owner_lead
  * @property string $owner_org
  * @property string $builder_org
@@ -45,7 +46,7 @@ class NucStation extends \common\models\BaseModel
             [['completion_date', 'create_time', 'update_time'], 'safe'],
             [['lng', 'lat'], 'number'],
             [['station_key', 'station_name'], 'string', 'max' => 32],
-            [['station_desc', 'station_pic', 'owner_lead', 'owner_org', 'builder_org', 'ops_org'], 'string', 'max' => 255],
+            [['station_desc', 'station_pic', 'station_addr', 'owner_lead', 'owner_org', 'builder_org', 'ops_org'], 'string', 'max' => 255],
         ];
     }
 
@@ -62,6 +63,7 @@ class NucStation extends \common\models\BaseModel
             'station_desc' => 'Station Desc',
             'station_pic' => 'Station Pic',
             'station_type' => 'Station Type',
+            'station_addr' => 'Station Addr',
             'owner_lead' => 'Owner Lead',
             'owner_org' => 'Owner Org',
             'builder_org' => 'Builder Org',
