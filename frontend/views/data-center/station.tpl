@@ -27,7 +27,7 @@
                href="index.php?r=station/index&stationKey={$station.station_key}">进入查看设备</a>
         </div>
         <div class="pull-right margin-left-50">
-            <img src="{$station.station_pic}" style="width: 150px;height: 120px">
+            <img src="{$station.station_pic}" style="width: 200px;height: 160px" alt="未提供图片">
         </div>
     </div>
 {/block}

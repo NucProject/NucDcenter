@@ -51,7 +51,7 @@ class DataCenterController extends BaseController
         $data['stations'] = StationService::getStationList($centerId);
 
         parent::setPageMessage("自动站列表");
-        parent::setBreadcrumbs(['index.html' => '自动站']);
+        parent::setBreadcrumbs(['#' => '自动站']);
         return parent::renderPage('index.tpl', $data);
     }
 
@@ -90,7 +90,7 @@ class DataCenterController extends BaseController
         $data['centerId'] = $centerId;
 
 
-        parent::setBreadcrumbs(['index.html' => '自动站', '#' => '添加自动站']);
+        parent::setBreadcrumbs(['/index.php?r=data-center/stations' => '自动站', '#' => '添加自动站']);
         return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap']]);
     }
 
@@ -100,7 +100,6 @@ class DataCenterController extends BaseController
     public function actionDoAddStation()
     {
         $centerId = DataCenterService::deployedCenterId();
-        file_put_contents("d:\\a.ots", json_encode($_POST));
 
         $params = [
             'station_name'    => Helper::getPost('stationName', ['required' => true]),
