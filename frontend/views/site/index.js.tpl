@@ -33,19 +33,21 @@
     function getDeviceMarkerEventHandler(activeDevice) {
         var a = activeDevice;
         return function() {
-            var infoPane = $('#station-point-info-template').clone();
+            var deviceKey = a.device_key;
+            var infoPane = $('#device-point-info-template').clone();
 
             var typeName = a.deviceType.type_name;
 
 
             infoPane.find('h3.title').text(typeName);
-            infoPane.find('td.connection').text('联通');
-            infoPane.find('td.last-data-time').text('2016-09-05 23:45:00');
+            infoPane.find('td.connection').text('已激活'); // TODO:
+            var now = new Date();
+            infoPane.find('td.last-data-time').text(now.toLocaleDateString('zh'));
             infoPane.find('td.gps').text('{lng}, {lat}'.format({ 'lng': a.device_lng, 'lat': a.device_lat }));
-            infoPane.find('td.address').text('珠海市XXXXXXX');
+            infoPane.find('td.address').text('');
             var link = infoPane.find('td a');
 
-            // link.attr('href', 'index.php?r=station/index&stationKey=' + stationKey);
+            link.attr('href', 'index.php?r=device/info&deviceKey=' + deviceKey);
 
             // 创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());

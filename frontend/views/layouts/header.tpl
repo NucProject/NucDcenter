@@ -45,14 +45,16 @@
                 </a>
                 <ul class="dropdown-menu skins">
                     <li class="dropdown-title">
-                        <span><i class="fa fa-leaf"></i> Theme Skins</span>
+                        <span><i class="fa fa-leaf"></i> 我经常访问的功能</span>
                     </li>
-                    <li><a href="#" data-skin="default">Subtle (default)</a></li>
+                    <li><a href="/" data-skin="default">首页</a></li>
+                    <!--
                     <li><a href="#" data-skin="night">Night</a></li>
                     <li><a href="#" data-skin="earth">Earth</a></li>
                     <li><a href="#" data-skin="utopia">Utopia</a></li>
                     <li><a href="#" data-skin="nature">Nature</a></li>
                     <li><a href="#" data-skin="graphite">Graphite</a></li>
+                    -->
                 </ul>
             </li>
         </ul>

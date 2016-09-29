@@ -39,6 +39,7 @@
 </div>
 
 <div class="display-none">
+    {* 更多自动站信息 模板 *}
     <div id="station-point-info-template">
         <h3 class="title"></h3>
         <table class="table table-trip">
@@ -55,11 +56,29 @@
                 <td class="tip-title">地址</td><td class="tip-value address">珠海市XXXXXX</td>
             </tr>
             <tr>
-                <td></td><td><a class="btn">更多信息</a></td>
+                <td></td><td><a class="btn">更多自动站信息</a></td>
             </tr>
         </table>
     </div>
 
+    {* 更多设备信息 模板 *}
+    <div id="device-point-info-template">
+        <h3 class="title"></h3>
+        <table class="table table-trip">
+            <tr>
+                <td class="tip-title">状态</td><td class="tip-value connection">已激活</td>
+            </tr>
+            <tr>
+                <td class="tip-title">GPS位置</td><td class="tip-value gps">113.1282233,23.555450</td>
+            </tr>
+
+            <tr>
+                <td></td><td><a class="btn">更多设备信息</a></td>
+            </tr>
+        </table>
+    </div>
+
+    {* 点击进入移动设备列表 *}
     <div id="movable-devices-template">
         <div style="background-color: #3C3C3C; opacity: 0.8">
             <div style="padding: 3px">

@@ -164,8 +164,8 @@ class DataCenterController extends BaseController
             'is_movable'        => $deviceType->is_movable,
             'launch_date'       => Helper::getPost('launch_date', []),
             'rescale_date'      => Helper::getPost('rescale_date', []),
-
         ];
+
         // 1. Device表里面插入一条数据
         $device = DeviceService::addDevice($centerId, $typeKey, $params);
         if (!$device)

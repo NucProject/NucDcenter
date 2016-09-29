@@ -3,9 +3,11 @@
     <div class="sidebar-menu nav-collapse">
         <div class="divide-20"></div>
         <!-- SEARCH BAR -->
+        <!-- 暂时先不要搜索了
         <div id="search-bar">
             <input class="search" type="text" placeholder="Search"><i class="fa fa-search search-icon"></i>
         </div>
+        -->
         <!-- /SEARCH BAR -->
 
         <!-- SIDEBAR QUICK-LAUNCH -->
