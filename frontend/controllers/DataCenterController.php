@@ -74,7 +74,7 @@ class DataCenterController extends BaseController
         $data['flashes'] = $flashes;
 
         parent::setPageMessage("移动设备列表");
-        parent::setBreadcrumbs(['index.html' => '移动式便携设备']);
+        parent::setBreadcrumbs(['#' => '移动式便携设备']);
         return parent::renderPage('movable-devices.tpl', $data);
     }
 
@@ -91,7 +91,7 @@ class DataCenterController extends BaseController
 
 
         parent::setBreadcrumbs(['/index.php?r=data-center/stations' => '自动站', '#' => '添加自动站']);
-        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap']]);
+        return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap', 'laydate']]);
     }
 
     /**

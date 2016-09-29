@@ -65,7 +65,7 @@ class StationController extends BaseController
 
         parent::setPageMessage("为 {$station->station_name} 添加设备");
         parent::setBreadcrumbs([
-            'index.html' => '自动站',
+            '/index.php?r=data-center/stations' => '自动站',
             '#' => '添加新设备']);
         return parent::renderPage('add-device.tpl', $data,
             ['with' => ['dialog', 'laydate']]);

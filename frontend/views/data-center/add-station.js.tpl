@@ -140,6 +140,15 @@
             mapCenter = map.getCenter();
 
         });
+
+
+        var builtTime = {
+            elem: '#built_time',
+            istime: false,
+            format: 'YYYY-MM-DD',
+        };
+
+        laydate(builtTime);
     });
 
 </script>

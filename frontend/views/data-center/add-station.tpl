@@ -75,7 +75,7 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">建成日期</label>
-            <input type="text" class="form-control" name="completionDate" placeholder="请填写建成日期">
+            <input type="text" id='built_time' class="form-control" name="completionDate" placeholder="请填写建成日期">
         </div>
 
         <div class="form-group">
