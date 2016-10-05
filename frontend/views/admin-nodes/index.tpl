@@ -25,7 +25,7 @@
 
                             <td width="350px">
 
-                                <a class="action" href="javascript:void(0)" {if $a['brand_new']}style="color:green"{/if}>
+                                <a class="action" href="javascript:void(0)" {if $a['brand_new']}style="color:orange"{/if}>
                                     {$controller}/{$a['action']}{foreach from=$a['params'] item=p}&{$p.name}={/foreach}
                                 </a>
                                 {* params value setting dialog content *}

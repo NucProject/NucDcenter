@@ -1,3 +1,10 @@
+{literal}
+<style>
+    .current{
+        background-color: antiquewhite !important;
+    }
+</style>
+{/literal}
 <div>
     <div id="menu_group_operator" class="clearfix box">
         <div class="control-group toolbar">
@@ -13,7 +20,7 @@
     <form id="roleMenusForm" method="post" action="index.php?r=admin-role/menus-update">
 
 
-        <table class="table table-striped table-bordered table-hover table-full-width dataTable" id="menu_group_table">
+        <table class="table table-bordered table-full-width dataTable" id="menu_group_table">
             <thead>
             <tr>
                 <td width="80px">菜单组ID</td>

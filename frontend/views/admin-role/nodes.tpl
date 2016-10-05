@@ -30,7 +30,7 @@
                     <select name="f[{$n.node_id}][menuId]">
                         <option value="0">不显示到左侧导航栏中</option>
                         {foreach from=$menus item=m}
-                            <option value="{$m.menu_id}">{$m.menu_name}</option>
+                            <option value="{$m.menu_id}" {if $m.menu_id==$n.menu_id}selected{/if}>{$m.menu_name}</option>
                         {/foreach}
                     </select>
                 </td>

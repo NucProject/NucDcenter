@@ -31,6 +31,7 @@ class AdminNodesController extends BaseController
         $data = array(
             'controllers' => $nodes
         );
+        parent::setPageMessage("同步页面节点设置", "其中<span style='color: orange'>橙色的url</span>是未同步的节点");
         parent::setBreadcrumbs(['index.html' => '权限管理', '#' => '页面节点设置']);
         return parent::renderPage('index.tpl', $data, ['with' => ['dialog']]);
     }
