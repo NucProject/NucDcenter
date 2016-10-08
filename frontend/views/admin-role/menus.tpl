@@ -57,6 +57,8 @@
 
     <div style="clear: both"></div>
     <a class="btn btn-warning blue" onclick="updateMenuGroups()">更新</a>
+
+    {* Dialog content *}
     <div style="display: none" id="remove-confirm-dialog-content">
         <span>该菜单项可能被其他子菜单项依赖，您确定要删除它吗？</span>
         <br>
