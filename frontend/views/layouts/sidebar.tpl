@@ -1,7 +1,14 @@
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
     <div class="sidebar-menu nav-collapse">
-        <div class="divide-20"></div>
+        <div class="divide-20">
+            <div id="sidebar-collapse" class="sidebar-collapse btn" style="left: 5px">
+                <i class="fa fa-bars"
+                   data-icon1="fa fa-bars"
+                   data-icon2="fa fa-bars" ></i>
+
+            </div>
+        </div>
         <!-- SEARCH BAR -->
         <!-- 暂时先不要搜索了
         <div id="search-bar">
@@ -15,7 +22,7 @@
         <!-- /SIDEBAR QUICK-LAUNCH -->
 
         <!-- SIDEBAR MENU -->
-        <ul>
+        <ul class="margin-top-50">
             {foreach from=$sidebarMenus item=m}
                 <li {if isset($m.subMenus)}class="has-sub"{/if}>
                     <a href="{$m.href}" class="">

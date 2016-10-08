@@ -20,6 +20,17 @@ class AccessControl extends \yii\filters\AccessControl
 
     public function beforeAction($action)
     {
+        $controllerName = $action->controller->id;
+        $actionName = $action->id ?: 'index';
+
+        if ($controllerName == 'send' &&
+            ($actionName == 'data' || $actionName == 'mobile-data')) {
+            // 设备发送数据，不校验用户和权限
+            // 未来不排除校验token, 格式等
+            return true;
+        }
+
+
         $user = Yii::$app->user;
         $model = $user->getIdentity();
 

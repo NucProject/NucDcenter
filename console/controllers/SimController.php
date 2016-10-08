@@ -8,7 +8,7 @@
 
 namespace console\controllers;
 
-
+use yii;
 use yii\console\Controller;
 
 /**
@@ -45,11 +45,8 @@ class SimController extends Controller
 
     private function sendNew131Data()
     {
-        while (true)
-        {
-            $data = [];
-            $this->sendData('send/mobile-data', $data);
-        }
+        $data = [];
+        $this->sendData('send/mobile-data', $data);
     }
 
     private function sendFh40gData()
@@ -77,13 +74,15 @@ class SimController extends Controller
      */
     private function doCurlPost($remoteServer, $postData)
     {
-        $ch = \curl_init();
-        \curl_setopt($ch, CURLOPT_URL, $remoteServer);
-        \curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        \curl_setopt($ch, CURLOPT_USERAGENT, "Huawei P9 Clients");
-        $data = \curl_exec($ch);
-        \curl_close($ch);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $remoteServer);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Huawei P9 Clients");
+        $data = curl_exec($ch);
+
+        var_dump($data);
+        curl_close($ch);
 
         return $data;
     }

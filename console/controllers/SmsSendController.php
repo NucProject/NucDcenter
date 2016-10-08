@@ -14,16 +14,16 @@ use common\models\NucDevice;
  */
 class SmsSendController extends Controller
 {
-    // 从last_send_id开始找没发送的
+    // last_send_id
     const SQL_FETCH_UNSENT_SMS = "select * from sys_send_sms where send_id >= %(last_send_id)s and status != 1 order by send_id desc limit 1000";
 
-    // 从最新的1000个里面找没有发送的(用于补救的)
+    //
     const SQL_FETCH_RECOVER_SMS = "select * from sys_send_sms where status != 1 order by send_id desc limit 1000";
 
 
     public function actionExec() {
         $lastSendId = 0;
-        $lastSendId2 = -1;   // 更新$lastSendId的时候才echo用
+        $lastSendId2 = -1;   // $lastSendId
         $seconds = 0;
         while (true) {
             if ($lastSendId2 != $lastSendId)
@@ -37,7 +37,7 @@ class SmsSendController extends Controller
             $seconds += 1;
 
             if ($seconds % 10 == 0) {
-                // 每10秒补救一次(如果存在漏法的)
+
                 $this->recoverSend();
             }
         }
@@ -58,10 +58,10 @@ class SmsSendController extends Controller
             $result = self::sendSms($item);
 
             if ($result) {
-                // 设置为发送
+
                 SysSendSms::model()->updateByPk($sendId, array('status' => 1, 'last_modified' => date('Y-m-d H:i:s')));
             } else {
-                // 设置为发送失败
+
                 SysSendSms::model()->updateByPk($sendId, array('status' => 2, 'last_modified' => date('Y-m-d H:i:s')));
                 array_push($sendFailedArray, $sendId);
             }
@@ -85,10 +85,10 @@ class SmsSendController extends Controller
             $result = self::sendSms($item);
 
             if ($result) {
-                // 设置为发送
+
                 SysSendSms::model()->updateByPk($sendId, array('status' => 1, 'last_modified' => date('Y-m-d H:i:s')));
             } else {
-                // 设置为发送失败
+
                 SysSendSms::model()->updateByPk($sendId, array('status' => 2, 'last_modified' => date('Y-m-d H:i:s')));
                 array_push($sendFailedArray, $sendId);
             }

@@ -17,11 +17,18 @@
             -->
             <!-- /TEAM STATUS FOR MOBILE -->
             <!-- SIDEBAR COLLAPSE -->
+
+            <!-- 移动到Sidebar上面去了
             <div id="sidebar-collapse" class="sidebar-collapse btn">
                 <i class="fa fa-bars"
                    data-icon1="fa fa-bars"
                    data-icon2="fa fa-bars" ></i>
 
+            </div>
+            -->
+
+            <div>
+                <span style="color: white"><b>{$currentDCenterName}</b></span>
             </div>
 
             <!-- /SIDEBAR COLLAPSE -->
@@ -37,6 +44,8 @@
                 </a>
             </li>
             -->
+
+            <!--
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-rocket"></i>
@@ -54,9 +63,10 @@
                     <li><a href="#" data-skin="utopia">Utopia</a></li>
                     <li><a href="#" data-skin="nature">Nature</a></li>
                     <li><a href="#" data-skin="graphite">Graphite</a></li>
-                    -->
+
                 </ul>
             </li>
+            -->
         </ul>
         <!-- /NAVBAR LEFT -->
         <!-- BEGIN TOP NAVIGATION MENU -->

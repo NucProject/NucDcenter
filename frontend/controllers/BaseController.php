@@ -75,6 +75,12 @@ class BaseController extends Controller
             }
         }
 
+        $data['currentDCenterName'] = "未设置";
+        if (isset(Yii::$app->params['currentDCenterName']))
+        {
+            $data['currentDCenterName'] = Yii::$app->params['currentDCenterName'];
+        }
+
         $this->initSideBar($data, $roleId);
 
         $this->initBreadcrumbs($data);

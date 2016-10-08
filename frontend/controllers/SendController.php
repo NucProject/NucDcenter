@@ -17,7 +17,10 @@ use yii;
 class SendController extends BaseController
 {
     const CommonData = 1;
+
     const MobileData = 2;
+
+    public $enableCsrfValidation = false;
 
     /**
      * @POST send/data
@@ -50,13 +53,13 @@ class SendController extends BaseController
      */
     private function dataHandler($type)
     {
-        $request = Yii::app()->request;
-        if (!$request->isPost()) {
+        $request = Yii::$app->request;
+        if (!$request->isPost) {
             return parent::error(['msg' => 'Post required'], 1);
         }
         $payload = $request->getRawBody();
         $ts = time();
-        file_put_contents("d:\\sends\\{$ts}.txt", $payload);
+        // file_put_contents("d:\\sends\\{$ts}.txt", $payload);
 
         $post = @json_decode($payload, true);
         if (!$post) {
