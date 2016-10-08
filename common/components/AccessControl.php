@@ -30,7 +30,6 @@ class AccessControl extends \yii\filters\AccessControl
             return true;
         }
 
-
         $user = Yii::$app->user;
         $model = $user->getIdentity();
 

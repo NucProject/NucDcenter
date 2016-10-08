@@ -59,7 +59,10 @@ class SendController extends BaseController
         }
         $payload = $request->getRawBody();
         $ts = time();
-        // file_put_contents("d:\\sends\\{$ts}.txt", $payload);
+        if (isset(Yii::$app->params['recordSends']))
+        {
+            file_put_contents("D:\\NucProject\\sends\\{$type}-{$ts}.txt", $payload);
+        }
 
         $post = @json_decode($payload, true);
         if (!$post) {

@@ -78,12 +78,11 @@ class SimController extends Controller
         curl_setopt($ch, CURLOPT_URL, $remoteServer);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, "Huawei P9 Clients");
+        curl_setopt($ch, CURLOPT_USERAGENT, "Huawei P9 Client");
         $data = curl_exec($ch);
-
-        var_dump($data);
         curl_close($ch);
 
+        echo $data . "\n";
         return $data;
     }
 }

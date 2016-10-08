@@ -18,6 +18,7 @@
                 <input class="form-control" type="text" name="end_time" size="10" id="end_time"
                        value="{$get.end_time}">
             </div>
+            <input type="submit" class="btn btn-info" value="查看">
         </div>
 
         <input type="hidden" name="deviceKey" value="{$deviceKey}">
