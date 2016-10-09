@@ -27,6 +27,20 @@ class NucTaskAttend extends \common\models\BaseModel
         return 'nuc_task_attend';
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['task_id'], 'required'],
+            [['task_id', 'data_id_begin', 'data_id_end', 'status'], 'integer'],
+            [['create_time', 'update_time'], 'safe'],
+            [['device_key'], 'string', 'max' => 32],
+            [['attend_name'], 'string', 'max' => 255],
+        ];
+    }
+
     public function getTask()
     {
         return $this->hasOne(NucTask::className(), ['task_id' => 'task_id']);
@@ -37,20 +51,6 @@ class NucTaskAttend extends \common\models\BaseModel
     {
         return $this->hasOne(NucDevice::className(), ['device_key' => 'device_key']);
 
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['task_id', 'attend_name'], 'required'],
-            [['task_id', 'data_id_begin', 'data_id_end', 'status'], 'integer'],
-            [['create_time', 'update_time'], 'safe'],
-            [['device_key'], 'string', 'max' => 32],
-            [['attend_name'], 'string', 'max' => 255],
-        ];
     }
 
     /**

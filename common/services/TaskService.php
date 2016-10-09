@@ -9,6 +9,8 @@
 namespace common\services;
 
 
+use common\components\ModelSaveFailedException;
+use common\components\ResourceNotFoundException;
 use common\models\NucTask;
 use common\models\NucTaskAttend;
 
@@ -65,6 +67,40 @@ class TaskService
 
 
         return $task;
+    }
+
+    /**
+     * @param $deviceKey
+     * @param $taskId
+     * @return NucTaskAttend
+     * @throws
+     * 加入一个任务
+     */
+    public static function attendTask($deviceKey, $taskId)
+    {
+        $task = NucTask::findOne($taskId);
+        if (!$task) {
+            throw new ResourceNotFoundException("TaskId=$taskId Not found");
+        }
+
+        $attend = NucTaskAttend::find()
+            ->where(['task_id' => $taskId, 'device_key' => $deviceKey])
+            ->one();
+
+        if ($attend)
+        {
+            return $attend;
+        }
+
+        $attend = new NucTaskAttend();
+
+        $attend->task_id = $taskId;
+        $attend->device_key = $deviceKey;
+        if ($attend->save()) {
+            return $attend;
+        } else {
+            throw new ModelSaveFailedException($attend->getErrors());
+        }
     }
 
 }

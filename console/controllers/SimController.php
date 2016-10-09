@@ -45,11 +45,12 @@ class SimController extends Controller
 
     private function sendNew131Data()
     {
+        $r1 = rand(-10, 10);
         $data = [
             'deviceKey' => 'dk96db3d6938e74659da',
             'data_time' => '2016-09-01 08:00:00',
             'data' => [
-                'doserate' => '123.5',
+                'doserate' => round(123.5 + $r1, 2),
                 'battery' => '5.0',
                 'temperature' => '23.4'
             ]

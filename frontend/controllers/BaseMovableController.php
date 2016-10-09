@@ -14,6 +14,8 @@ use yii\web\Controller;
 class BaseMovableController extends Controller
 {
 
+    public $enableCsrfValidation = false;
+
     public function renderPage()
     {
 

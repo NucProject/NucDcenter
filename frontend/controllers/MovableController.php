@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\services\TaskService;
 use yii\web\Controller;
 
 /**
@@ -26,41 +27,60 @@ class MovableController extends BaseMovableController
     }
 
     /**
-     * @m.page
+     * @m.api
+     * @return string
      */
-    public function actionTaskList()
+    public function actionTasks()
     {
-
+        $tasks = TaskService::getTasks();
+        return parent::result($tasks);
     }
 
     /**
-     * @m.page
+     * @m.api
      * @param $taskId
+     * @return string
      */
     public function actionTask($taskId)
     {
+        $task = TaskService::getTaskById($taskId);
 
+        return parent::result($task);
     }
 
     /**
-     * @ajax
+     * @m.api
      * @param $taskId
+     * @return string
      */
     public function actionTaskStatus($taskId)
     {
+        $task = TaskService::getTaskById($taskId);
 
+        return parent::result($task);
     }
 
     /**
-     * @ajax
+     * @m.api
+     * @param $deviceKey
      * @param $taskId
      * @return json
+     * 参与一个任务
      */
-    public function actionAttend($taskId)
+    public function actionAttend($deviceKey, $taskId)
     {
+        try {
+            $attend = TaskService::attendTask($deviceKey, $taskId);
 
-
-        return parent::result([]);
+            return parent::result($attend->toArray());
+        } catch (\Exception $e) {
+            return parent::error(
+                [
+                    'msg' => "Device($deviceKey) can not join task($taskId)",
+                    'exception' => $e
+                ],
+                1);
+        }
     }
 
 
