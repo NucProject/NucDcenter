@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\services\DeviceDataService;
 use yii;
 
 /**
@@ -69,10 +70,10 @@ class SendController extends BaseController
             return parent::error(['msg' => 'Bad Post'], 2);
         }
 
-        if (!array_key_exists('time', $post)) {
+        if (!array_key_exists('data_time', $post)) {
             return parent::error(['msg' => 'Data-time lost'], 3);
         }
-        $time = $post['time'];
+        $time = $post['data_time'];
 
         if ($this->saveDeviceData($post, $time, $type)) {
             return parent::result(['msg' => 'Saved OK!']);
@@ -82,12 +83,12 @@ class SendController extends BaseController
     }
 
     /**
-     * @param $data array
-     * @param $time string datetime
+     * @param $data     array
+     * @param $dataTime string datetime
      * @param $type int const
      * @return bool
      */
-    private function saveDeviceData($data, $time, $type) {
+    private function saveDeviceData($data, $dataTime, $type) {
 
         $deviceKey = $data['deviceKey'];
         if (!stristr($deviceKey, 'DK')) {
@@ -95,7 +96,7 @@ class SendController extends BaseController
             return false;
         }
 
-
+        DeviceDataService::addEntry($deviceKey, $dataTime, $data['data']);
         return true;
     }
 

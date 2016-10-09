@@ -26,11 +26,19 @@ class DeviceDataService
      * @param $checkAlarm   boolean
      * @return bool
      */
-    public static function addEntry($deviceKey, $data, $checkAlarm=true)
+    public static function addEntry($deviceKey, $dataTime, $data, $checkAlarm=true)
     {
+        UkDeviceData::$deviceKey = $deviceKey;
+        UkDeviceData::$avg = false;
+
         $entry = new UkDeviceData();
         // $data里面应该含有data_time字段
-        $entry->setAttributes($data);
+        $entry->data_time = $dataTime;
+        foreach ($data as $field => $value)
+        {
+            $entry->$field = $value;
+        }
+
         if ($checkAlarm)
         {
             // TODO: Get alarm settings, if alarm set alarm_status=1

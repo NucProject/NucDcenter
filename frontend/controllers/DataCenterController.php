@@ -71,7 +71,10 @@ class DataCenterController extends BaseController
         $data['stationKey'] = '';
 
         $flashes = Yii::$app->session->getAllFlashes(true);
-        $data['flashes'] = $flashes;
+        if ($flashes)
+        {
+            $data['flashes'] = $flashes;
+        }
 
         parent::setPageMessage("移动设备列表");
         parent::setBreadcrumbs(['#' => '移动式便携设备']);
