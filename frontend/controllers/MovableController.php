@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 use common\services\TaskService;
-use yii\web\Controller;
+
 
 /**
  *
@@ -23,12 +23,13 @@ class MovableController extends BaseMovableController
      */
     public function actionSignIn()
     {
-
+        // TODO:
     }
 
     /**
      * @m.api
      * @return string
+     * 任务列表
      */
     public function actionTasks()
     {
@@ -40,6 +41,7 @@ class MovableController extends BaseMovableController
      * @m.api
      * @param $taskId
      * @return string
+     * 任务详情
      */
     public function actionTask($taskId)
     {
@@ -83,5 +85,34 @@ class MovableController extends BaseMovableController
         }
     }
 
+    /**
+     * @m.api
+     * @param $deviceKey
+     * @return json
+     * 我当前正在参与的任务
+     */
+    public function actionMyAttend($deviceKey)
+    {
+        try {
+            $attend = TaskService::getAttendTask($deviceKey);
+            $task = null;
+            if ($attend->task)
+            {
+                $task = $attend->task->toArray();
+            }
+            $attend = $attend->toArray();
+
+            return parent::result([
+                'attend' => $attend,
+                'task' => $task
+            ]);
+        } catch (\Exception $e) {
+            return parent::error([
+                    'msg' => "",
+                    'exception' => $e
+                ],
+                1);
+        }
+    }
 
 }

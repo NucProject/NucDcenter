@@ -103,4 +103,25 @@ class TaskService
         }
     }
 
+    /**
+     * @param $deviceKey
+     * @return NucTaskAttend
+     * @throws
+     * 返回设备最后一次Attend的任务
+     */
+    public static function getAttendTask($deviceKey)
+    {
+        $attend = NucTaskAttend::find()
+            ->with('task')
+            ->where(['device_key' => $deviceKey])
+            ->orderBy('attend_id desc')
+            ->one();
+
+        if ($attend)
+        {
+            return $attend;
+        }
+        return false;
+    }
+
 }

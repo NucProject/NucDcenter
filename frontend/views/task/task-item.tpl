@@ -12,17 +12,20 @@
 
             <span class="status">
                 <div class="field">
-                    <span class="badge badge-green">6</span> completed
+                    <span class="badge badge-green">6</span> 设备参与
                     <span class="pull-right fa fa-check"></span>
                 </div>
+
                 <div class="field">
-                    <span class="badge badge-orange">3</span> in-progress
-                    <span class="pull-right fa fa-adjust"></span>
-                </div>
-                <div class="field">
-                    <span class="badge badge-red">1</span> pending
+                    开始于 {$task['begin_time']}
                     <span class="pull-right fa fa-list-ul"></span>
                 </div>
+                {if $task['task_status'] == 3}
+                <div class="field">
+                    结束于 {$task['end_time']}
+                    <span class="pull-right fa fa-list-ul"></span>
+                </div>
+                {/if}
             </span>
 
         </div>
