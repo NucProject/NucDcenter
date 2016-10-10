@@ -117,24 +117,32 @@ class Helper
      * @param $fileName
      * @param $lng
      * @param $lat
+     * @param $zoom
      * @param int $width
      * @param int $height
      * @return boolean|int
      */
-    public static function saveBaiduMapRectByPoint($fileName, $lng, $lat, $width=400, $height=400)
+    public static function saveBaiduMapRectByPoint($fileName, $lng, $lat, $zoom=11, $width=400, $height=400)
     {
         $ak = \Yii::$app->params['baiduMapAk'];
         $center = "{$lng},{$lat}";
-        $api = "http://api.map.baidu.com/staticimage/v2?ak={$ak}&mcode=666666&center={$center}&width={$width}&height={$height}&zoom=11";
+        $api = "http://api.map.baidu.com/staticimage/v2?ak={$ak}&mcode=666666&center={$center}&width={$width}&height={$height}&zoom={$zoom}";
 
         $img = file_get_contents($api);
         if ($img)
         {
-            if (file_put_contents($fileName, $img))
+            $filePath = self::getFilePath($fileName);
+            if (file_put_contents($filePath, $img))
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public static function getFilePath($fileName)
+    {
+        $filePath = Yii::getAlias('@frontend') . '/web/taskimg/' . $fileName;
+        return $filePath;
     }
 }

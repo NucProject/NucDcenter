@@ -21,26 +21,34 @@
 
         <div class="form-group clearfix">
             <label class="control-label pull-left" style="margin-top: 8px">
-                开始时间:
+                预计开始时间:
             </label>
             <div class="col-md-2 pull-left">
                 <input class="form-control" type="text" name="begin_time" size="10" id="begin_time">
             </div>
             <label class="control-label pull-left" style="margin-top: 8px">
-                结束时间:
+                预计结束时间:
             </label>
             <div class="col-md-2  pull-left">
                 <input class="form-control" type="text" name="end_time" size="10" id="end_time">
             </div>
         </div>
 
+        <input type="hidden" name="taskImage">
+        <input type="hidden" name="map_zoom">
+        <input type="hidden" name="lng">
+        <input type="hidden" name="lat">
+
         <div class="form-group" id="gps-info">
             <label for="exampleInputEmail1">选择任务区域</label>
             <div class="checkbox">
                 <label>
                     <input type="text" class="form-control" name="city" placeholder="请试着输入城市名称">
+                    <!--
+                    暂时不支持
                     <br>
                     <input type="text" class="form-control" name="lngAndLat" placeholder="或提供经、纬度（逗号分隔）">
+                    -->
 
                 </label>
             </div>

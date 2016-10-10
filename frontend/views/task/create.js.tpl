@@ -14,6 +14,8 @@
 
     var mapCenter = null;
 
+    var gMap = null;
+
     function createTaskConfirm()
     {
         var taskName = $('#createTaskForm input[name=taskName]').val();
@@ -34,6 +36,23 @@
             return false;
         }
 
+        var random = parseInt(+new Date() / 1000) + "_" + parseInt(Math.random() * 100) + '.jpg';
+
+        var c = gMap.getCenter();
+        var zoom = gMap.getZoom();
+        // console.log(c);
+        var saveUrl = 'index.php?r=task-image/save&lng={lng}&lat={lat}&file={random}&zoom={zoom}'.format(
+                {'lng': c.lng, 'lat': c.lat, 'random': random, 'zoom': zoom});
+        // console.log(saveUrl);
+        $.ajax({
+            url: saveUrl,
+            async: false,
+            timeout : 3000, // 超时设置(毫秒)
+            success : function(data){
+                console.log(data);
+            }
+        });
+
         bootbox.confirm({
             buttons: {
                 confirm: {
@@ -47,10 +66,16 @@
                 }
             },
             title: "新建任务",
-            message: '是否要新建任务"<b>{taskName}</b>"？'.format({'taskName': taskName}),
+            message: '是否要新建任务"<b>{taskName}</b>"？<br><img style="width: 200px;height:150px" src="/taskimg/{fileName}">'.format({'taskName': taskName, 'fileName': random}),
 
             callback: function(result) {
                 if (result) {
+                    $('#createTaskForm input[name=taskImage]').val(random);
+                    $('#createTaskForm input[name=map_zoom]').val(zoom);
+
+                    $('#createTaskForm input[name=lng]').val(c.lng);
+                    $('#createTaskForm input[name=lat]').val(c.lat);
+
                     $('#createTaskForm').submit();
                 }
             }
@@ -75,8 +100,10 @@
         map.addControl(new BMap.OverviewMapControl());
         map.addControl(new BMap.MapTypeControl());
         map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
-        mapCenter = map.getCenter();
+
         map.enableScrollWheelZoom();
+
+        gMap = map;
 
 
         $('input[name=city]').blur(function () {

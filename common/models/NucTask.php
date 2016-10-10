@@ -11,6 +11,10 @@ use Yii;
  * @property integer $task_type
  * @property string $task_name
  * @property string $task_desc
+ * @property string $task_image
+ * @property string $lng
+ * @property string $lat
+ * @property integer $map_zoom
  * @property integer $begin_type
  * @property string $begin_set_time
  * @property string $begin_time
@@ -38,9 +42,10 @@ class NucTask extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['task_type', 'begin_type', 'task_status', 'task_end_reason', 'status'], 'integer'],
+            [['task_type', 'map_zoom', 'begin_type', 'task_status', 'task_end_reason', 'status'], 'integer'],
+            [['lng', 'lat'], 'number'],
             [['begin_set_time', 'begin_time', 'end_set_time', 'end_time', 'create_time', 'update_time'], 'safe'],
-            [['task_name'], 'string', 'max' => 255],
+            [['task_name', 'task_image'], 'string', 'max' => 255],
             [['task_desc'], 'string', 'max' => 1024],
         ];
     }
@@ -55,6 +60,10 @@ class NucTask extends \common\models\BaseModel
             'task_type' => 'Task Type',
             'task_name' => 'Task Name',
             'task_desc' => 'Task Desc',
+            'task_image' => 'Task Image',
+            'lng' => 'Lng',
+            'lat' => 'Lat',
+            'map_zoom' => 'Map Zoom',
             'begin_type' => 'Begin Type',
             'begin_set_time' => 'Begin Set Time',
             'begin_time' => 'Begin Time',

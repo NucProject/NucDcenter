@@ -23,7 +23,8 @@ class TaskService
     public static function create($data)
     {
         $task = new NucTask();
-        $task->setAttribute($data);
+        $task->task_status = 1; // 发布
+        $task->setAttributes($data);
         if ($task->save()) {
             return $task;
         } else {

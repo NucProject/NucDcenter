@@ -76,19 +76,22 @@ class TaskController extends BaseController
      * @ajax
      * @return bool
      * @throws BadArgumentException
+     * 废弃
      */
     public function actionDoCreate()
     {
         $now = time();
 
         $data = [
-            'task_name' => Helper::getPost('taskName', ['required' => true]),
-            'lng' => Helper::getPost('lng', []),
-            'lat' => Helper::getPost('lat', []),
+            'task_name'     => Helper::getPost('taskName', ['required' => true]),
+            'task_desc'     => Helper::getPost('taskDesc', ['default' => '']),
+            'task_image'    => Helper::getPost('taskImage', ['default' => '']),
+            'map_zoom'      => Helper::getPost('map_zoom', ['default' => '11']),
+            'lng'           => Helper::getPost('lng', ['default' => '0.0']),
+            'lat'           => Helper::getPost('lat', ['default' => '0.0']),
+            'begin_set_time'    => Helper::getPost('begin_time', ['default' => '0']),
+            'end_set_time'      => Helper::getPost('end_time', ['default' => '0']),
         ];
-
-        $png = md5($data['task_name']) . "_{$now}.png";
-        Helper::saveBaiduMapRectByPoint($png, $data['lng'], $data['lat']);
 
         $task = TaskService::create($data);
         if (!($task instanceof NucTask)) {
@@ -253,6 +256,8 @@ class TaskController extends BaseController
         parent::setBreadcrumbs(['index.html' => '任务', '#' => '轨迹回放']);
         return parent::renderPage('replay.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Heatmap']]);
     }
+
+
 
     /**
      * @return bool
