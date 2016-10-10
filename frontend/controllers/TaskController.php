@@ -80,7 +80,7 @@ class TaskController extends BaseController
      */
     public function actionDoCreate()
     {
-        $now = time();
+        // $now = time();
 
         $data = [
             'task_name'     => Helper::getPost('taskName', ['required' => true]),

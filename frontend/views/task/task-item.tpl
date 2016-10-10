@@ -1,13 +1,15 @@
 <li class="current pull-left" style="margin-right: 30px">
     <a href="index.php?r=task/detail&taskId={$task['task_id']}">
     <div style="position:relative;">
+        <div style="height: 200px">
         {if $task['task_image']}
             <img src="/taskimg/{$task['task_image']}" alt="" style="width: 200px;height: 150px">
             {else}
             {* TODO: 给个默认的图片 *}
             <img src="" alt="" style="width: 200px;height: 150px">
         {/if}
-        <div style="position:absolute; z-index:2; bottom:-30px; left:0px; width: 100%;
+        </div>
+        <div style="position:absolute; z-index:2; bottom:0px; left:0px; width: 100%;
                     background-color: #3c3c3c; opacity: 0.85; padding-left: 5px">
 
             <h4 class="title" style="color: white">
