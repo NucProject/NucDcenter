@@ -76,12 +76,10 @@ class TaskController extends BaseController
      * @ajax
      * @return bool
      * @throws BadArgumentException
-     * 废弃
+     *
      */
     public function actionDoCreate()
     {
-        // $now = time();
-
         $data = [
             'task_name'     => Helper::getPost('taskName', ['required' => true]),
             'task_desc'     => Helper::getPost('taskDesc', ['default' => '']),
@@ -131,20 +129,26 @@ class TaskController extends BaseController
 
     /**
      * @ajax
+     * @param $taskId
      * @comment 正式开始一个任务
      */
-    public function actionStart()
+    public function actionStart($taskId)
     {
+        TaskService::changeTaskStatus($taskId, TaskService::TaskRunning);
 
+        $this->redirect(array('task/detail', 'taskId' => $taskId));
     }
 
     /**
      * @ajax
+     * @param $taskId
      * @comment 结束一个任务
      */
-    public function actionStop()
+    public function actionStop($taskId)
     {
+        TaskService::changeTaskStatus($taskId, TaskService::TaskCompleted);
 
+        $this->redirect(array('task/detail', 'taskId' => $taskId));
     }
 
     /**

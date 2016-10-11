@@ -16,6 +16,10 @@ use common\models\NucTaskAttend;
 
 class TaskService
 {
+    const TaskRunning = 2;
+
+    const TaskCompleted = 3;
+
     /**
      * @param $data
      * @return array|NucTask
@@ -102,6 +106,22 @@ class TaskService
         } else {
             throw new ModelSaveFailedException($attend->getErrors());
         }
+    }
+
+    /**
+     * @param $taskId
+     * @param $taskStatus
+     * @return boolean
+     */
+    public static function changeTaskStatus($taskId, $taskStatus)
+    {
+        $task = NucTask::findOne($taskId);
+        if ($task)
+        {
+            $task->task_status = $taskStatus;
+            return $task->save();
+        }
+        return false;
     }
 
     /**

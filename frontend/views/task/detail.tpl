@@ -41,11 +41,11 @@
     </table>
 
     {if $task.task_status == 1}
-        <a class="btn btn-info" href="index.php?r=task/start">开始任务!</a>
+        <a class="btn btn-info" href="index.php?r=task/start&taskId={$task['task_id']}">开始任务!</a>
     {elseif $task.task_status == 2}
-        <a class="btn btn-info" href="index.php?r=task/stop">停止任务!</a>
+        <a class="btn btn-info" href="index.php?r=task/stop&taskId={$task['task_id']}">停止任务!</a>
     {elseif $task.task_status == 3}
-        <!--
+        <!--????
         <a class="btn btn-info" href="index.php?r=task/stop">停止</a>
         -->
     {/if}
