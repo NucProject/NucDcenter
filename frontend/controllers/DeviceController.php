@@ -82,6 +82,8 @@ class DeviceController extends BaseController
         $data = [];
         $data['device'] = $device;
         $data['tasks'] = TaskService::getTasksByDevice($device['device_key']);
+
+        parent::setPageMessage($device['type_name'] . ' 设备信息');
         parent::setBreadcrumbs(['index.html' => '设备', '#' => '信息']);
         return parent::renderPage('info.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }

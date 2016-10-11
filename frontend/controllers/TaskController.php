@@ -115,12 +115,14 @@ class TaskController extends BaseController
             'task' => $task
         ];
 
+        parent::setPageMessage($task['task_name']);
+
         if ($task['task_status'] == 1) {
-            parent::setPageMessage("任务即将于{$task['begin_set_time']}开始");
+            //parent::setPageMessage("任务即将于{$task['begin_set_time']}开始");
         } elseif ($task['task_status'] == 2) {
-            parent::setPageMessage("任务正在进行中...");
+            //parent::setPageMessage("任务正在进行中...");
         } elseif ($task['task_status'] == 3) {
-            parent::setPageMessage("任务已结束", "{$task['begin_time']}~{$task['end_time']}");
+            //parent::setPageMessage("任务已结束", "{$task['begin_time']}~{$task['end_time']}");
         }
 
         parent::setBreadcrumbs(['index.html' => '任务详情']);
@@ -131,7 +133,16 @@ class TaskController extends BaseController
      * @ajax
      * @comment 正式开始一个任务
      */
-    public function actionLaunch()
+    public function actionStart()
+    {
+
+    }
+
+    /**
+     * @ajax
+     * @comment 结束一个任务
+     */
+    public function actionStop()
     {
 
     }
