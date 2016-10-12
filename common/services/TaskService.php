@@ -119,6 +119,11 @@ class TaskService
         if ($task)
         {
             $task->task_status = $taskStatus;
+            if ($taskStatus == self::TaskRunning) {
+                $task->begin_time = date('Y-m-d H:i:s');
+            } elseif ($taskStatus == self::TaskCompleted) {
+                $task->end_time = date('Y-m-d H:i:s');
+            }
             return $task->save();
         }
         return false;
