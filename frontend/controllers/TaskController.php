@@ -54,7 +54,7 @@ class TaskController extends BaseController
 
         // $historyTasksCount = count($historyTasks);
         parent::setPageMessage("任务管理列表");
-        parent::setBreadcrumbs(['index.html' => '任务']);
+        parent::setBreadcrumbs(['#' => '任务']);
         return parent::renderPage('index.tpl', $data, []);
     }
 
@@ -206,7 +206,8 @@ class TaskController extends BaseController
             'deviceDataMap' => $deviceDataMap
         ];
 
-        parent::setBreadcrumbs(['index.html' => '任务', '#' => '辐射分布']);
+        parent::setPageMessage('区域辐射分布图');
+        parent::setBreadcrumbs(['index.php?r=task' => '任务', '#' => '辐射分布']);
         return parent::renderPage('doserate-grid.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Mapgrid', 'Slim']]);
     }
 
