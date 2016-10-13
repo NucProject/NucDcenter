@@ -46,6 +46,13 @@
                     </select>
                 </td>
                 <td>
+                    <select class="form-control" name="fieldShow">
+                        <option value="0">不显示</option>
+                        <option value="1">重点显示</option>
+                        <option value="2">显示</option>
+                    </select>
+                </td>
+                <td>
                     <input type="text" class="form-control" id="TypeUnit" placeholder="请填写数据类型单位">
                 </td>
                 <td>
@@ -70,6 +77,13 @@
                             <option value="1" {if $field.field_type==1}selected{/if}>整数</option>
                             <option value="2" {if $field.field_type==2}selected{/if}>高精度浮点数</option>
                             <option value="3" {if $field.field_type==3}selected{/if}>字符串</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" name="fieldShow">
+                            <option value="1" {if $field.display_flag==1}selected{/if}>重点显示</option>
+                            <option value="2" {if $field.display_flag==2}selected{/if}>显示</option>
+                            <option value="0" {if $field.display_flag==0}selected{/if}>不显示</option>
                         </select>
                     </td>
                     <td>

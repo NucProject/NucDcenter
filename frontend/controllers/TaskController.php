@@ -95,7 +95,8 @@ class TaskController extends BaseController
         if (!($task instanceof NucTask)) {
             return parent::error($task, -1);
         }
-        return parent::result($task);
+
+        $this->redirect(['task/index']);
     }
 
     /**
@@ -110,18 +111,11 @@ class TaskController extends BaseController
         $task = $this->getTaskById($taskId);
 
         $data = [
-            'task' => $task
+            'task' => $task,
+            'fetchValUrl' => 'index.php?r=device-data/latest'
         ];
 
         parent::setPageMessage($task['task_name']);
-
-        if ($task['task_status'] == 1) {
-            //parent::setPageMessage("任务即将于{$task['begin_set_time']}开始");
-        } elseif ($task['task_status'] == 2) {
-            //parent::setPageMessage("任务正在进行中...");
-        } elseif ($task['task_status'] == 3) {
-            //parent::setPageMessage("任务已结束", "{$task['begin_time']}~{$task['end_time']}");
-        }
 
         parent::setBreadcrumbs(['index.html' => '任务详情']);
         return parent::renderPage('detail.tpl', $data, ['with' => ['laydate']]);

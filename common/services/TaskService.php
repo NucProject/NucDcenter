@@ -62,7 +62,7 @@ class TaskService
         {
             $attends = NucTaskAttend::find()
                 ->where(['task_id' => $taskId])
-                ->with('device')
+                ->innerJoinWith('device') // 否则错误的deviceKey会多出来一个空的device行
                 ->asArray()
                 ->all();
 

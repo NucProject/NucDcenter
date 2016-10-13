@@ -50,25 +50,53 @@
         -->
     {/if}
 
+    {if count($task.attends)>0}
     <h4>参与的设备</h4>
-    <table class="table table-striped table-bordered">
+    <table id="devices-table" class="table table-striped table-bordered">
         <thead>
         <tr>
-            <td><b>参与人</b></td>
             <td><b>设备名称</b></td>
             <td><b>设备编号</b></td>
+            <td><b>当前测量值</b></td>
+            <td><b>当前状态</b></td>
+            <td><b>参与人</b></td>
             <td><b>参加时间</b></td>
 
         </tr>
         </thead>
         {foreach from=$task.attends item=attend}
             <tr>
-                <td>{$attend.attend_name}</td>
                 <td>{$attend.device.type_name}</td>
-                <td>{$attend.device.device_key}</td>
+                <td>{$attend.device.device_sn}</td>
+                <td class="value" id="{$attend.device.device_key}"></td>
+                <td>
+                    {if $attend.device.device_status==1}
+                        <button class="btn btn-info btn-xs"> 已激活</button>
+                    {else}
+                        <button class="btn btn-grey btn-xs"> 未激活</button>
+                    {/if}
+                </td>
+                <td>{$attend.attend_name}</td>
                 <td>{$attend.create_time}</td>
             </tr>
         {/foreach}
     </table>
+        {else}
+        <h4>没有参与的设备</h4>
+        <hr>
+    {/if}
+
+    <h4>当前任务区域</h4>
+    <a class="btn btn-info" href="index.php?r=task/distribute&taskId={$task.task_id}">查询区域分布</a>
+    <a class="btn btn-info">查询轨迹</a>
+
+    <div style="width: 402px; height: 300px; border: solid 1px grey;margin-top: 10px">
+        {if $task['task_image']}
+            <img src="/taskimg/{$task['task_image']}" alt="" style="width: 400px;height: 300px">
+        {else}
+            {* TODO: 给个默认的图片 *}
+            <img src="/taskimg/default.jpg" alt="未设置地图" style="width: 400px;height: 300px;border: none">
+        {/if}
+    </div>
 
 </div>

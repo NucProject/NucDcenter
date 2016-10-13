@@ -88,6 +88,8 @@ class DeviceController extends BaseController
         return parent::renderPage('info.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 
+
+
     /**
      * @param $device \common\models\NucDevice
      * @param $options

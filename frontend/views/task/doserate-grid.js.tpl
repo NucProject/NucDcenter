@@ -22,6 +22,11 @@
     var centerLng = parseFloat('{$centerLng}') || 0;
     var centerLat = parseFloat('{$centerLat}') || 0;
 
+    if (!centerLng || !centerLat) {
+        centerLng = {$task['lng']};
+        centerLat = {$task['lat']};
+    }
+
     var points = { };
     {foreach from=$deviceKeys item=deviceKey}
     points['{$deviceKey}'] = '{$deviceDataMap[$deviceKey]}'.toJson();
@@ -35,17 +40,23 @@
         allPoints = allPoints.concat(points[i])
     }
 
-    var minTime = allPoints[0]['data_time'], maxTime = minTime;
-    for (var i in allPoints)
+    var minTime = 0;
+    var maxTime = 0;
+    if (allPoints.length > 0)
     {
-        var p = allPoints[i];
-        if (p['data_time'] > maxTime) {
-            maxTime = p['data_time'];
-            continue;
-        }
-        if (p['data_time'] < minTime) {
-            minTime = p['data_time'];
-            continue;
+        minTime = allPoints[0]['data_time'];
+        maxTime = minTime;
+        for (var i in allPoints)
+        {
+            var p = allPoints[i];
+            if (p['data_time'] > maxTime) {
+                maxTime = p['data_time'];
+                continue;
+            }
+            if (p['data_time'] < minTime) {
+                minTime = p['data_time'];
+                continue;
+            }
         }
     }
 
@@ -80,6 +91,12 @@
     });
 
     updateTimeRange(0, 60); // 初始化
+
+
+    var $zoom = 12;
+    {if isset($task.map_zoom)}
+        $zoom = {$task.map_zoom};
+    {/if}
 
 </script>
 {literal}
@@ -136,7 +153,7 @@
         var map = new BMap.Map("map"); // 创建Map实例
         // map.clearOverlays();
         var point = new BMap.Point(centerLng, centerLat); // TODO: 中心点;创建点坐标
-        map.centerAndZoom(point, 12); // 初始化地图,设置中心点坐标和地图级别。
+        map.centerAndZoom(point, $zoom); // 初始化地图,设置中心点坐标和地图级别。
         map.addControl(new BMap.NavigationControl());
         map.addControl(new BMap.ScaleControl());
         map.addControl(new BMap.OverviewMapControl());
