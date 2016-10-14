@@ -43,7 +43,7 @@ class DeviceTypeController extends BaseController
 
         parent::setPageMessage("增加一种新的设备类型");
         parent::setBreadcrumbs(['index.php?device-type' => '设备类型列表', '#' => '新增']);
-        return parent::renderPage('add.tpl', $data, []);
+        return parent::renderPage('add.tpl', $data, ['with' => ['dialog']]);
     }
 
     /**
@@ -56,9 +56,11 @@ class DeviceTypeController extends BaseController
             'type_key' => Helper::getPost('typeKey', ['required' => true])
         ];
 
-        if (DeviceTypeService::createDeviceType($params)) {
+        /*if (DeviceTypeService::createDeviceType($params)) {
 
-        }
+        }*/
+
+        return parent::result(Yii::$app->request->post());
     }
 
     /**

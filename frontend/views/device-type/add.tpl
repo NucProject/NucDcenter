@@ -8,35 +8,35 @@
 
 {block name=content}
     <h3 class="form-title">请填写设备类型信息</h3>
-    <form id="addDeviceForm" action="{$doUpdateUrl}" method="post">
+    <form id="addDeviceTypeForm" action="{$doUpdateUrl}" method="post">
         {* hidden keys *}
 
-        <input type="hidden" name="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
+        <input type="hidden" id="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
         <div class="form-group">
             <label for="exampleInputEmail1">设备类型Key</label>
             <input {if !$addNew}readonly{/if}
-                   type="text" class="form-control" name="typeKey" placeholder="请填写设备类型Key">
+                   type="text" class="form-control" name="typeKey" id="typeKey" placeholder="请填写设备类型Key">
         </div>
 
         <div class="form-group">
             <label for="exampleInputEmail1">设备类型名称</label>
-            <input type="text" class="form-control" id="TypeName" placeholder="请填写设备类型名称">
+            <input type="text" class="form-control" name="typeName" id="typeName" placeholder="请填写设备类型名称">
         </div>
 
         <div class="form-group">
             <label for="exampleInputEmail1">设备数据类型列表</label>
         </div>
-        <table class="table table-striped table-bordered">
+        <table id="field-table" class="table table-striped table-bordered">
             <tbody>
             <tr class="field-template" style="display: none">
                 <td>
-                    <input type="text" class="form-control" name="fieldName" placeholder="请填写数据类型字段名称">
+                    <input type="text" class="form-control fieldName" name="fieldName" placeholder="请填写数据类型字段名称">
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="fieldDisplay" placeholder="请填写数据类型名称">
+                    <input type="text" class="form-control fieldTitle" name="fieldDisplay" placeholder="请填写数据类型名称">
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="fieldDesc" placeholder="请填写数据类型描述">
+                    <input type="text" class="form-control fieldDesc" name="fieldDesc" placeholder="请填写数据类型描述">
                 </td>
                 <td>
                     <select class="form-control" name="fieldType">
@@ -62,7 +62,7 @@
             </tr>
 
             {foreach from=$fields item=field}
-                <tr class="" style="">
+                <tr class="field" style="">
                     <td>
                         <input type="text" class="form-control" name="fieldName" value="{$field.field_name}" placeholder="请填写数据类型字段名称">
                     </td>
@@ -104,7 +104,7 @@
             <label for="exampleInputEmail1">设备图片</label>
             <!--dom结构部分-->
             <div id="fileList" class="uploader-list">
-                <div class="file-item thumbnail"  style="width: 240px">
+                <div class="file-item thumbnail" style="width: 240px">
                     <img style="width:240px; height:180px">
                     <div class="info"></div>
                 </div>

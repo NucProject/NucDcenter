@@ -96,7 +96,7 @@ class SendController extends BaseController
             return false;
         }
 
-        DeviceDataService::addEntry($deviceKey, $dataTime, $data['data']);
+        DeviceDataService::addEntry($deviceKey, $dataTime, $data);
         return true;
     }
 

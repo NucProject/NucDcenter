@@ -36,4 +36,9 @@ class TaskImageController extends BaseController
         }
         return parent::error([], 1);
     }
+
+    public function actionAddPoint()
+    {
+
+    }
 }

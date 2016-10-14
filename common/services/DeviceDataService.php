@@ -22,6 +22,7 @@ class DeviceDataService
     /**
      *
      * @param $deviceKey    string
+     * @param $dataTime
      * @param $data         array
      * @param $checkAlarm   boolean
      * @return bool
@@ -34,7 +35,12 @@ class DeviceDataService
         $entry = new UkDeviceData();
         // $data里面应该含有data_time字段
         $entry->data_time = $dataTime;
-        foreach ($data as $field => $value)
+        if (array_key_exists('task_id', $data)) {
+            $entry->task_id = $data['task_id'];
+        }
+
+        $fields = $data['data'];
+        foreach ($fields as $field => $value)
         {
             $entry->$field = $value;
         }

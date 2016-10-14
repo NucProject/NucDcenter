@@ -88,7 +88,7 @@
 
     <h4>当前任务区域</h4>
     <a class="btn btn-info" href="index.php?r=task/distribute&taskId={$task.task_id}">查询区域分布</a>
-    <a class="btn btn-info">查询轨迹</a>
+    <a class="btn btn-info" href="index.php?r=task/replay&taskId={$task.task_id}">查询轨迹</a>
 
     <div style="width: 402px; height: 300px; border: solid 1px grey;margin-top: 10px">
         {if $task['task_image']}

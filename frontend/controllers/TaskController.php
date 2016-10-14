@@ -261,12 +261,21 @@ class TaskController extends BaseController
             'deviceDataMap' => $deviceDataMap
         ];
 
-        // var_dump($deviceDataMap);exit;
 
-        parent::setBreadcrumbs(['index.html' => '任务', '#' => '轨迹回放']);
+        parent::setBreadcrumbs(['index.php?r=task' => '任务', '#' => '轨迹回放']);
         return parent::renderPage('replay.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Heatmap']]);
     }
 
+    /**
+     * @return string
+     */
+    public function actionMap()
+    {
+        $data = [];
+
+        parent::setBreadcrumbs(['index.php?r=task' => '任务', '#' => '地图数据生成']);
+        return parent::renderPage('map.tpl', $data, ['with' => ['laydate', 'baiduMap', 'Heatmap']]);
+    }
 
 
     /**

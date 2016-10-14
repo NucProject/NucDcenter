@@ -21,7 +21,6 @@ class SimController extends Controller
     private $remoteUrl = 'http://127.0.0.1:1001/index.php?r=';
 
 
-
     /**
      * @param $deviceType
      * @param int $interval
@@ -36,14 +35,19 @@ class SimController extends Controller
     {
         $deviceTypeUpper = ucwords($deviceType);
         $sendMethod = "send{$deviceTypeUpper}Data";
+        $i = 0;
         while (true)
         {
-            $this->$sendMethod();
+            $this->$sendMethod($i);
+            $i++;
             sleep($interval / $speed);
         }
     }
 
-    private function sendNew131Data()
+    /**
+     * @param $i    int
+     */
+    private function sendNew131Data($i)
     {
         $r1 = rand(-10, 10);
         $data = [
@@ -56,16 +60,30 @@ class SimController extends Controller
             ]
 
         ];
-        $this->sendData('send/mobile-data', $data);
+        $this->sendData('send/data', $data);
     }
 
-    private function sendFh40gData()
+    /**
+     * @param $i    int
+     */
+    private function sendFh40gData($i)
     {
-        while (true)
-        {
-            $data = [];
-            $this->sendData('send/mobile-data', $data);
-        }
+        $r1 = rand(-10, 10);
+        $taskId = 10;
+        $data = [
+            'deviceKey' => 'dk96db3d6938e74659da',
+            'data_time' => '2016-09-01 08:00:00',
+            'task_id' => $taskId,
+            'data' => [
+                'inner_doserate' => round(123.5 + $r1, 2),
+                'outer_doserate' => '0',
+            ],
+            'gps' => [
+                'lng' => 123.00, 'lat' => 22.456
+            ]
+
+        ];
+        $this->sendData('send/mobile-data', $data);
     }
 
     private function sendData($action, $data)

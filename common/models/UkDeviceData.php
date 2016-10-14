@@ -9,6 +9,7 @@ use Yii;
  * This is the model class for table "uk_device_data_{$deviceKey}".
  *
  * @property integer    $data_id
+ * @property integer    $task_id
  * @property integer    $status
  * @property string     $data_time
  * @property string     $create_time
