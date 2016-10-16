@@ -9,6 +9,8 @@
         var centerLng = 113.300522;
         var centerLat = 22.326188;
 
+        console.log(BMap.Convertor)
+
         var map = new BMap.Map("map"); // 创建Map实例
         // map.clearOverlays();
         var point = new BMap.Point(centerLng, centerLat); // TODO: 中心点;创建点坐标

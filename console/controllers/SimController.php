@@ -71,7 +71,7 @@ class SimController extends Controller
         $r1 = rand(-10, 10);
         $taskId = 10;
         $data = [
-            'deviceKey' => 'dk96db3d6938e74659da',
+            'device_sn' => 'SN12312312011',
             'data_time' => '2016-09-01 08:00:00',
             'task_id' => $taskId,
             'data' => [
@@ -79,7 +79,8 @@ class SimController extends Controller
                 'outer_doserate' => '0',
             ],
             'gps' => [
-                'lng' => 123.00, 'lat' => 22.456
+                'lng' => 123.00, 'lat' => 22.456,
+                'lng_gps' => 123.00, 'lat_gps' => 22.456,
             ]
 
         ];
@@ -102,6 +103,7 @@ class SimController extends Controller
      */
     private function doCurlPost($remoteServer, $postData)
     {
+        file_put_contents("d:\\example.json", $postData);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remoteServer);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);

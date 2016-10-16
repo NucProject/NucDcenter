@@ -8,7 +8,9 @@
 
 namespace frontend\controllers;
 
+use common\services\DataCenterService;
 use common\services\DeviceDataService;
+use common\services\EntityIdService;
 use yii;
 
 /**
@@ -90,9 +92,16 @@ class SendController extends BaseController
      */
     private function saveDeviceData($data, $dataTime, $type) {
 
-        $deviceKey = $data['deviceKey'];
-        if (!stristr($deviceKey, 'DK')) {
-            // Invalid Device-Key!
+        $deviceSn = $data['device_sn'];
+        $centerId = DataCenterService::deployedCenterId();
+
+        if (!$deviceSn) {
+            return false;
+        }
+
+        $deviceKey = EntityIdService::genDeviceKey($centerId, $deviceSn);
+        if (!stristr($deviceKey, 'dk')) {
+            // DeviceKey should starts-with 'dk'
             return false;
         }
 

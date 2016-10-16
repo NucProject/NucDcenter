@@ -35,8 +35,18 @@ class DeviceDataService
         $entry = new UkDeviceData();
         // $data里面应该含有data_time字段
         $entry->data_time = $dataTime;
+
         if (array_key_exists('task_id', $data)) {
             $entry->task_id = $data['task_id'];
+        }
+
+        if (array_key_exists('gps', $data)) {
+            $gps = $data['gps'];
+            // 注意: 传递是GPS的经纬度, 不要直接放到lng和lat字段!
+            $entry->lng_gps = $gps['lng_gps'];
+            $entry->lat_gps = $gps['lat_gps'];
+            $entry->lng = $gps['lng'];
+            $entry->lat = $gps['lat'];
         }
 
         $fields = $data['data'];

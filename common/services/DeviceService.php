@@ -37,7 +37,8 @@ class DeviceService
      */
     public static function addDevice($centerId, $typeKey, $params, $stationKey='')
     {
-        $deviceKey = EntityIdService::genDeviceKey($centerId);
+        $deviceSn = $params['device_sn'];
+        $deviceKey = EntityIdService::genDeviceKey($centerId, $deviceSn);
 
         $device = new NucDevice();
         $device->setAttributes($params);

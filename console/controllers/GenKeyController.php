@@ -8,9 +8,9 @@
 
 namespace console\controllers;
 
+use common\services\DataCenterService;
 use yii\console\Controller;
 use common\services\EntityIdService;
-use yii\helpers\BaseInflector;
 
 class GenKeyController extends Controller
 {
@@ -19,5 +19,11 @@ class GenKeyController extends Controller
         echo EntityIdService::genStationKey(129);
     }
 
+    public function actionDevice($deviceSn)
+    {
+        echo EntityIdService::genDeviceKey(
+            DataCenterService::deployedCenterId(),
+            strtolower($deviceSn));
+    }
 
 }

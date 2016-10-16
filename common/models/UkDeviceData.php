@@ -12,6 +12,10 @@ use Yii;
  * @property integer    $task_id
  * @property integer    $status
  * @property string     $data_time
+ * @property decimal    $lng
+ * @property decimal    $lat
+ * @property decimal    $lng_gps
+ * @property decimal    $lat_gps
  * @property string     $create_time
  * @property string     $update_time
  */

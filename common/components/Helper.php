@@ -145,4 +145,23 @@ class Helper
         $filePath = Yii::getAlias('@frontend') . '/web/taskimg/' . $fileName;
         return $filePath;
     }
+
+
+    public static function gpsConvert($lng, $lat)
+    {
+        $ak = \Yii::$app->params['baiduMapAk'];
+        $coords = "{$lng},{$lat}";
+
+        // http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition
+        // 我们都是默认的，所有不写了
+        // from=1, to=5, output=json
+        $api = "http://api.map.baidu.com/geoconv/v1/?ak={$ak}&coords={$coords}";
+
+        $result = file_get_contents($api);
+        if ($result)
+        {
+            return json_decode($result);
+        }
+        return false;
+    }
 }

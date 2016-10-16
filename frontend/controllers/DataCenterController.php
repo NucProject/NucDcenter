@@ -162,8 +162,9 @@ class DataCenterController extends BaseController
 
         $deviceType = DeviceTypeService::getDeviceType($typeKey);
 
+        $deviceSn = Helper::getPost('device_sn', []);
         $params = [
-            'device_sn'         => Helper::getPost('device_sn', []),
+            'device_sn'         => $deviceSn,
             'type_name'         => $deviceType->type_name,
             'is_movable'        => $deviceType->is_movable,
             'launch_date'       => Helper::getPost('launch_date', []),

@@ -18,10 +18,12 @@ class EntityIdService
      * @return string
      * 生成设备唯一键值
      */
-    public static function genDeviceKey($centerId)
+    public static function genDeviceKey($centerId, $deviceSn)
     {
-        $key = static::getRandomStr($centerId);
-        return 'DK' . substr($key, 0, 18);
+        $deviceSn = strtolower($deviceSn);
+        $line = "{$centerId}-{$deviceSn}";
+        $key = strtolower(md5($line));
+        return 'dk' . substr($key, 0, 18);
     }
 
     /**
