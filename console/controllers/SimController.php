@@ -20,6 +20,8 @@ class SimController extends Controller
 {
     private $remoteUrl = 'http://127.0.0.1:1001/index.php?r=';
 
+    // Remote Url for fh40g
+    private $remoteUrl2 = "http://124.202.204.174:1001/index.php?r=send/mobile-data";
 
     /**
      * @param $deviceType
@@ -103,7 +105,7 @@ class SimController extends Controller
      */
     private function doCurlPost($remoteServer, $postData)
     {
-        file_put_contents("d:\\example.json", $postData);
+        // file_put_contents("d:\\example.json", $postData);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remoteServer);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);

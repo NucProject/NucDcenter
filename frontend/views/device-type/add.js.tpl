@@ -7,6 +7,11 @@
             var s = $(this);
             fields.push({
                 fieldName: s.find('input.fieldName').val(),
+                fieldTitle: s.find('input.fieldTitle').val(),
+                fieldDesc: s.find('input.fieldDesc').val(),
+                fieldValueType: s.find('select.fieldValueType').val(),
+                fieldDisplayFlag: s.find('select.fieldDisplayFlag').val(),
+                fieldUnit: s.find('input.fieldUnit').val(),
             })
         });
 
@@ -14,6 +19,9 @@
             csrfToken: $('#csrfToken').val(),
             typeKey: $('#typeKey').val().trim(),
             typeName: $('#typeName').val().trim(),
+            typeDesc: $('#typeDesc').val().trim(),
+            typePic: $('#typePic').val(),
+            isMovable: $('#deviceMovableType').val(),
             fields: fields
         };
 

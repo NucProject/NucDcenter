@@ -26,7 +26,7 @@ class Helper
             $value = Yii::$app->request->post($name);
         }
 
-        if (array_key_exists('required', $options)) {
+        if (array_key_exists('required', $options) && $options['required']) {
             if (!$value) {
                 $reason = "Param $name is required";
                 throw new BadArgumentException($reason);

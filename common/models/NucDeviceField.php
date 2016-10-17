@@ -16,6 +16,7 @@ use Yii;
  * @property string $field_display
  * @property string $field_desc
  * @property string $field_unit
+ * @property integer $display_flag
  * @property integer $status
  * @property string $create_time
  * @property string $update_time
@@ -36,7 +37,7 @@ class NucDeviceField extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['field_value_type', 'status'], 'integer'],
+            [['field_value_type', 'display_flag', 'status'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
             [['type_key', 'field_value_property', 'field_name'], 'string', 'max' => 64],
             [['field_value_default', 'field_display'], 'string', 'max' => 32],
@@ -52,14 +53,15 @@ class NucDeviceField extends \common\models\BaseModel
     {
         return [
             'field_id' => 'Field ID',
-            'type_key' => '设备类型KEY',
-            'field_value_type' => '类型',
-            'field_value_default' => '默认值',
-            'field_value_property' => '字段值属性',
-            'field_name' => '字段名',
-            'field_display' => '字段显示名称',
-            'field_desc' => '字段描述',
-            'field_unit' => '单位',
+            'type_key' => 'Type Key',
+            'field_value_type' => 'Field Value Type',
+            'field_value_default' => 'Field Value Default',
+            'field_value_property' => 'Field Value Property',
+            'field_name' => 'Field Name',
+            'field_display' => 'Field Display',
+            'field_desc' => 'Field Desc',
+            'field_unit' => 'Field Unit',
+            'display_flag' => 'Display Flag',
             'status' => 'Status',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',

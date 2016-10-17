@@ -68,7 +68,7 @@
             <tr>
                 <td>{$attend.device.type_name}</td>
                 <td>{$attend.device.device_sn}</td>
-                <td class="value" id="{$attend.device.device_key}"></td>
+                <td class="value" device_key="{$attend.device.device_key}" type_key="{$attend.device.type_key}"></td>
                 <td>
                     {if $attend.device.device_status==1}
                         <button class="btn btn-info btn-xs"> 已激活</button>

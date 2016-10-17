@@ -24,6 +24,19 @@
         </div>
 
         <div class="form-group">
+            <label for="exampleInputEmail1">设备类型描述</label>
+            <input type="text" class="form-control" name="typeDesc" id="typeDesc" placeholder="请填写设备类型描述">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">设备便携属性</label>
+            <select class="form-control" name="stationType" id="deviceMovableType">
+                <option value="0">固定设备</option>
+                <option value="1">移动便携设备</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="exampleInputEmail1">设备数据类型列表</label>
         </div>
         <table id="field-table" class="table table-striped table-bordered">
@@ -33,27 +46,27 @@
                     <input type="text" class="form-control fieldName" name="fieldName" placeholder="请填写数据类型字段名称">
                 </td>
                 <td>
-                    <input type="text" class="form-control fieldTitle" name="fieldDisplay" placeholder="请填写数据类型名称">
+                    <input type="text" class="form-control fieldTitle" name="fieldTitle" placeholder="请填写数据类型名称">
                 </td>
                 <td>
                     <input type="text" class="form-control fieldDesc" name="fieldDesc" placeholder="请填写数据类型描述">
                 </td>
                 <td>
-                    <select class="form-control" name="fieldType">
+                    <select class="form-control fieldValueType" name="fieldValueType">
                         <option value="1">整数</option>
                         <option value="2">高精度浮点数</option>
                         <option value="3">字符串</option>
                     </select>
                 </td>
                 <td>
-                    <select class="form-control" name="fieldShow">
+                    <select class="form-control fieldDisplayFlag" name="fieldDisplayFlag">
                         <option value="0">不显示</option>
                         <option value="1">重点显示</option>
                         <option value="2">显示</option>
                     </select>
                 </td>
                 <td>
-                    <input type="text" class="form-control" id="TypeUnit" placeholder="请填写数据类型单位">
+                    <input type="text" class="form-control fieldUnit" id="fieldUnit" placeholder="请填写数据类型单位">
                 </td>
                 <td>
 

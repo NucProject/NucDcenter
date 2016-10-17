@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use common\services\DeviceDataService;
+use common\services\DeviceTypeService;
 use yii;
 
 class DeviceDataController extends BaseController
@@ -20,16 +21,22 @@ class DeviceDataController extends BaseController
      */
     public function actionLatest()
     {
-        $idList = Yii::$app->request->post('idList');
-        if (is_array($idList))
+        $deviceKeyList = Yii::$app->request->post('deviceKeyList');
+        if (is_array($deviceKeyList))
         {
             $latest = [];
-            foreach ($idList as $deviceKey)
+            foreach ($deviceKeyList as $deviceInfo)
             {
+                $deviceKey = $deviceInfo['deviceKey'];
                 $entry = DeviceDataService::lastEntry($deviceKey, false);
                 if ($entry) {
                     $data = $entry->toArray();
-                    $latest[$deviceKey] = $data['inner_doserate'];
+
+                    $typeKey = $deviceInfo['typeKey'];
+                    $fieldName = DeviceTypeService::getDisplayField($typeKey);
+
+
+                    $latest[$deviceKey] = $data[$fieldName];
                 }
             }
             return parent::result($latest);

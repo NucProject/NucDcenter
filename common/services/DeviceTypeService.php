@@ -17,18 +17,55 @@ class DeviceTypeService
 {
     /**
      * @param $params
+     * @param $fields
      * @return NucDeviceType
      * @throws ModelSaveFailedException
      */
-    public static function createDeviceType($params)
+    public static function createDeviceType($params, $fields)
     {
         $type = new NucDeviceType();
         $type->setAttributes($params);
         if ($type->save()) {
+
+            self::addDeviceTypeFields($type, $fields);
             return $type;
         } else {
             throw new ModelSaveFailedException($type->getErrors());
         }
+    }
+
+    /**
+     * @param $type     NucDeviceType
+     * @param $fields   array
+     */
+    private static function addDeviceTypeFields($type, $fields)
+    {
+        $typeKey = $type->type_key;
+        foreach ($fields as $field)
+        {
+            $fieldEntry = new NucDeviceField();
+            $fieldEntry->type_key = $typeKey;
+            $fieldEntry->field_name = $field['fieldName'];
+            $fieldEntry->field_display = $field['fieldTitle'];
+            $fieldEntry->field_desc = $field['fieldDesc'];
+            $fieldEntry->field_value_type = $field['fieldValueType'];
+            $fieldEntry->field_unit = $field['fieldUnit'];
+            $fieldEntry->display_flag = $field['fieldDisplayFlag'];
+            $fieldEntry->save();
+        }
+    }
+
+    /**
+     * @param $typeKey
+     * @return string
+     */
+    public static function getDisplayField($typeKey)
+    {
+        $field = NucDeviceField::find()
+            ->where(['type_key' => $typeKey])
+            ->andWhere(['display_flag' => 1])
+            ->one();
+        return $field->field_name;
     }
 
     /**

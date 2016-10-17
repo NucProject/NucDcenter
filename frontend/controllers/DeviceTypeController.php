@@ -53,12 +53,18 @@ class DeviceTypeController extends BaseController
     public function actionDoAdd()
     {
         $params = [
-            'type_key' => Helper::getPost('typeKey', ['required' => true])
+            'type_key' => Helper::getPost('typeKey', ['required' => true]),
+            'type_name' => Helper::getPost('typeName', ['required' => true]),
+            'type_desc' => Helper::getPost('typeDesc', ['required' => false, 'default' => '']),
+
+            'is_movable' => Helper::getPost('isMovable', ['required' => true]),
+            'type_pic' => Helper::getPost('typePic', ['required' => false, 'default' => '']),
         ];
 
-        /*if (DeviceTypeService::createDeviceType($params)) {
+        $fields = Yii::$app->request->post('fields');
+        if (DeviceTypeService::createDeviceType($params, $fields)) {
 
-        }*/
+        }
 
         return parent::result(Yii::$app->request->post());
     }
