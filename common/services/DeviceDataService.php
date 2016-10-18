@@ -154,9 +154,14 @@ class DeviceDataService
      */
     public static function getDataList($deviceKey, $options=[])
     {
-        $condition = [];
+        $avg = true;
+        if (array_key_exists('non-avg', $options) && $options['non-avg']) {
+            $avg = false;
+        }
+
+        $condition = $options['condition'];
         // List取均值
-        $query = UkDeviceData::findByKey($deviceKey, true)->where($condition);
+        $query = UkDeviceData::findByKey($deviceKey, $avg)->where($condition);
 
         // 如果调用者给出totalCount, 那么就省略了select count(*);
         $totalCount = static::getOptionValue($options, 'totalCount', 0);
