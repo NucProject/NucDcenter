@@ -169,7 +169,7 @@
         map.addControl(new BMap.OverviewMapControl());
         map.addControl(myCtrl)
 
-        // map.addControl(new BMap.MapTypeControl());
+        map.addControl(new BMap.MapTypeControl());
         map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
 
         // map.enableScrollWheelZoom(false); //禁用滚轮事件

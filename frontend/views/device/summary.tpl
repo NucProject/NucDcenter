@@ -37,9 +37,12 @@
                     <li>
                         <a href="index.php?r=device/info&deviceKey={$device.device_key}">设备详情</a>
                     </li>
+                    <!--
+                    这里貌似需要一个taskId, 但是先不给了(屏蔽)
                     <li>
                         <a href="index.php?r=device/data&deviceKey={$device.device_key}">查看数据</a>
                     </li>
+                    -->
                 </ul>
             </div>
         {else}

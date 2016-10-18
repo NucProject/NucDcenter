@@ -61,6 +61,7 @@
             <td><b>当前状态</b></td>
             <td><b>参与人</b></td>
             <td><b>参加时间</b></td>
+            <td><b>操作</b></td>
 
         </tr>
         </thead>
@@ -78,6 +79,7 @@
                 </td>
                 <td>{$attend.attend_name}</td>
                 <td>{$attend.create_time}</td>
+                <td><a class="btn btn-info btn-xs" href="index.php?r=device/movable-data&deviceKey={$attend.device.device_key}&taskId={$task.task_id}">查看数据</a></td>
             </tr>
         {/foreach}
     </table>
@@ -99,4 +101,7 @@
         {/if}
     </div>
 
+    <hr>
+    <h4>其他操作</h4>
+    <a class="btn btn-danger del-task" taskId="{$task.task_id}">删除任务</a>
 </div>

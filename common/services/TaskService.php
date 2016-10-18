@@ -39,7 +39,7 @@ class TaskService
     public static function getTasks()
     {
         //
-        return NucTask::find()->where([])->asArray()->all();
+        return NucTask::find()->where(['status' => 1])->asArray()->all();
     }
 
     public static function getTasksByDevice($deviceKey)
@@ -146,6 +146,15 @@ class TaskService
         if ($attend)
         {
             return $attend;
+        }
+        return false;
+    }
+
+    public static function deleteTask($taskId) {
+        $task = NucTask::findOne($taskId);
+        if ($task) {
+            $task->status = 0;
+            return $task->save();
         }
         return false;
     }

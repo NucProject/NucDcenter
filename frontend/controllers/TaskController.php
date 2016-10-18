@@ -8,7 +8,7 @@
 
 namespace frontend\controllers;
 
-
+use yii;
 use common\components\BadArgumentException;
 use common\components\Helper;
 use common\components\ModelSaveFailedException;
@@ -118,7 +118,7 @@ class TaskController extends BaseController
         parent::setPageMessage($task['task_name']);
 
         parent::setBreadcrumbs(['index.html' => '任务详情']);
-        return parent::renderPage('detail.tpl', $data, ['with' => ['laydate']]);
+        return parent::renderPage('detail.tpl', $data, ['with' => ['laydate', 'dialog']]);
     }
 
     /**
@@ -154,6 +154,17 @@ class TaskController extends BaseController
         // TODO: Attend devices?
 
         // Task status?
+    }
+
+    public function actionDelete()
+    {
+        $taskId = Yii::$app->request->post('taskId');
+        if ($taskId) {
+            if (TaskService::deleteTask($taskId)) {
+                return parent::result(['deleted' => true]);
+            }
+        }
+        return parent::error(['deleted' => false], 1);
     }
 
     /**
