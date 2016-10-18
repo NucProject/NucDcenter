@@ -5,19 +5,16 @@
 
         <div class="form-group">
             <label class="control-label pull-left" style="margin-top: 8px">
-                开始时间:
+                选择任务:
             </label>
             <div class="col-md-2 pull-left">
-                <input class="form-control" type="text" name="begin_time" size="10" id="begin_time"
-                       value="{$get.begin_time}">
+                <select class="form-control" name="taskId">
+                    {foreach from=$attends item=t}
+                    <option value="{$t.task.task_id}" {if $currentTaskId==$t.task.task_id}selected{/if}>{$t.task.task_name}</option>
+                    {/foreach}
+                </select>
             </div>
-            <label class="control-label pull-left" style="margin-top: 8px">
-                结束时间:
-            </label>
-            <div class="col-md-2  pull-left">
-                <input class="form-control" type="text" name="end_time" size="10" id="end_time"
-                       value="{$get.end_time}">
-            </div>
+
             <input type="submit" class="btn btn-info" value="查看">
         </div>
 

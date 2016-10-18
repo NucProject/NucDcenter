@@ -106,9 +106,11 @@ class DeviceController extends BaseController
             $data['maxVal'] = $points['maxVal'];
             $data['minVal'] = $points['minVal'];
 
-            $data['chartTitle'] = $deviceName . ' 五分钟曲线';
+            $data['chartTitle'] = $deviceName . ' 曲线';
         }
 
+        $data['attends'] = TaskService::getTasksByDevice($deviceKey);
+        $data['currentTaskId'] = $taskId;
 
         parent::setPageMessage("{$deviceName} 数据曲线图表");
         parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);
