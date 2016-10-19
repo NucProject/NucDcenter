@@ -11,9 +11,7 @@ namespace frontend\controllers;
 use yii;
 use common\components\BadArgumentException;
 use common\components\Helper;
-use common\components\ModelSaveFailedException;
 use common\models\NucTask;
-use common\models\NucTaskAttend;
 use common\services\DeviceDataService;
 use common\services\TaskService;
 
@@ -156,6 +154,10 @@ class TaskController extends BaseController
         // Task status?
     }
 
+    /**
+     * @return bool
+     * 删除任务, status => 0即可
+     */
     public function actionDelete()
     {
         $taskId = Yii::$app->request->post('taskId');

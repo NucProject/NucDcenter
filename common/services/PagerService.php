@@ -37,7 +37,7 @@ class PagerService
     /**
      * @param $from
      * @param $to
-     * @param $current int 当前页面数
+     * @param $current int
      * @return array
      */
     private static function getPagerRange($from, $to, $current)

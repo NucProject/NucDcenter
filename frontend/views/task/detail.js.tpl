@@ -20,6 +20,8 @@
             console.log(result);
             if (result.error == 0) {
                 window.location.href = 'index.php?r=task';
+            } else {
+                // TODO: 删除任务失败显示?
             }
         });
     }
