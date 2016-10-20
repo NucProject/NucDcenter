@@ -22,7 +22,7 @@
             <div class="row">
                 <div id="content" class="col-lg-12">
                     <!-- PAGE HEADER-->
-                    <div class="row">
+                    <div class="row" {if isset($hideContentHeader)}style="display: none"{/if}>
                         <div class="col-sm-12">
                             <div class="page-header" style="margin-bottom: 5px;">
                                 <!-- STYLER -->

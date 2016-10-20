@@ -7,10 +7,26 @@
 {literal}
 <script>
 
+    function updateLatestValues(items) {
+        var tds = $('#devices-table td.value');
+        // console.log(items);
+        tds.each(function () {
+            var deviceKey = $(this).attr('device_key');
+            console.log(deviceKey);
+            $(this).text(items[deviceKey]);
+        });
+    }
+
     function fetchValues(deviceKeyList) {
-        console.log(deviceKeyList);
+        // console.log(deviceKeyList);
         $.post(fetchValUrl, {deviceKeyList: deviceKeyList}, function(data) {
-            console.log(data);
+
+            var items = data.toJson();
+            if (items.error == 0)
+            {
+                updateLatestValues(items.data);
+            }
+
         });
     }
 

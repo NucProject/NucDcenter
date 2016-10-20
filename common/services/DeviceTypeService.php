@@ -57,7 +57,7 @@ class DeviceTypeService
 
     /**
      * @param $typeKey
-     * @return string
+     * @return NucDeviceField
      */
     public static function getDisplayField($typeKey)
     {
@@ -65,7 +65,7 @@ class DeviceTypeService
             ->where(['type_key' => $typeKey])
             ->andWhere(['display_flag' => 1])
             ->one();
-        return $field->field_name;
+        return $field;
     }
 
     /**

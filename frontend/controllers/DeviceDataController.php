@@ -33,10 +33,12 @@ class DeviceDataController extends BaseController
                     $data = $entry->toArray();
 
                     $typeKey = $deviceInfo['typeKey'];
-                    $fieldName = DeviceTypeService::getDisplayField($typeKey);
+                    $field = DeviceTypeService::getDisplayField($typeKey);
 
+                    $fieldName = $field->field_name;
+                    $valueUnit = $field->field_unit;
 
-                    $latest[$deviceKey] = $data[$fieldName];
+                    $latest[$deviceKey] = $data[$fieldName] . $valueUnit;
                 }
             }
             return parent::result($latest);
