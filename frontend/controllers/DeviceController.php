@@ -172,6 +172,7 @@ class DeviceController extends BaseController
 
         $deviceKey = $device->device_key;
 
+        $options['condition'] = [];
         $result = DeviceDataService::getDataList($deviceKey, $options);
 
         $items = $result['items'];

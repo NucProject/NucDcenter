@@ -19,6 +19,11 @@ class GenKeyController extends Controller
         echo EntityIdService::genStationKey(129);
     }
 
+    /**
+     * @param $deviceSn
+     * @throws \common\components\AccessForbiddenException
+     * Console Entry
+     */
     public function actionDevice($deviceSn)
     {
         echo EntityIdService::genDeviceKey(

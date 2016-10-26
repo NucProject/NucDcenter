@@ -138,7 +138,6 @@ class DataCenterController extends BaseController
         $data['centerId'] = $centerId;
         $data['stationKey'] = '';
         $data['stationName'] = '';
-        $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList(['is_movable' => 1]);
         $data['doAddDevice'] = 'index.php?r=data-center/do-add-device';
 
