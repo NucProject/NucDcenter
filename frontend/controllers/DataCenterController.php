@@ -136,7 +136,7 @@ class DataCenterController extends BaseController
     {
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
-        $data['stationKey'] = '';
+        $data['stationKey'] = '';   // 便携设备没有station相关的属性
         $data['stationName'] = '';
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList(['is_movable' => 1]);
         $data['doAddDevice'] = 'index.php?r=data-center/do-add-device';

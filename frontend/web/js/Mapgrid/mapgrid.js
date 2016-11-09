@@ -648,12 +648,13 @@
                    // var lanSpan = (bounds.toSpan().lng);
                     //var latSpan = (bounds.toSpan().lat);
                 }
-
+                ctx.beginPath();
                 ctx.fillStyle = "#FF0000";
                 ctx.lineCap = 'square';
                 ctx.lineWidth = 0.1;
                 var x = 0, y = 0;
-                ctx.beginPath();
+
+                // console.log(1111)
                 for (var i = 0; i < cc; i++) {
                     x = i * dw;
                     y = i * dw;
@@ -661,15 +662,15 @@
 
                     ctx.moveTo(x, 0);
                     ctx.lineTo(x, height);
-                    ctx.stroke();
 
                     // ------------
-                    ctx.beginPath();
+                    // ctx.beginPath();
                     ctx.moveTo(0, y);
                     ctx.lineTo(width, y);
-                    ctx.stroke();
+                    //ctx.stroke(); // No need Stroke multi-times
 
                 }
+                ctx.stroke();
                 ctx.closePath();
                 ctx.fill();
                 this.drawGridPoints(ctx, bounds, dw, 0);
