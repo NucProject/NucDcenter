@@ -1,7 +1,7 @@
 <li class="current pull-left" style="margin-right: 30px;margin-bottom: 20px">
     <a href="index.php?r=task/detail&taskId={$task['task_id']}">
     <div style="position:relative;">
-        <div style="height: 200px; border: solid 1px grey">
+        <div style="width: 202px;height: 200px; border: solid 1px grey">
         {if $task['task_image']}
             <img src="/taskimg/{$task['task_image']}" alt="" style="width: 200px;height: 150px">
             {else}
