@@ -1,4 +1,4 @@
-<li class="current pull-left" style="margin-right: 30px">
+<li class="current pull-left" style="margin-right: 30px;margin-bottom: 20px">
     <a href="index.php?r=task/detail&taskId={$task['task_id']}">
     <div style="position:relative;">
         <div style="height: 200px; border: solid 1px grey">

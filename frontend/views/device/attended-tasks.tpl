@@ -18,7 +18,11 @@
             <tr task_id="{$i.task.task_id}">
                 <td>{$i.task.task_name}</td>
                 <td>{$i.task.task_desc}</td>
-                <td>{$i.task.task_status}</td>
+                <td>
+                    {if $i.task.task_status == 1}等待中
+                    {elseif $i.task.task_status == 2}进行中
+                    {elseif $i.task.task_status == 3}已完成{/if}
+                </td>
                 <td>{$i.task.begin_time}</td>
                 <td>{$i.task.end_time}</td>
                 <td>

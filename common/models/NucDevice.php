@@ -14,6 +14,7 @@ use Yii;
  * @property string $device_key
  * @property string $device_sn
  * @property string $type_name
+ * @property string $device_desc
  * @property integer $is_movable
  * @property string $launch_date
  * @property string $rescale_date
@@ -50,7 +51,7 @@ class NucDevice extends \common\models\BaseModel
             [['device_lng', 'device_lat'], 'number'],
             [['station_key', 'type_key', 'device_key'], 'string', 'max' => 32],
             [['device_sn'], 'string', 'max' => 64],
-            [['type_name'], 'string', 'max' => 255],
+            [['type_name', 'device_desc'], 'string', 'max' => 255],
         ];
     }
 
@@ -67,6 +68,7 @@ class NucDevice extends \common\models\BaseModel
             'device_key' => 'Device Key',
             'device_sn' => 'Device Sn',
             'type_name' => 'Type Name',
+            'device_desc' => 'Device Desc',
             'is_movable' => 'Is Movable',
             'launch_date' => 'Launch Date',
             'rescale_date' => 'Rescale Date',

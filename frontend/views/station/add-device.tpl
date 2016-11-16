@@ -7,7 +7,7 @@
         {* hidden keys *}
         <input type="hidden" name="centerId" value="{$centerId}">
         <input type="hidden" name="stationKey" value="{$stationKey}">
-        <input type="hidden" name="deviceKey" value="{$deviceKey}">
+        <input type="hidden" name="deviceKey" >
         <input type="hidden" name="csrfToken" value="{Yii::$app->request->getCsrfToken(true)}" />
 
         <div class="form-group">
@@ -42,6 +42,11 @@
         <div class="form-group">
             <label for="exampleInputEmail1">设备序列号</label>
             <input class="form-control" name="device_sn" placeholder="请填写设备唯一序列号">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">设备描述</label>
+            <input class="form-control" name="device_desc" placeholder="请填写设备描述">
         </div>
 
         <div class="form-group">

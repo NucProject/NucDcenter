@@ -9,7 +9,7 @@
     <div>
         <span>设备型号: {$device.deviceType.type_name}</span>
         <br>
-        <span>设备描述: {$device.deviceType.type_desc}</span>
+        <span>设备描述: {$device.device_desc}</span>
         <br>
         <span>设备序列号: {$device.device_sn}</span>
         <br>

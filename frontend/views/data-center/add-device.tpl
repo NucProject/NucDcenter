@@ -43,6 +43,11 @@
         </div>
 
         <div class="form-group">
+            <label for="exampleInputEmail1">设备描述</label>
+            <input class="form-control" name="device_desc" placeholder="请填写设备描述">
+        </div>
+
+        <div class="form-group">
             <label for="exampleInputEmail1">仪器启动时间</label>
             <input class="form-control" type="text" name="launch_date" size="10" id="launch_date">
         </div>

@@ -58,7 +58,7 @@ class StationController extends BaseController
         $data['centerId'] = $centerId;
         $data['stationKey'] = $stationKey;
         $data['stationName'] = $station->station_name;
-        $data['deviceKey'] = EntityIdService::genDeviceKey($centerId);
+
         // 全部设备, 也允许出现移动设备
         $data['deviceTypes'] = DeviceTypeService::getDeviceTypeList();
         $data['doAddDevice'] = '/index.php?r=station/do-add-device';
@@ -91,6 +91,7 @@ class StationController extends BaseController
 
         $params = [
             'device_sn'         => Helper::getPost('device_sn', []),
+            'device_desc'       => Helper::getPost('device_desc', []),
             'type_name'         => $deviceType->type_name,
             'is_movable'        => $deviceType->is_movable,
             'launch_date'       => Helper::getPost('launch_date', []),
