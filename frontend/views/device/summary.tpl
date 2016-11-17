@@ -1,6 +1,7 @@
 {* 一个device的展示HTML *}
 {extends 'common/box.tpl'}
 {* summary的展现 *}
+{$has_config=true}
 {block name=title}
     <span>{$device.type_name}</span>
 {/block}
@@ -22,6 +23,7 @@
         {/if}
         <br>
 
+        <a class="modify" href="index.php?r=device/modify&deviceKey={$device.device_key}" style="display: none"></a>
 
         {if $device.is_movable}
             {* 移动设备 *}

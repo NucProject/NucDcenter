@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\components\Helper;
 use common\services\TaskService;
 use yii;
 use common\components\AccessForbiddenException;
@@ -138,6 +139,58 @@ class DeviceController extends BaseController
         return parent::renderPage('info.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 
+    /**
+     * @param $deviceKey
+     * @return string
+     */
+    public function actionModify($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+        $data = [
+            'doModifyUrl'           => 'index.php?r=device/do-modify&deviceKey=' . $deviceKey,
+            'deviceKey'             => $deviceKey,
+            'device'                => $device->toArray(),
+
+            'deviceSn'              => $device->device_sn,
+            'deviceTypeKey'         => $device->type_key,
+            'deviceTypeName'        => $device->type_name,
+        ];
+
+        parent::setPageMessage($device['type_name'] . ' 修改设备信息');
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => '修改设备信息']);
+        return parent::renderPage('modify.tpl', $data, ['with' => ['dialog', 'echarts', 'datePicker', 'laydate']]);
+    }
+
+    public function actionDoModify($deviceKey) {
+
+        $device = $this->checkDevice($deviceKey);
+
+        if ($device) {
+            $launchDate = Helper::getPost('launch_date', []);
+            if ($launchDate) {
+                $device->launch_date = $launchDate;
+            }
+
+            $rescaleDate = Helper::getPost('rescale_date', []);
+            if ($rescaleDate) {
+                $device->rescale_date = $rescaleDate;
+            }
+
+            $device->device_desc = Helper::getPost('device_desc', []);
+
+            if ($device->save()) {
+                if ($device->is_movable) {
+                    // 移动设备去数据中心的移动设备列表
+                    $this->redirect(array('data-center/movable-devices'));
+                } else {
+                    // 去该设备自己所在的自动站的设备列表
+                    $this->redirect(array('station/index', 'stationKey' => $device->station_key));
+                }
+            }
+
+        }
+    }
 
 
     /**

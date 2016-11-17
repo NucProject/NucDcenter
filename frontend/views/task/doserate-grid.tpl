@@ -20,18 +20,12 @@
                 <td width="80px">200-300</td>
                 <td width="80px">300-400</td>
                 <td width="80px">>400</td>
-
-            </tr>
-            <tr>
-
             </tr>
         </table>
     </div>
 
     <div class="box">
-        <h4 class="col-md-4 control-label" id="timeRange">
-
-        </h4>
+        <h4 class="col-md-4 control-label" id="timeRange"></h4>
     </div>
 
     <div class="box">
