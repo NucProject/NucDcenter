@@ -9,6 +9,8 @@
 namespace frontend\controllers;
 
 use common\components\Helper;
+use common\components\ModelSaveFailedException;
+use common\components\ResourceNotFoundException;
 use common\services\TaskService;
 use yii;
 use common\components\AccessForbiddenException;
@@ -187,9 +189,12 @@ class DeviceController extends BaseController
                     // 去该设备自己所在的自动站的设备列表
                     $this->redirect(array('station/index', 'stationKey' => $device->station_key));
                 }
+            } else {
+                throw new ModelSaveFailedException($device->getErrors());
             }
-
         }
+
+        throw new ResourceNotFoundException('Invalid deviceKey');
     }
 
 

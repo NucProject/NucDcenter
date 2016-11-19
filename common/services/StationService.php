@@ -65,4 +65,22 @@ class StationService
         }
     }
 
+    public static function updateStation($stationKey, $params)
+    {
+        $station = self::getStationByKey($stationKey);
+        if ($station)
+        {
+            $station->setAttributes($params);
+        }
+
+        if ($station->save())
+        {
+            return $station;
+        }
+        else
+        {
+            throw new ModelSaveFailedException($station->getErrors());
+        }
+    }
+
 }

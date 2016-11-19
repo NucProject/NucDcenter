@@ -26,7 +26,7 @@ class UploadFileController extends BaseController
         $fileName = FileUploaderService::getUploadFileName();
 
         $fileName = FileUploaderService::convertFileName($fileName, "{unix_timestamp}_{md5}.{ext}");
-        $targetPath = '/stations/';
+        $targetPath = 'stations';
 
         $result = FileUploaderService::upload($fileName, $targetPath);
 

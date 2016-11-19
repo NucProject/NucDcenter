@@ -92,9 +92,29 @@ class DataCenterController extends BaseController
         $centerId = DataCenterService::deployedCenterId();
         $data['centerId'] = $centerId;
 
-
         parent::setBreadcrumbs(['/index.php?r=data-center/stations' => '自动站', '#' => '添加自动站']);
         return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap', 'laydate']]);
+    }
+    
+    /**
+     * @page
+     * @comment 数据中心添加自动站
+     * @param $stationKey
+     * @return string
+     * 有新的自动站加入, 生成stationKey
+     */
+    public function actionUpdateStation($stationKey)
+    {
+        $station = StationService::getStationByKey($stationKey);
+        if (!$station) {
+
+        }
+
+        $data['station'] = $station;
+        $data['stationKey'] = $stationKey;
+
+        parent::setBreadcrumbs(['/index.php?r=data-center/stations' => '自动站', '#' => '编辑自动站']);
+        return parent::renderPage('update-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap', 'laydate']]);
     }
 
     /**
@@ -104,6 +124,30 @@ class DataCenterController extends BaseController
     {
         $centerId = DataCenterService::deployedCenterId();
 
+        $params = self::getStationPostInfo();
+
+        if (StationService::addStation($centerId, $params)) {
+            Yii::$app->session->setFlash('add-station', 'success');
+            Yii::$app->response->redirect('index.php?r=data-center/stations');
+        }
+    }
+
+    /**
+     * @param $stationKey
+     * @ajax
+     */
+    public function actionDoUpdateStation($stationKey)
+    {
+        $params = self::getStationPostInfo();
+
+        if (StationService::updateStation($stationKey, $params)) {
+            Yii::$app->session->setFlash('add-station', 'success');
+            Yii::$app->response->redirect('index.php?r=data-center/stations');
+        }
+    }
+
+    private static function getStationPostInfo()
+    {
         $params = [
             'station_name'    => Helper::getPost('stationName', ['required' => true]),
             'station_desc'    => Helper::getPost('stationDesc', ['default' => '']),
@@ -119,12 +163,8 @@ class DataCenterController extends BaseController
             'lat'             => Helper::getPost('lat', ['default' => '0.0', 'type' => 'is_numeric']),
         ];
 
-        if (StationService::addStation($centerId, $params)) {
-            Yii::$app->session->setFlash('add-station', 'success');
-            Yii::$app->response->redirect('index.php?r=data-center/stations');
-        }
+        return $params;
     }
-
 
     /**
      * @page

@@ -2,13 +2,13 @@
 {extends 'common/box.tpl'}
 {* 具体的细节 *}
 {block name=style}border purple{/block}
-
+{$has_config = true}
 {block name=title}
     <span>{$station.station_name}</span>
 {/block}
 
 {block name=content}
-    <div class="clearfix">
+    <div class="clearfix" stationKey="{$station.station_key}">
         <div class="pull-left">
             <span>名称: {$station.station_name}</span>
             <br>
