@@ -95,7 +95,7 @@ class DataCenterController extends BaseController
         parent::setBreadcrumbs(['/index.php?r=data-center/stations' => '自动站', '#' => '添加自动站']);
         return parent::renderPage('add-station.tpl', $data, ['with' => ['webUploader', 'dialog', 'baiduMap', 'laydate']]);
     }
-    
+
     /**
      * @page
      * @comment 数据中心添加自动站

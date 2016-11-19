@@ -73,7 +73,7 @@ class DataCenterService
     {
         $movableDevices = NucDevice::find()
             ->with('deviceType')
-            ->where(['center_id' => $centerId, 'is_movable' => 1])
+            ->where(['center_id' => $centerId, 'is_movable' => 1, 'status' => 1])
             ->asArray()
             ->all();
 

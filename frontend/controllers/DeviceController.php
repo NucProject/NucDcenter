@@ -184,10 +184,34 @@ class DeviceController extends BaseController
             if ($device->save()) {
                 if ($device->is_movable) {
                     // 移动设备去数据中心的移动设备列表
-                    $this->redirect(array('data-center/movable-devices'));
+                    return $this->redirect(array('data-center/movable-devices'));
                 } else {
                     // 去该设备自己所在的自动站的设备列表
-                    $this->redirect(array('station/index', 'stationKey' => $device->station_key));
+                    return $this->redirect(array('station/index', 'stationKey' => $device->station_key));
+                }
+            } else {
+                throw new ModelSaveFailedException($device->getErrors());
+            }
+        }
+
+        throw new ResourceNotFoundException('Invalid deviceKey');
+    }
+
+    public function actionDelete($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+        if ($device) {
+            $stationKey = $device->station_key;
+            $device->status = 0; // Soft delete
+
+            if ($device->save()) {
+                if ($device->is_movable) {
+                    // 移动设备去数据中心的移动设备列表
+                    return $this->redirect(array('data-center/movable-devices'));
+                } else {
+                    // 去该设备自己所在的自动站的设备列表
+                    return $this->redirect(array('station/index', 'stationKey' => $stationKey));
                 }
             } else {
                 throw new ModelSaveFailedException($device->getErrors());

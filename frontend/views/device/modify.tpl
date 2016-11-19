@@ -56,6 +56,7 @@
 
         <a href="javascript:history.back()" class="btn btn-grey">返回</a>
         <a onclick="showConfirmDialog();" class="btn btn-info">修改</a>
+        <a onclick="showDeleteConfirmDialog('{$deviceKey}');" class="btn btn-danger">删除</a>
 
     </form>
 {/block}

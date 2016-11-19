@@ -25,6 +25,31 @@
         });
     }
 
+    function showDeleteConfirmDialog(deviceKey)
+    {
+        bootbox.confirm({
+            buttons: {
+                confirm: {
+                    label: '确认',
+                    className: 'btn-myStyle'
+
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-default'
+                }
+            },
+            title: "删除设备",
+            message: '是否要删除该设备？',
+
+            callback: function(result) {
+                if (result) {
+                    window.location.href = 'index.php?r=device/delete&deviceKey=' + deviceKey
+                }
+            }
+        });
+    }
+
     var launchDate = {
         elem: '#launch_date',
         istime: false,
