@@ -39,6 +39,10 @@
                     <li>
                         <a href="index.php?r=device/info&deviceKey={$device.device_key}">设备详情</a>
                     </li>
+
+                    <li>
+                        <a href="index.php?r=device/threshold&deviceKey={$device.device_key}">阈值设置</a>
+                    </li>
                     <!--
                     这里貌似需要一个taskId, 但是先不给了(屏蔽)
                     <li>
@@ -62,6 +66,10 @@
                     </li>
                     <li>
                         <a href="index.php?r=device/info&deviceKey={$device.device_key}">设备详情</a>
+                    </li>
+
+                    <li>
+                        <a href="index.php?r=device/threshold&deviceKey={$device.device_key}">阈值设置</a>
                     </li>
                 </ul>
             </div>

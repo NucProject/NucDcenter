@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\components\Helper;
 use common\components\ModelSaveFailedException;
 use common\components\ResourceNotFoundException;
+use common\models\NucDeviceAlertSetting;
 use common\services\TaskService;
 use yii;
 use common\components\AccessForbiddenException;
@@ -215,6 +216,103 @@ class DeviceController extends BaseController
                 }
             } else {
                 throw new ModelSaveFailedException($device->getErrors());
+            }
+        }
+
+        throw new ResourceNotFoundException('Invalid deviceKey');
+    }
+
+    public function actionThreshold($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+        if ($device) {
+            $data = ['deviceKey' => $deviceKey];
+            $data['device'] = $device;
+
+            // 第一次设置阈值的时候在nuc_device_alert_setting表中insert, 以后update
+            $settings = NucDeviceAlertSetting::find()
+                ->where(['device_key' => $deviceKey])
+                ->with('field')
+                ->asArray()
+                ->all();
+
+            if (!$settings) {
+                $typeKey = $device->type_key;
+                $fields = NucDeviceField::find()->where(['type_key' => $typeKey])->asArray()->all();
+
+                foreach ($fields as $field) {
+                    if ($field['alert_flag'] == 0) {
+                        continue;
+                    }
+
+                    $setting = new NucDeviceAlertSetting();
+                    $setting->device_key = $deviceKey;
+                    $setting->field_name = $field['field_name'];
+                    $setting->alert_flag = $field['alert_flag'];
+                    $setting->save();
+                }
+
+                $settings = NucDeviceAlertSetting::find()
+                    ->where(['device_key' => $deviceKey])
+                    ->with('field')
+                    ->asArray()
+                    ->all();
+            }
+
+            foreach ($settings as &$s)
+            {
+                $field = $s['field'];
+                $s['fieldDisplayName'] = $field['field_display'] . "({$field['field_name']})";
+            }
+
+            $data['settings'] = $settings;
+
+            parent::setPageMessage($device['type_name'] . ' 修改设备阈值');
+            parent::setBreadcrumbs(['index.html' => '设备', '#' => '修改设备阈值']);
+            return parent::renderPage('threshold.tpl', $data, ['with' => ['dialog', 'echarts']]);
+        }
+
+        throw new ResourceNotFoundException('Invalid deviceKey');
+    }
+
+    public static function hasThresholdSet($post, $key) {
+        return array_key_exists($key, $post) && $post[$key] == 'on';
+    }
+
+    public function actionSetThreshold($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+        if ($device) {
+            foreach ($_POST as $fieldName => $values) {
+                $fieldSetting = NucDeviceAlertSetting::findOne(['device_key' => $deviceKey, 'field_name' => $fieldName]);
+                if ($fieldSetting) {
+                    $fieldSetting->threshold1_set = 0;
+                    $fieldSetting->threshold2_set = 0;
+
+                    if (self::hasThresholdSet($values, 'threshold1_set'))
+                    {
+                        $fieldSetting->threshold1_set = 1;
+                        $fieldSetting->threshold1 = $values['threshold1'];
+                    }
+
+                    if (self::hasThresholdSet($values, 'threshold2_set'))
+                    {
+                        $fieldSetting->threshold2_set = 1;
+                        $fieldSetting->threshold2 = $values['threshold2'];
+                    }
+                    $fieldSetting->save();
+                }
+            }
+
+            if ($device->is_movable) {
+                // 移动设备去数据中心的移动设备列表
+                return $this->redirect(array('data-center/movable-devices'));
+            } else {
+                // 去该设备自己所在的自动站的设备列表
+                $stationKey = $device->station_key;
+                return $this->redirect(array('station/index', 'stationKey' => $stationKey));
             }
         }
 

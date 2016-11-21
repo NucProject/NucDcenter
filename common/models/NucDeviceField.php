@@ -17,6 +17,7 @@ use Yii;
  * @property string $field_desc
  * @property string $field_unit
  * @property integer $display_flag
+ * @property integer $alert_flag
  * @property integer $status
  * @property string $create_time
  * @property string $update_time
@@ -37,7 +38,7 @@ class NucDeviceField extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['field_value_type', 'display_flag', 'status'], 'integer'],
+            [['field_value_type', 'display_flag', 'alert_flag', 'status'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
             [['type_key', 'field_value_property', 'field_name'], 'string', 'max' => 64],
             [['field_value_default', 'field_display'], 'string', 'max' => 32],
@@ -62,6 +63,7 @@ class NucDeviceField extends \common\models\BaseModel
             'field_desc' => 'Field Desc',
             'field_unit' => 'Field Unit',
             'display_flag' => 'Display Flag',
+            'alert_flag' => 'Alert Flag',
             'status' => 'Status',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',

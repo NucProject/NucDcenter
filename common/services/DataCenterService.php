@@ -77,7 +77,6 @@ class DataCenterService
             ->asArray()
             ->all();
 
-
         foreach ($movableDevices as &$device)
         {
             $device['last_data_time'] = '';

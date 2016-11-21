@@ -65,12 +65,20 @@
                         <option value="2">显示</option>
                     </select>
                 </td>
+                <!-- 报警相关 -->
+                <td>
+                    <select class="form-control fieldAlertFlag" name="fieldAlertFlag">
+                        <option value="0">不需要报警</option>
+                        <option value="1">需要状态变更时报警</option>
+                        <option value="2">需要一级阈值报警</option>
+                        <option value="3">需要二级阈值报警</option>
+                        <option value="4">需要区间值报警</option>
+                    </select>
+                </td>
                 <td>
                     <input type="text" class="form-control fieldUnit" id="fieldUnit" placeholder="请填写数据类型单位">
                 </td>
-                <td>
 
-                </td>
                 <td><a class="btn btn-danger remove">删除</a></td>
             </tr>
 
@@ -99,12 +107,22 @@
                             <option value="0" {if $field.display_flag==0}selected{/if}>不显示</option>
                         </select>
                     </td>
+
+                    <!-- 报警相关 -->
+                    <td>
+                        <select class="form-control fieldAlertFlag" name="fieldAlertFlag">
+                            <option value="0" {if $field.alert_flag==0}selected{/if}>不需要报警</option>
+                            <option value="1" {if $field.alert_flag==1}selected{/if}>需要状态变更时报警</option>
+                            <option value="2" {if $field.alert_flag==2}selected{/if}>需要一级阈值报警</option>
+                            <option value="3" {if $field.alert_flag==3}selected{/if}>需要二级阈值报警</option>
+                            <option value="4" {if $field.alert_flag==4}selected{/if}>需要区间值报警</option>
+                        </select>
+                    </td>
+
                     <td>
                         <input type="text" class="form-control" id="TypeUnit" value="{$field.field_unit}???" placeholder="请填写数据类型单位">
                     </td>
-                    <td>
 
-                    </td>
                     <td><a class="btn btn-danger remove">删除</a></td>
                 </tr>
             {/foreach}
