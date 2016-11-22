@@ -7,8 +7,10 @@
 
 {block name=content}
     <div class="form-group">
-        <label><input type="checkbox" name="" />&nbsp;启用</label>
+        <label><input type="checkbox" name="{$name}[threshold1_set]" {if $s1}checked{/if}/>&nbsp;启用</label>
         <label for="exampleInputEmail1">一级报警阈值 ({$fieldUnit})</label>
-        <input class="form-control" name="device_desc" placeholder="请填写一级报警阈值">
+
+        <input class="form-control" name="{$name}[threshold1]" value="{$v1}"
+               placeholder="请填写一级报警阈值">
     </div>
 {/block}
