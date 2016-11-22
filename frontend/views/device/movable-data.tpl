@@ -3,6 +3,7 @@
     <form id="search-form" method="get" action="#">
         <input type="hidden" name="r" value="device/movable-data">
 
+        {if isset($currentTaskId)}
         <div class="form-group">
             <label class="control-label pull-left" style="margin-top: 8px">
                 选择任务:
@@ -17,6 +18,7 @@
 
             <input type="submit" class="btn btn-info" value="查看">
         </div>
+        {/if}
 
         <input type="hidden" name="deviceKey" value="{$deviceKey}">
         <input type="hidden" name="__page" value="{$get.__page}">

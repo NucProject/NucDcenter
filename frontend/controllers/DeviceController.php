@@ -12,6 +12,7 @@ use common\components\Helper;
 use common\components\ModelSaveFailedException;
 use common\components\ResourceNotFoundException;
 use common\models\NucDeviceAlertSetting;
+use common\models\UkDeviceData;
 use common\services\TaskService;
 use yii;
 use common\components\AccessForbiddenException;
@@ -118,6 +119,55 @@ class DeviceController extends BaseController
 
         parent::setPageMessage("{$deviceName} 数据曲线图表");
         parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);
+        return parent::renderPage('movable-data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
+    }
+
+    /**
+     * @page
+     * @comment 移动设备数据
+     * @param $deviceKey
+     * @return string
+     * @throws AccessForbiddenException
+     * 移动便携设备的实时曲线+列表
+     */
+    public function actionActiveData($deviceKey)
+    {
+        $device = $this->checkDevice($deviceKey);
+
+        // options handler (including Pager)
+        $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
+        $page = Yii::$app->request->get('__page');
+        $options = ['pageSize' => $pageSize, 'page' => $page];
+
+        $data = $this->getDeviceRecentData($device, $options);
+        $this->handleShowOptions($data);
+
+        $deviceType = DeviceTypeService::getDeviceType($device->type_key);
+        $displayFieldName = '';
+        foreach ($deviceType->fields as $field)
+        {
+            if ($field['display_flag'] == 1)
+            {
+                $displayFieldName = $field->field_name;
+                break;
+            }
+        }
+        $deviceName = $data['deviceName'];
+
+        if (!$data['hideChart'])
+        {
+            $points = self::convertItemsToPoints(array_reverse($data['items']), $displayFieldName);
+            $data['itemPoints'] = $points['points'];
+            $data['maxVal'] = $points['maxVal'];
+            $data['minVal'] = $points['minVal'];
+
+            $data['chartTitle'] = $deviceName . ' 曲线';
+        }
+
+        $data['attends'] = TaskService::getTasksByDevice($deviceKey);
+
+        parent::setPageMessage("{$deviceName} 实时数据曲线图表");
+        parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_实时数据"]);
         return parent::renderPage('movable-data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
     }
 
@@ -280,13 +330,24 @@ class DeviceController extends BaseController
         return array_key_exists($key, $post) && $post[$key] == 'on';
     }
 
+    /**
+     * @param $deviceKey
+     * @param $fieldName
+     * @return NucDeviceAlertSetting
+     * 单纯是为了IDE可以识别字段
+     */
+    private static function getAlertSetting($deviceKey, $fieldName)
+    {
+        return NucDeviceAlertSetting::findOne(['device_key' => $deviceKey, 'field_name' => $fieldName]);
+    }
+
     public function actionSetThreshold($deviceKey)
     {
         $device = $this->checkDevice($deviceKey);
 
         if ($device) {
             foreach ($_POST as $fieldName => $values) {
-                $fieldSetting = NucDeviceAlertSetting::findOne(['device_key' => $deviceKey, 'field_name' => $fieldName]);
+                $fieldSetting = self::getAlertSetting($deviceKey, $fieldName);
                 if ($fieldSetting) {
                     $fieldSetting->threshold1_set = 0;
                     $fieldSetting->threshold2_set = 0;
@@ -297,6 +358,7 @@ class DeviceController extends BaseController
                         $fieldSetting->threshold1 = $values['threshold1'];
                     }
 
+                    // 某些报警类型不需要threshold2
                     if (self::hasThresholdSet($values, 'threshold2_set'))
                     {
                         $fieldSetting->threshold2_set = 1;
@@ -417,6 +479,59 @@ class DeviceController extends BaseController
             'columns' => $columns,
             'items' => $items,
             'pager' => $result['pager'],
+            'get' => self::filterRequestItems($_GET, [
+                'begin_time' => '',
+                'end_time' => '',
+                '__page' => 1,
+                '__pageSize' => $options['pageSize']
+            ])
+        ];
+    }
+
+    /**
+     * @param $device \common\models\NucDevice
+     * @param $options
+     * @return array
+     * @throws AccessForbiddenException
+     * 得到设备最新的数据
+     */
+    private function getDeviceRecentData($device, $options)
+    {
+        if (!$device) {
+            return [];
+        }
+        $typeKey = $device->type_key;
+
+        $deviceType = DeviceTypeService::getDeviceType($typeKey);
+
+        // 得到有效的设备字段信息
+        $fields = NucDeviceField::findAll([
+            'type_key' => $typeKey,
+            'status' => 1
+        ]);
+
+        $columns = [['field_name' => 'data_time', 'field_display' => '时间']];
+        foreach ($fields as $field)
+        {
+            $columns[] = $field->toArray();
+        }
+
+        $deviceKey = $device->device_key;
+
+        // $result = DeviceDataService::getDataList($deviceKey, $options);
+        $items = UkDeviceData::findByKey($deviceKey, false)
+            ->where(['task_id' => 0])
+            ->asArray()
+            ->orderBy('data_time desc')
+            ->limit(100)
+            ->all();
+
+        return [
+            'deviceKey' => $deviceKey,
+            'deviceName' => $deviceType->type_name,
+            'columns' => $columns,
+            'items' => $items,
+            'pager' => 1,
             'get' => self::filterRequestItems($_GET, [
                 'begin_time' => '',
                 'end_time' => '',

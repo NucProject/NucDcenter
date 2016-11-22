@@ -41,6 +41,10 @@
                     </li>
 
                     <li>
+                        <a href="index.php?r=device/active-data&deviceKey={$device.device_key}">实时数据</a>
+                    </li>
+
+                    <li>
                         <a href="index.php?r=device/threshold&deviceKey={$device.device_key}">阈值设置</a>
                     </li>
                     <!--

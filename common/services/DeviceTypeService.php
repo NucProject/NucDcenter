@@ -9,6 +9,7 @@
 namespace common\services;
 
 
+use common\components\AccessForbiddenException;
 use common\components\ModelSaveFailedException;
 use common\models\NucDeviceField;
 use common\models\NucDeviceType;
@@ -88,10 +89,15 @@ class DeviceTypeService
     /**
      * @param $typeKey
      * @return NucDeviceType
+     * @throws
      */
     public static function getDeviceType($typeKey)
     {
-        return NucDeviceType::find()->with('fields')->where(['type_key' => $typeKey])->one();
+        $deviceType = NucDeviceType::find()->with('fields')->where(['type_key' => $typeKey])->one();
+        if (!$deviceType) {
+            throw new AccessForbiddenException("设备类型不存在");
+        }
+        return $deviceType;
     }
 
     /**
