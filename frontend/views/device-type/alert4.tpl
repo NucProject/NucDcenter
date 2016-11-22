@@ -22,3 +22,7 @@
                placeholder="请填写区间最大值">
     </div>
 {/block}
+
+<script>
+
+</script>
