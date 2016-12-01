@@ -183,7 +183,7 @@ class DataCenterController extends BaseController
 
         parent::setPageMessage('添加移动便携设备');
         parent::setBreadcrumbs(['#' => '添加移动便携设备']);
-        return parent::renderPage('modify.tpl', $data,
+        return parent::renderPage('add-device.tpl', $data,
             ['with' => ['dialog', 'laydate']]);
     }
 

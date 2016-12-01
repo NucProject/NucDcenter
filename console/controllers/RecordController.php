@@ -15,6 +15,7 @@ use common\components\Cache;
 /**
  * Class RecordController
  * @package console\controllers
+ *          暂时还没有用到，现在的策略是直接进入MySQL
  */
 class RecordController extends Controller
 {
@@ -31,31 +32,5 @@ class RecordController extends Controller
             sleep(5);
         }
     }
-
-    /**
-     *
-     * 从Redis拿数据转储到MySQL中
-     */
-    public function actionTest()
-    {
-
-
-    }
-
-    /**
-     * @param $deviceKey
-     * @return array
-     */
-    private function fetchNewEntryFromRedis($deviceKey)
-    {
-        $newEntry = [];
-        return $newEntry;
-    }
-
-    private function recordEntry($deviceKey, $newEntry)
-    {
-        return true;
-    }
-
 
 }

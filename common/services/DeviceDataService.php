@@ -8,6 +8,7 @@
 
 namespace common\services;
 
+use common\components\Cache;
 use common\components\Heatmap;
 use common\models\NucDeviceField;
 use common\models\NucDeviceType;
@@ -20,7 +21,7 @@ use common\models\UkDeviceData;
 class DeviceDataService
 {
     /**
-     *
+     * 把设备的数据存入数据库(并Redis队列)
      * @param $deviceKey    string
      * @param $dataTime
      * @param $data         array
@@ -55,13 +56,68 @@ class DeviceDataService
             $entry->$field = $value;
         }
 
+        // 报警相关
         if ($checkAlarm)
         {
-            // TODO: Get alarm settings, if alarm set alarm_status=1
+            $settings = Cache::getDeviceAlertSettings($deviceKey);
 
+            if ($settings)
+            {
+                $alertValue = self::checkAlert($entry, $settings);
+                $data['alert'] = $alertValue;
+            }
         }
 
+        // 缓存相关
+        Cache::pushDeviceData($deviceKey, $entry->toArray());
         return $entry->save();
+    }
+
+    /**
+     * @param $entry
+     * @param $settings
+     * @return int 0, 1, 2
+     */
+    public static function checkAlert($entry, $settings)
+    {
+        foreach ($settings as $setting)
+        {
+            $fieldName = $setting['field_name'];
+            if ($setting['alert_flag'] == 1)
+            {
+                if ($entry->$fieldName == intval($setting['threshold1']))
+                {
+                    $entry->alarm_status = 1;
+                }
+            }
+            elseif ($setting['alert_flag'] == 2)
+            {
+                if ($entry->$fieldName >= $setting['threshold1'])
+                {
+                    $entry->alarm_status = 1;
+                }
+            }
+            elseif ($setting['alert_flag'] == 3)
+            {
+                if ($entry->$fieldName >= $setting['threshold2'])
+                {
+                    $entry->alarm_status = 2;
+                }
+                elseif ($entry->$fieldName >= $setting['threshold1'])
+                {
+                    $entry->alarm_status = 1;
+                }
+            }
+            elseif ($setting['alert_flag'] == 4)
+            {
+                if ($entry->$fieldName > $setting['threshold2'] ||
+                    $entry->$fieldName < $setting['threshold1'])
+                {
+                    $entry->alarm_status = 1;
+                }
+            }
+        }
+        return $entry->alarm_status;
     }
 
     public static function updateAvgEntry($deviceKey, $data)
@@ -142,7 +198,13 @@ class DeviceDataService
      */
     public static function lastEntry($deviceKey, $avg=true)
     {
-        $entry = UkDeviceData::findByKey($deviceKey, $avg)->orderBy('data_id desc')->limit(1)->one();
+        $entry = Cache::getLastDeviceData($deviceKey);
+        if ($entry) {
+            $data = json_decode($entry, true);
+            return $data;
+        }
+        $entry = UkDeviceData::findByKey($deviceKey, $avg)
+            ->orderBy('data_id desc')->limit(1)->asArray()->one();
         return $entry;
     }
 
@@ -277,7 +339,7 @@ class DeviceDataService
         $fields = self::addDeviceDataFields($fields, $migration, $typeKey, $deviceType->is_movable);
 
         $fixedFields = [
-            'alarm_status'  => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发警报,2:警报已处理'),
+            'alarm_status'  => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:正常,1:触发一级警报,2:触发二级警报,99:警报已处理'),
             'status'        => $migration->tinyInteger()->notNull()->defaultValue(0)->comment('状态|0:无效,1:有效'),
             'data_time'     => $migration->dateTime()->notNull()->defaultValue(0)->comment('数据设备时间'),
             'create_time'   => $migration->dateTime()->notNull()->defaultValue(0)->comment('创建时间'),

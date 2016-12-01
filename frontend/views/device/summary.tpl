@@ -7,19 +7,19 @@
 {/block}
 
 {block name=content}
-    <div>
+    <div deviceKey="{$device.device_key}">
         <span>设备型号: {$device.deviceType.type_name}</span>
         <br>
         <span>设备描述: {$device.device_desc}</span>
         <br>
         <span>设备序列号: {$device.device_sn}</span>
         <br>
-        <span>最新数据时间: {$device.last_data_time}</span>
+        <span>最新数据时间: <span class="latest_time">{$device.last_data_time}</span></span>
         <br>
         {if $device.device_status==1}
-            <span class="label label-info">已激活</span>
+            <span class="active-status label label-info">已激活</span>
             {else}
-            <span class="label label-default">未激活</span>
+            <span class="active-status label label-default">未激活</span>
         {/if}
         <br>
 

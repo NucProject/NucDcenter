@@ -13,7 +13,11 @@
         tds.each(function () {
             var deviceKey = $(this).attr('device_key');
             console.log(deviceKey);
-            $(this).text(items[deviceKey]);
+            var item = items[deviceKey];
+            if (item) {
+                $(this).text(item['data']);
+            }
+
         });
     }
 

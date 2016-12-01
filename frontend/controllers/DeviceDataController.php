@@ -28,17 +28,21 @@ class DeviceDataController extends BaseController
             foreach ($deviceKeyList as $deviceInfo)
             {
                 $deviceKey = $deviceInfo['deviceKey'];
-                $entry = DeviceDataService::lastEntry($deviceKey, false);
-                if ($entry) {
-                    $data = $entry->toArray();
-
+                $data = DeviceDataService::lastEntry($deviceKey, false);
+                if ($data) {
                     $typeKey = $deviceInfo['typeKey'];
                     $field = DeviceTypeService::getDisplayField($typeKey);
+
+                    // file_put_contents("d:\\$deviceKey.txt", json_encode($data), FILE_APPEND);
 
                     $fieldName = $field->field_name;
                     $valueUnit = $field->field_unit;
 
-                    $latest[$deviceKey] = $data[$fieldName] . $valueUnit;
+                    $value = $data[$fieldName];
+
+                    $latest[$deviceKey] = [
+                        'time' => $data['data_time'],
+                        'data' => $value . $valueUnit];
                 }
             }
             return parent::result($latest);
