@@ -75,14 +75,16 @@ class TaskService
     }
 
     /**
-     * @param $deviceKey
+     * @param $deviceSn
      * @param $taskId
      * @return NucTaskAttend
      * @throws
      * 加入一个任务
      */
-    public static function attendTask($deviceKey, $taskId)
+    public static function attendTask($deviceSn, $taskId)
     {
+        $deviceKey = EntityIdService::genDeviceKey(DataCenterService::deployedCenterId(), $deviceSn);
+
         $task = NucTask::findOne($taskId);
         if (!$task) {
             throw new ResourceNotFoundException("TaskId=$taskId Not found");

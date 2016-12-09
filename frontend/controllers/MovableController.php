@@ -64,21 +64,21 @@ class MovableController extends BaseMovableController
 
     /**
      * @m.api
-     * @param $deviceKey
+     * @param $deviceSn
      * @param $taskId
      * @return json
      * 参与一个任务
      */
-    public function actionAttend($deviceKey, $taskId)
+    public function actionAttend($deviceSn, $taskId)
     {
         try {
-            $attend = TaskService::attendTask($deviceKey, $taskId);
+            $attend = TaskService::attendTask($deviceSn, $taskId);
 
             return parent::result($attend->toArray());
         } catch (\Exception $e) {
             return parent::error(
                 [
-                    'msg' => "Device($deviceKey) can not join task($taskId)",
+                    'msg' => "Device(sn=$deviceSn) can not join task($taskId)",
                     'exception' => $e
                 ],
                 1);
