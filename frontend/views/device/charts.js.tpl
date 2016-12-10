@@ -5,6 +5,67 @@
     chartVerticalLineTitle = '{$chartVerticalLineTitle}';
     {/if}
 
+    // 处理报警阈值
+    var alertValues = '{$alertSettings}'.toJson();
+    var pieces = [];
+    for (var i in alertValues)
+    {
+        var v = alertValues[i];
+        if ('{$displayFieldName}' == v['field_name'])
+        {
+            var alertFlag = v['alert_flag'];
+            if (alertFlag == 1)
+            {
+                // 这种情况应该是不需要曲线的才对
+            }
+            else if (alertFlag == 2)
+            {
+                // 一级报警
+                pieces =  [{
+                    gt: parseFloat(v['threshold1']),
+                    color: '#EE0000'
+                }, {
+                    lte: parseFloat(v['threshold1']),
+                    color: '#00EE00'
+                }];
+            }
+            else if (alertFlag == 3)
+            {
+                // 二级报警
+                pieces =  [{
+                    gt: parseFloat(v['threshold2']),
+                    color: '#EE0000'
+                }, {
+                    gt: parseFloat(v['threshold1']),
+                    lte: parseFloat(v['threshold2']),
+                    color: '#EE8000'
+                }, {
+                    lte: parseFloat(v['threshold1']),
+                    color: '#00EE00'
+                }];
+            }
+            else if (alertFlag == 4)
+            {
+                // 区间报警
+            }
+        }
+    }
+
+    /*
+    console.log(pieces)
+    pieces = [{
+        gt: 150,
+        lte: 200,
+        color: '#cc0033'
+    }, {
+        gt: 200,
+        lte: 300,
+        color: '#660099'
+    }
+    ];
+    */
+    console.log(pieces)
+
     var jsonItemPoints = '{$itemPoints}';
     if (jsonItemPoints.length > 0) {
         var data = '{$itemPoints}'.toJson();
@@ -58,7 +119,7 @@
             visualMap: {
                 top: 10,
                 right: 10,
-                pieces: [{
+                pieces: pieces /*|| [{
                     gt: 150,
                     lte: 200,
                     color: '#cc0033'
@@ -67,7 +128,7 @@
                     lte: 300,
                     color: '#660099'
                 }
-                ],
+                ]*/,
                 outOfRange: {
                     color: '#999'
                 }

@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\components\Cache;
 use common\components\Helper;
 use common\components\ModelSaveFailedException;
 use common\components\ResourceNotFoundException;
@@ -161,8 +162,13 @@ class DeviceController extends BaseController
             $data['maxVal'] = $points['maxVal'];
             $data['minVal'] = $points['minVal'];
 
+            $data['displayFieldName'] = $displayFieldName;
             $data['chartTitle'] = $deviceName . ' 曲线';
         }
+
+        // alert settings!
+        $alertSettings = Cache::getDeviceAlertSettings($deviceKey);
+        $data['alertSettings'] = json_encode($alertSettings);
 
         $data['attends'] = TaskService::getTasksByDevice($deviceKey);
 
