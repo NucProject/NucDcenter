@@ -600,13 +600,20 @@ class DeviceController extends BaseController
         {
             $dataTime = $i['data_time'];
             $val = $i[$field];
-            $points[] = [$dataTime, $val];
+            $points[$dataTime] = [$dataTime, $val];
             $maxVal = max($val, $maxVal);
             if ($val)
             {
                 $minVal = min($val, $minVal);
             }
         }
+
+        usort($points, function($a, $b) {
+            if ($a[0] == $b[0]) return 0;
+            elseif ($a[0] < $b[0]) return -1;
+            return 1;
+        });
+        $points = array_values($points);
 
         return [
             'points' => json_encode($points),
