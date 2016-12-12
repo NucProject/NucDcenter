@@ -103,5 +103,16 @@ class Cache
         return false;
     }
 
+    public static function delDeviceAlertSettings($deviceKey)
+    {
+        $redis = self::getRedis();
+        if ($redis) {
+            $deviceAlertKey = "Alert:$deviceKey";
+            $redis->executeCommand('del', [$deviceAlertKey]);
+            return true;
+        }
+        return false;
+    }
+
 
 }

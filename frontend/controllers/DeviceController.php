@@ -371,6 +371,9 @@ class DeviceController extends BaseController
                         $fieldSetting->threshold2 = $values['threshold2'];
                     }
                     $fieldSetting->save();
+
+                    // 清理缓存, 否则页面从Redis里面拿阈值
+                    Cache::delDeviceAlertSettings($deviceKey);
                 }
             }
 
