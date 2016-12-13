@@ -53,8 +53,8 @@
                 </td>
                 <td>
                     <select class="form-control fieldValueType" name="fieldValueType">
+                        <option value="0">高精度浮点数</option>
                         <option value="1">整数</option>
-                        <option value="2">高精度浮点数</option>
                         <option value="3">字符串</option>
                     </select>
                 </td>
@@ -95,8 +95,8 @@
                     </td>
                     <td>
                         <select class="form-control" name="fieldType">
+                            <option value="0" {if $field.field_type==0}selected{/if}>高精度浮点数</option>
                             <option value="1" {if $field.field_type==1}selected{/if}>整数</option>
-                            <option value="2" {if $field.field_type==2}selected{/if}>高精度浮点数</option>
                             <option value="3" {if $field.field_type==3}selected{/if}>字符串</option>
                         </select>
                     </td>
