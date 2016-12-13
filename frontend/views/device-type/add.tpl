@@ -30,7 +30,7 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">设备便携属性</label>
-            <select class="form-control" name="stationType" id="deviceMovableType">
+            <select class="form-control" name="isMovable" id="deviceMovableType">
                 <option value="0">固定设备</option>
                 <option value="1">移动便携设备</option>
             </select>
