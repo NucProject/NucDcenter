@@ -64,8 +64,12 @@ class DeviceController extends BaseController
             $data['minVal'] = $points['minVal'];
 
             $data['chartTitle'] = $deviceName . ' 五分钟曲线';
+            $data['displayFieldName'] = $displayFieldName;
         }
 
+        // alert settings!
+        $alertSettings = Cache::getDeviceAlertSettings($deviceKey);
+        $data['alertSettings'] = json_encode($alertSettings);
 
         parent::setPageMessage("{$deviceName} 数据曲线图表");
         parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);

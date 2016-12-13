@@ -7,9 +7,12 @@
 
     // 处理报警阈值
     var alertValues = [];
-    {if isset(alertSettings)}
-    alertValues = '{$alertSettings}'.toJson();
+    {if isset($alertSettings)}
+    var alertValues = '{$alertSettings}'.toJson();
     {/if}
+
+    console.log(alertValues);
+
     var pieces = [];
     for (var i in alertValues)
     {
