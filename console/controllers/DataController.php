@@ -39,13 +39,16 @@ class DataController extends Controller
                 continue;
             }
 
+            foreach ($this->getWorkingDevices() as $deviceKey)
+            {
+                if ($this->isTimeToPrepareTomorrowAvgData($dataTime))
+                {
+                    $this->prepareTomorrowAvgData($deviceKey, $dataTime);
+                }
+            }
+
             // 更新上一次的归一化时间
             $this->lastRegular5mTime = $dataTime;
-
-            if ($this->isTimeToPrepareTomorrowAvgData($dataTime))
-            {
-
-            }
 
             $this->calcDevicesAvg($dataTime, $duration);
         }
@@ -96,7 +99,6 @@ class DataController extends Controller
     {
         foreach ($this->getWorkingDevices() as $deviceKey)
         {
-            // echo "$deviceKey";
             list($avgFields, $otherFields) = $this->getFieldsInfo($deviceKey);
             $this->calcDeviceAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields);
         }
@@ -115,7 +117,7 @@ class DataController extends Controller
     {
         $dateTime = strtotime($time);
         $time = date('H:i:s', $dateTime);
-        return $time >= '21:00:00' && $time < '22:00:00';
+        return $time >= '22:00:00' && $time < '22:30:00';
     }
 
     /**
