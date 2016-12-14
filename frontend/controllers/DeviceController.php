@@ -117,6 +117,7 @@ class DeviceController extends BaseController
             $data['minVal'] = $points['minVal'];
 
             $data['chartTitle'] = $deviceName . ' 曲线';
+            $data['displayFieldName'] = $displayFieldName;
         }
 
         $data['attends'] = TaskService::getTasksByDevice($deviceKey);

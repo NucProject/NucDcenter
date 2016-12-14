@@ -82,7 +82,7 @@
         startValue = 0, min = 0, max = 0;
     }
 
-    console.log(data)
+    console.log(startValue, min, max);
 </script>
 {literal}
 <script>
