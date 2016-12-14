@@ -82,6 +82,8 @@
         startValue = 0, min = 0, max = 0;
     }
 
+    var diff = (max - min) + 1;
+
     console.log(startValue, min, max);
 </script>
 {literal}
@@ -105,8 +107,8 @@
                 splitLine: {
                     show: false
                 },
-                min: min - 20, // 纵轴的最小值控制
-                max: max + 20
+                min: min - diff * 2, // 纵轴的最小值控制
+                max: max + diff * 2
             },
             toolbox: {
                 left: 'center',
