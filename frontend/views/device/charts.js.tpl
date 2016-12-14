@@ -72,15 +72,14 @@
     */
     console.log(pieces)
 
-    var jsonItemPoints = '{$itemPoints}';
-    if (jsonItemPoints.length > 0) {
-        var data = '{$itemPoints}'.toJson();
+    var data = '{$itemPoints}'.toJson();
+    if (data.length > 0) {
         var startValue = data[0][0];
         var min = parseFloat("{$minVal}");
         var max = parseFloat("{$maxVal}");
     } else {
-        var data = [['1999-09-01', 0]];
-        var startValue = '2016-09-01';
+        // data = [['1970-01-01', 1]];
+        var startValue = '1970-01-01';
     }
 </script>
 {literal}

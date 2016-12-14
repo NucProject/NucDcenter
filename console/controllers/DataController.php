@@ -80,6 +80,9 @@ class DataController extends Controller
         {
             $otherFields = ['lng', 'lat', 'lng_gps', 'lat_gps'];
         }
+
+        echo  date('Y-m-d H:i:s', $cursorTime);
+        echo  date('Y-m-d H:i:s', $endTime);
         while ($cursorTime <= $endTime)
         {
             $dataTime = date('Y-m-d H:i:s', $cursorTime);
@@ -93,7 +96,9 @@ class DataController extends Controller
     {
         foreach ($this->getWorkingDevices() as $deviceKey)
         {
-            $this->calcDeviceAvg($deviceKey, $dataTime, $duration);
+            // echo "$deviceKey";
+            list($avgFields, $otherFields) = $this->getFieldsInfo($deviceKey);
+            $this->calcDeviceAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields);
         }
     }
 
@@ -101,7 +106,7 @@ class DataController extends Controller
     {
         $avgData = $this->calcDataAvg($deviceKey, $dataTime, $duration, $avgFields, $otherFields);
 
-
+        //
         $avgData['data_time'] = $dataTime;
         DeviceDataService::updateAvgEntry($deviceKey, $avgData);
     }
@@ -231,12 +236,38 @@ class DataController extends Controller
     private function getWorkingDevices()
     {
         // TODO: Get working device keys from Redis
-        return ['dk06ee3d6938e78ba9d3'];
+        return ['dk96db3d6938e74659da'];
     }
 
     private function getDeviceKeysInTask()
     {
         return ['dk06ee3d6938e78ba9d3'];
+    }
+
+    static $fieldsInfoMap = [];
+
+    /**
+     * @param $deviceKey
+     * @return array
+     */
+    private function getFieldsInfo($deviceKey)
+    {
+        if (array_key_exists($deviceKey, self::$fieldsInfoMap)) {
+            return self::$fieldsInfoMap[$deviceKey];
+        }
+
+        $avgFields = [];
+        $device = DeviceService::getDeviceByKey($deviceKey);
+        if ($device) {
+            $deviceType = DeviceTypeService::getDeviceType($device->type_key);
+            foreach ($deviceType->fields as $field) {
+                $avgFields[] = $field->field_name;
+            }
+        }
+
+        $fieldsInfo = [$avgFields, ['']];
+        self::$fieldsInfoMap[$deviceKey] = $fieldsInfo;
+        return $fieldsInfo;
     }
 
     public function actionTaskReplay($taskId, $deviceKey)

@@ -128,7 +128,7 @@ class DeviceDataService
         $dataTime = $data['data_time'];
         $entry = UkDeviceData::find()->where(['data_time' => $dataTime])->one();
         if (!$entry) {
-            echo "Not Found the data entry places";
+            echo "Not Found the data entry places at [$dataTime]";
             return false;
         }
 
