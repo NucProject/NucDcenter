@@ -238,7 +238,7 @@ class DataController extends Controller
     private function getWorkingDevices()
     {
         // TODO: Get working device keys from Redis
-        return ['dk96db3d6938e74659da'];
+        return ['dk413d9bf25138b40337'];
     }
 
     private function getDeviceKeysInTask()

@@ -142,6 +142,7 @@ class DeviceDataService
             }
             $entry->$field = $value;
         }
+        $entry->status = 1;
         return $entry->save($data);
     }
 
