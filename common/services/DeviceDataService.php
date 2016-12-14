@@ -224,7 +224,7 @@ class DeviceDataService
 
         $condition = $options['condition'];
         // List取均值
-        $query = UkDeviceData::findByKey($deviceKey, $avg)->where($condition);
+        $query = UkDeviceData::findByKey($deviceKey, $avg)->where($condition)->andWhere(['status' => 1]);
 
         // 如果调用者给出totalCount, 那么就省略了select count(*);
         $totalCount = static::getOptionValue($options, 'totalCount', 0);
