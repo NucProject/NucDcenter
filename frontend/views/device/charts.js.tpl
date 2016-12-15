@@ -79,12 +79,12 @@
         var max = parseFloat("{$maxVal}");
     } else {
         // data = [['1970-01-01', 1]];
-        startValue = 0, min = 0, max = 0;
+        startValue = 0; min = 0; max = 0;
     }
 
     var diff = (max - min) / 4.0;
-    var yMin = Math.round(min - diff);
-    var yMax = Math.round(max + diff);
+    var yMin = min - diff;
+    var yMax = max + diff;
 
     console.log(startValue, min, max, yMin, yMax);
 </script>
