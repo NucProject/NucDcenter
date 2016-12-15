@@ -83,8 +83,10 @@
     }
 
     var diff = (max - min) / 4.0;
+    var yMin = Math.round(min - diff);
+    var yMax = Math.round(max + diff);
 
-    // console.log(startValue, min, max);
+    console.log(startValue, min, max, yMin, yMax);
 </script>
 {literal}
 <script>
@@ -107,8 +109,8 @@
                 splitLine: {
                     show: false
                 },
-                min: min - diff, // 纵轴的最小值控制
-                max: max + diff
+                min: yMin, // 纵轴的最小值控制
+                max: yMax
             },
             toolbox: {
                 left: 'center',
