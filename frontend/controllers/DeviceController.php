@@ -34,12 +34,25 @@ class DeviceController extends BaseController
      */
     public function actionData($deviceKey)
     {
+        // 给个默认的搜索时间
+        if (!array_key_exists('begin_time', $_GET)) {
+            $url = "index.php?r=device/data&deviceKey=$deviceKey&";
+            $beginTime = date('Y-m-d H:i:s', time() - 3600 * 24);
+            $endTime = date('Y-m-d H:i:s', time());
+
+            $pageSize = isset($_GET['__pageSize']) ? $_GET['__pageSize'] : 288;
+            $url .= "begin_time=$beginTime&end_time=$endTime&__pageSize=$pageSize";
+            return Yii::$app->response->redirect($url);
+        }
+
         $device = $this->checkDevice($deviceKey);
 
         // options handler (including Pager)
         $pageSize = Yii::$app->request->get('__pageSize', Yii::$app->params['pageSizeDefault']);
         $page = Yii::$app->request->get('__page');
-        $options = ['pageSize' => $pageSize, 'page' => $page];
+        $options = ['pageSize' => $pageSize, 'page' => $page,
+                    'beginTime' => $_GET['begin_time'],
+                    'endTime' => $_GET['end_time']];
 
         $data = $this->getDeviceData($device, $options);
         $this->handleShowOptions($data);
@@ -58,7 +71,8 @@ class DeviceController extends BaseController
 
         if (!$data['hideChart'])
         {
-            $points = self::convertItemsToPoints(array_reverse($data['items']), $displayFieldName);
+            $options['showDayCharts'] = true;
+            $points = self::convertItemsToPoints(array_reverse($data['items']), $displayFieldName, $options);
             $data['itemPoints'] = $points['points'];
             $data['maxVal'] = $points['maxVal'];
             $data['minVal'] = $points['minVal'];
@@ -593,12 +607,18 @@ class DeviceController extends BaseController
     /**
      * @param $data
      * @param $field  string  *要显示在charts上面的字段*
+     * @param $options
      * @return string
      * 曲线要考虑时间连续性，没有值的点，也要给null值
      */
-    private static function convertItemsToPoints($data, $field)
+    private static function convertItemsToPoints($data, $field, $options=[])
     {
+        //var_dump($options);exit;
         $points = [];
+        if (array_key_exists('showDayCharts', $options)) {
+            self::makePointsPadding($points, $options);
+        }
+
         $first = self::getFirstNotNullValue($data, $field);
         $minVal = $maxVal = $first;
         foreach ($data as $i)
@@ -618,13 +638,26 @@ class DeviceController extends BaseController
             elseif ($a[0] < $b[0]) return -1;
             return 1;
         });
+
         $points = array_values($points);
+        //var_dump($points);exit;
 
         return [
             'points' => json_encode($points),
             'maxVal' => $maxVal ?: '0.0',
             'minVal' => $minVal ?: '0.0'
         ];
+    }
+
+    private static function makePointsPadding(&$points, $options)
+    {
+        $beginTime = strtotime(Helper::regular5mTime($options['beginTime']));
+        $endTime = strtotime(Helper::regular5mTime($options['endTime']));
+        for ($time = $beginTime; $time < $endTime; $time += 300)
+        {
+            $timeStr = date('Y-m-d H:i:s', $time);
+            $points[$timeStr] = [$timeStr, null];
+        }
     }
 
     private static function getFirstNotNullValue($data, $field)

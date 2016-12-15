@@ -39,6 +39,7 @@ class DataController extends Controller
                 continue;
             }
 
+            /*
             foreach ($this->getWorkingDevices() as $deviceKey)
             {
                 if ($this->isTimeToPrepareTomorrowAvgData($dataTime))
@@ -46,6 +47,7 @@ class DataController extends Controller
                     $this->prepareTomorrowAvgData($deviceKey, $dataTime);
                 }
             }
+            */
 
             // 更新上一次的归一化时间
             $this->lastRegular5mTime = $dataTime;

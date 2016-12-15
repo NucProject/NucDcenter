@@ -2,7 +2,7 @@
 <script>
     var stations = eval('({$stations})');
     var activeDevices = eval('({$activeDevices})');
-
+    var city = '{$city}';
 </script>
 {literal}
 <script>
@@ -13,7 +13,6 @@
 
             var stationName = station.station_name;
             var stationKey = station.station_key;
-
 
             infoPane.find('h3.title').text(stationName);
             infoPane.find('td.connection').text('联通');
@@ -170,7 +169,10 @@
         map.addControl(myCtrl)
 
         map.addControl(new BMap.MapTypeControl());
-        map.setCurrentCity("珠海"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+
+        // var city = "北京";
+        map.setCurrentCity(city); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+        map.centerAndZoom(city, 11);
 
         // map.enableScrollWheelZoom(false); //禁用滚轮事件
 
@@ -191,8 +193,6 @@
             showActiveDeviceMarkerDelay(map, activeDevice, delay + offset);
             offset /= 2; // Fast as fast
         }
-
-
 
     });
 </script>

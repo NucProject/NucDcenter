@@ -127,9 +127,11 @@ class DeviceDataService
 
         $dataTime = $data['data_time'];
         $entry = UkDeviceData::find()->where(['data_time' => $dataTime])->one();
-        if (!$entry) {
-            echo "Not Found the data entry places at [$dataTime]\n";
+        if ($entry) {
+            echo "Data Found! at [$dataTime]\n";
             return false;
+        } else {
+            $entry = new UkDeviceData();
         }
 
         // $entry->setAttributes($data); // 因为安全问题，需要设置rules才能使用
@@ -218,13 +220,22 @@ class DeviceDataService
     public static function getDataList($deviceKey, $options=[])
     {
         $avg = true;
-        if (array_key_exists('non-avg', $options) && $options['non-avg']) {
+        if (array_key_exists('non-avg', $options) && $options[
+}'non-avg']) {
             $avg = false;
         }
 
         $condition = $options['condition'];
         // List取均值
         $query = UkDeviceData::findByKey($deviceKey, $avg)->where($condition)->andWhere(['status' => 1]);
+
+        if (array_key_exists('beginTime', $options)) {
+            $query->andWhere("data_time >= '{$options['beginTime']}'");
+        }
+
+        if (array_key_exists('endTime', $options)) {
+            $query->andWhere("data_time < '{$options['endTime']}'");
+        }
 
         // 如果调用者给出totalCount, 那么就省略了select count(*);
         $totalCount = static::getOptionValue($options, 'totalCount', 0);

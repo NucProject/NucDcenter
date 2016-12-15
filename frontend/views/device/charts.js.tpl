@@ -82,9 +82,9 @@
         startValue = 0, min = 0, max = 0;
     }
 
-    var diff = (max - min) * 1.5;
+    var diff = (max - min) / 4.0;
 
-    console.log(startValue, min, max);
+    // console.log(startValue, min, max);
 </script>
 {literal}
 <script>
@@ -107,8 +107,8 @@
                 splitLine: {
                     show: false
                 },
-                min: min - diff * 2, // 纵轴的最小值控制
-                max: max + diff * 2
+                min: min - diff, // 纵轴的最小值控制
+                max: max + diff
             },
             toolbox: {
                 left: 'center',

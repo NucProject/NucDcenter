@@ -77,7 +77,7 @@ class SiteController extends BaseController
 
         $activeDevices = DataCenterService::getActiveMovableDevices($centerId);
 
-
+        $data['city'] = (Yii::$app->params['currentCity']);
         $data['stations'] = json_encode($stations);
         $data['activeDevices'] = json_encode($activeDevices);
         $data['hideContentHeader'] = true;
