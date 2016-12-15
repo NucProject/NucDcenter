@@ -82,9 +82,9 @@
         startValue = 0; min = 0; max = 0;
     }
 
-    var diff = (max - min) / 4.0;
-    var yMin = min - diff;
-    var yMax = max + diff;
+    var diff = (max - min) / 3.0;
+    var yMin = parseFloat((min - diff).toFixed(2));
+    var yMax = parseFloat((max + diff).toFixed(2));
 
     console.log(startValue, min, max, yMin, yMax);
 </script>
