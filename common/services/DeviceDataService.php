@@ -220,8 +220,7 @@ class DeviceDataService
     public static function getDataList($deviceKey, $options=[])
     {
         $avg = true;
-        if (array_key_exists('non-avg', $options) && $options[
-}'non-avg']) {
+        if (array_key_exists('non-avg', $options) && $options['non-avg']) {
             $avg = false;
         }
 
