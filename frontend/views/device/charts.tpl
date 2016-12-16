@@ -1,5 +1,5 @@
 <div>
-    <div id="dataChartId" style="width: 80%;height: 300px">
+    <div id="dataChartId" style="width: 100%;height: 300px">
 
     </div>
 </div>

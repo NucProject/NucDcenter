@@ -57,9 +57,37 @@
         }
     }
 
+    var data = '{$itemPoints}'.toJson();
 
-    console.log(pieces)
+    if (data.length > 0) {
+        startValue = data[0][0];
 
+        var everyIsNull = true;
+        // 如果每一个元素都是null值，则渲染阈值渐变条会出错!
+        for (var i in data) {
+            if (data[i][1] != null) {
+                everyIsNull = false;
+                break;
+            }
+        }
+
+        var min = parseFloat("{$minVal}");
+        var max = parseFloat("{$maxVal}");
+
+        if (everyIsNull) {
+            data[0][1] = min;
+        }
+
+    } else {
+        data = [['2016-12-01', 0]];
+        startValue = 0; min = 0; max = 0;
+    }
+
+    var diff = (max - min) / 3.0;
+    var yMin = parseFloat((min - diff).toFixed(2));
+    var yMax = parseFloat((max + diff).toFixed(2));
+
+    // VisualMap 控制(阈值显示Bar)
     if (pieces.length == 0) {
         visualMap = null;
     } else {
@@ -72,23 +100,6 @@
             }
         };
     }
-
-
-
-
-    var data = '{$itemPoints}'.toJson();
-    if (data.length > 0) {
-        startValue = data[0][0];
-        var min = parseFloat("{$minVal}");
-        var max = parseFloat("{$maxVal}");
-    } else {
-        // data = [['1970-01-01', 1]];
-        startValue = 0; min = 0; max = 0;
-    }
-
-    var diff = (max - min) / 3.0;
-    var yMin = parseFloat((min - diff).toFixed(2));
-    var yMax = parseFloat((max + diff).toFixed(2));
 
     console.log(startValue, min, max, yMin, yMax);
 </script>
