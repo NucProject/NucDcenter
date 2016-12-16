@@ -11,6 +11,7 @@
                 fieldDesc: s.find('input.fieldDesc').val(),
                 fieldValueType: s.find('select.fieldValueType').val(),
                 fieldDisplayFlag: s.find('select.fieldDisplayFlag').val(),
+                fieldAlertFlag: s.find('select.fieldAlertFlag').val(),
                 fieldUnit: s.find('input.fieldUnit').val(),
             })
         });

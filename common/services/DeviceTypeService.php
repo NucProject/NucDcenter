@@ -50,8 +50,12 @@ class DeviceTypeService
             $fieldEntry->field_display = $field['fieldTitle'];
             $fieldEntry->field_desc = $field['fieldDesc'];
             $fieldEntry->field_value_type = $field['fieldValueType'];
+            $fieldEntry->field_value_default = '0';
+            if ($field['fieldValueType'] == 3)
+                $fieldEntry->field_value_default = '';
             $fieldEntry->field_unit = $field['fieldUnit'];
             $fieldEntry->display_flag = $field['fieldDisplayFlag'];
+            $fieldEntry->alert_flag = $field['fieldAlertFlag'];
             $fieldEntry->save();
         }
     }
