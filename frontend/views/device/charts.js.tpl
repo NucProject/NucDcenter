@@ -57,20 +57,24 @@
         }
     }
 
-    /*
+
     console.log(pieces)
-    pieces = [{
-        gt: 150,
-        lte: 200,
-        color: '#cc0033'
-    }, {
-        gt: 200,
-        lte: 300,
-        color: '#660099'
+
+    if (pieces.length == 0) {
+        visualMap = null;
+    } else {
+        visualMap = {
+            top: 10,
+            right: 10,
+            pieces: pieces,
+            outOfRange: {
+                color: '#FFFFFF'
+            }
+        };
     }
-    ];
-    */
-    console.log(pieces)
+
+
+
 
     var data = '{$itemPoints}'.toJson();
     if (data.length > 0) {
@@ -127,23 +131,7 @@
             }, {
                 type: 'inside'
             }],
-            visualMap: {
-                top: 10,
-                right: 10,
-                pieces: pieces /*|| [{
-                    gt: 150,
-                    lte: 200,
-                    color: '#cc0033'
-                }, {
-                    gt: 200,
-                    lte: 300,
-                    color: '#660099'
-                }
-                ]*/,
-                outOfRange: {
-                    color: '#999'
-                }
-            },
+            visualMap: visualMap,
             series: {
                 name: chartVerticalLineTitle,
                 type: 'line',
