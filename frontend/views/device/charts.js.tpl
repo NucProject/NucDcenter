@@ -94,6 +94,7 @@
         visualMap = {
             top: 10,
             right: 10,
+            precision: 2,
             pieces: pieces,
             outOfRange: {
                 color: '#FFFFFF'
