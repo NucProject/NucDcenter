@@ -70,14 +70,15 @@ class DeviceService
             ->where(['station_key' => $stationKey])
             ->all();
 
-        foreach ($devices as &$device)
-        {
-            $device['last_data_time'] = '';
-            if ($device['device_status'] == 1)
+        foreach ($devices as &$device) {
+            $entry = DeviceDataService::lastEntry($device['device_key'], false);
+            $device['last_data_time'] = $entry['data_time'];
+
+            if (time() - strtotime($device['last_data_time']) < 1000)
             {
-                $entry = DeviceDataService::lastEntry($device['device_key'], false);
-                $device['last_data_time'] = $entry['data_time'];
+                $device['device_status'] = 1;
             }
+
         }
         return $devices;
     }
