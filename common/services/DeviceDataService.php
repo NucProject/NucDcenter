@@ -44,10 +44,10 @@ class DeviceDataService
         if (array_key_exists('gps', $data)) {
             $gps = $data['gps'];
             // 注意: 传递是GPS的经纬度, 不要直接放到lng和lat字段!
-            $entry->lng_gps = $gps['lng_gps'];
-            $entry->lat_gps = $gps['lat_gps'];
-            $entry->lng = $gps['lng'];
-            $entry->lat = $gps['lat'];
+            $entry->lng_gps = isset($gps['lng_gps']) ? $gps['lng_gps'] : 0;
+            $entry->lat_gps = isset($gps['lat_gps']) ? $gps['lat_gps'] : 0;
+            $entry->lng = isset($gps['lng']) ? $gps['lng'] : 0;
+            $entry->lat = isset($gps['lat']) ? $gps['lat'] : 0;
         }
 
         $fields = $data['data'];
