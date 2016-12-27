@@ -1,44 +1,50 @@
 <div>
-    <h3>设备类型信息</h3>
-    <table>
+    <h3>璁惧绫诲瀷淇℃伅</h3>
+    <table class="table table-striped">
         <tr>
-            <td>设备类型名称</td>
+            <td>璁惧绫诲瀷鍚嶇О</td>
             <td>{$type.type_name}</td>
         </tr>
         <tr>
-            <td>设备类型说明</td>
+            <td>璁惧绫诲瀷璇存槑</td>
             <td>{$type.type_desc}</td>
         </tr>
         <tr>
-            <td>设备类型创建时间</td>
+            <td>璁惧绫诲瀷鍒涘缓鏃堕棿</td>
             <td>{$type.create_time}</td>
         </tr>
         <tr>
-            <td>设备类型修改时间</td>
+            <td>璁惧绫诲瀷淇敼鏃堕棿</td>
             <td>{$type.update_time}</td>
         </tr>
     </table>
 
-    <h3>设备类型字段信息</h3>
-    <table>
+    <h3>璁惧绫诲瀷瀛楁淇℃伅</h3>
+    <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <td>字段名称</td>
-            <td>字段类型</td>
-            <td>字段显示名称</td>
-            <td>字段说明</td>
+            <td>瀛楁鍚嶇О</td>
+            <td>瀛楁绫诲瀷</td>
+            <td>瀛楁鏄剧ず鍚嶇О</td>
+            <td>瀛楁璇存槑</td>
         </tr>
         </thead>
         <!----------------------------->
         <tbody>
 
-        {foreach from=$fields item=field}
-        <tr>
-            <td>{$field.field_name}</td>
-            <td>{$field.field_type}</td>
-            <td>{$field.field_display}</td>
-            <td>{$field.field_desc}</td>
-        </tr>
+        {foreach from=$type.fields item=field}
+            <tr>
+                <td>{$field.field_name}</td>
+                <td>
+                    {if $field.field_value_type == 0}
+                        double
+                    {elseif $field.field_value_type == 1}
+                    {elseif $field.field_value_type == 2}
+                    {/if}
+                </td>
+                <td>{$field.field_display}</td>
+                <td>{$field.field_desc}</td>
+            </tr>
         {/foreach}
 
         </tbody>

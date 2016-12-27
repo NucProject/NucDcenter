@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use common\models\NucDeviceType;
 use yii;
 use common\components\BadArgumentException;
 use common\components\Helper;
@@ -110,10 +111,15 @@ class DeviceTypeController extends BaseController
             throw new BadArgumentException('Invalid typeKey');
         }
 
-        // TODO: Type info
+        $type = NucDeviceType:: find()
+            ->with('fields')->where(['type_key' => $typeKey])->asArray()->one();
 
-        // TODO: Type Fields info
+        $data = [
+            'type' => $type
+        ];
 
+        parent::setBreadcrumbs(['/index.php?r=device-type/index' => '设备类型列表', '#' => '设备类型查看']);
+        return parent::renderPage('view.tpl', $data, []);
     }
 
     /**

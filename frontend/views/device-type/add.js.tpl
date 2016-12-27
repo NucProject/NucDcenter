@@ -27,7 +27,11 @@
         };
 
         $.post('index.php?r=device-type/do-add', info, function (data) {
-            console.log(data);
+            var result = data.toJson();
+            if (result.error == 0) {
+                alert('添加成功!');
+                window.location.href = 'index.php?r=device-type';
+            }
         });
     }
 

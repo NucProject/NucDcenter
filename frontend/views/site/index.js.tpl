@@ -194,6 +194,8 @@
             offset /= 2; // Fast as fast
         }
 
+        // TODO: 更新移动设备的MAP位置
+
     });
 </script>
 {/literal}
