@@ -34,8 +34,8 @@ class AccessControl extends \yii\filters\AccessControl
         $model = $user->getIdentity();
 
         if ($user->isGuest) {
-            $exception = new AccessForbiddenException('您还没有登录，或者登录已经失效，请重新登录');
-            throw $exception;
+            //$exception = new AccessForbiddenException('您还没有登录，或者登录已经失效，请重新登录');
+            //throw $exception;
         }
 
         if (!$this->allowAccess($model, $action)) {
@@ -57,9 +57,16 @@ class AccessControl extends \yii\filters\AccessControl
         $actionName = $action->id ?: 'index';
 
         if ($controllerName == 'site' &&
-            ($actionName == 'index' || $actionName == 'login' || $actionName == 'error')) {
-
+            (/*$actionName == 'index' || 暂时首页需要登录*/ $actionName == 'login' || $actionName == 'error' ||
+                $actionName == 'captcha' || $actionName == 'do-login')) {
             return true;
+        }
+
+        if (!$model) {
+            if ($controllerName == 'site' && $actionName == 'index') {
+                return Yii::$app->response->redirect('index.php?r=site/login');
+            }
+            return false;
         }
 
         $roleId = $model->getRoleName();
@@ -88,4 +95,5 @@ class AccessControl extends \yii\filters\AccessControl
         }
         return false;
     }
+
 }

@@ -23,6 +23,7 @@ class SiteController extends BaseController
     /**
      * @inheritdoc
      */
+    /*
     public function behaviors()
     {
         // TODO: Merge from parent::behaviors() if Not site/* can NOT AccessControl
@@ -35,7 +36,7 @@ class SiteController extends BaseController
             ],
         ];
     }
-
+    */
     /**
      * @inheritdoc
      */
@@ -197,6 +198,8 @@ class SiteController extends BaseController
         $errorReason = 'Unhandled Exception type';
         if ($exception instanceof AccessForbiddenException)
         {
+            // 2秒后自动登录
+            echo "<meta http-equiv=\"refresh\" content=\"2;URL=index.php?r=site/login\">";
 
             $errorReason = $exception->reason;
             $userInfo = $exception->userInfo;
