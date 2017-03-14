@@ -25,7 +25,7 @@
 
             // 创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());
-            console.log(this /* this means marker */);
+            // console.log(this /* this means marker */);
             this.openInfoWindow(infoWindow);
         }
     }
@@ -51,7 +51,7 @@
 
             // 创建信息窗口对象
             var infoWindow = new BMap.InfoWindow(infoPane.html());
-            console.log(this /* this means marker */);
+            // console.log(this /* this means marker */);
             this.openInfoWindow(infoWindow);
         }
     }
@@ -64,7 +64,7 @@
 
         // TODO: relative resource
         var markerIcon = new BMap.Icon("/img/red.png", new BMap.Size(32, 32));
-        console.log(point, markerIcon);
+        // console.log(point, markerIcon);
         var marker = new BMap.Marker(point, {icon: markerIcon});
         marker.setZIndex(100);
 
@@ -85,7 +85,11 @@
     function showActiveDeviceMarker(map, activeDevice) {
 
         var a = activeDevice;
-        console.log(a)
+        // console.log(a)
+        if (a.device_lng * a.device_lat == 0) {
+            // 任意一个是0则不处理
+            return;
+        }
 
         var point = new BMap.Point(a.device_lng, a.device_lat);
 
@@ -100,7 +104,7 @@
         //文字标注
         var typeName = a.deviceType.type_name;
         var labelHtml = '<span style="background-color: inherit;padding:3px"><i class="fa fa-home"></i>&nbsp;{typeName}</span>'.format({typeName:typeName});
-        console.log(labelHtml);
+        // console.log(labelHtml);
         var label = new BMap.Label(labelHtml, {offset: new BMap.Size(28, 3)});
         label.setStyle({color:"#FFFFFF", backgroundColor:"#3C3C3C", fontSize:"14px", border:"none" });
         marker.setLabel(label);
@@ -190,6 +194,7 @@
         for (var i in activeDevices)
         {
             var activeDevice = activeDevices[i];
+            console.log(activeDevice);
             showActiveDeviceMarkerDelay(map, activeDevice, delay + offset);
             offset /= 2; // Fast as fast
         }

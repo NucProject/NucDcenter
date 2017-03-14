@@ -39,7 +39,11 @@
                     {if $field.field_value_type == 0}
                         double
                     {elseif $field.field_value_type == 1}
+                        int
                     {elseif $field.field_value_type == 2}
+                        boolean
+                    {elseif $field.field_value_type == 3}
+                        string
                     {/if}
                 </td>
                 <td>{$field.field_display}</td>

@@ -218,7 +218,7 @@ class DataCenterController extends BaseController
             return parent::error([], -1);
         }
 
-        $result = DeviceDataService::createDeviceDataTables($device->device_key, $typeKey);
+        $result = DeviceDataService::createDeviceDataTables($device->device_key, $typeKey, $deviceType->calc_avg);
         if ($result)
         {
             Yii::$app->session->setFlash("add-device-success", "添加设备成功");

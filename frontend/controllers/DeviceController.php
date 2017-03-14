@@ -85,6 +85,7 @@ class DeviceController extends BaseController
         $alertSettings = Cache::getDeviceAlertSettings($deviceKey);
         $data['alertSettings'] = json_encode($alertSettings);
 
+
         parent::setPageMessage("{$deviceName} 数据曲线图表");
         parent::setBreadcrumbs(['index.html' => '设备', '#' => "{$deviceName}_数据"]);
         return parent::renderPage('data.tpl', $data, ['with' => ['echarts', 'datePicker', 'laydate']]);
@@ -443,6 +444,10 @@ class DeviceController extends BaseController
         $deviceKey = $device->device_key;
 
         $options['condition'] = [];
+        if ($deviceType->calc_avg == 0) {
+            $options['non-avg'] = true;
+        }
+
         $result = DeviceDataService::getDataList($deviceKey, $options);
 
         $items = $result['items'];

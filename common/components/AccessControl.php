@@ -24,9 +24,13 @@ class AccessControl extends \yii\filters\AccessControl
         $actionName = $action->id ?: 'index';
 
         if ($controllerName == 'send' &&
-            ($actionName == 'data' || $actionName == 'mobile-data')) {
+            ($actionName == 'data' || $actionName == 'mobile-data' || $actionName == 'file')) {
             // 设备发送数据，不校验用户和权限
             // 未来不排除校验token, 格式等
+            return true;
+        }
+
+        if ($controllerName == 'recommend') {
             return true;
         }
 

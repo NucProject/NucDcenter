@@ -32,7 +32,7 @@ class DeviceDataService
     {
         UkDeviceData::$deviceKey = $deviceKey;
         UkDeviceData::$avg = false;
-
+        file_put_contents('a.log', 'd', FILE_APPEND);
         $entry = new UkDeviceData();
         // $data里面应该含有data_time字段
         $entry->data_time = $dataTime;
@@ -40,7 +40,7 @@ class DeviceDataService
         if (array_key_exists('task_id', $data)) {
             $entry->task_id = $data['task_id'];
         }
-
+        file_put_contents('a.log', 'e', FILE_APPEND);
         if (array_key_exists('gps', $data)) {
             $gps = $data['gps'];
             // 注意: 传递是GPS的经纬度, 不要直接放到lng和lat字段!
@@ -49,13 +49,11 @@ class DeviceDataService
             $entry->lng = isset($gps['lng']) ? $gps['lng'] : 0;
             $entry->lat = isset($gps['lat']) ? $gps['lat'] : 0;
         }
-
+        file_put_contents('a.log', 'f', FILE_APPEND);
         $fields = $data['data'];
-        foreach ($fields as $field => $value)
-        {
-            $entry->$field = $value;
-        }
 
+        $entry->setAttributes($fields, false);
+        file_put_contents('a.log', 'g', FILE_APPEND);
         // 报警相关
         if ($checkAlarm)
         {
@@ -67,6 +65,8 @@ class DeviceDataService
                 $data['alert'] = $alertValue;
             }
         }
+
+        file_put_contents('a.log', json_encode($entry->toArray()));
 
         // 缓存相关
         Cache::pushDeviceData($deviceKey, $entry->toArray());
@@ -313,6 +313,7 @@ class DeviceDataService
         }
 
         // Avg table!
+        // check whether need calculate avg data
         $tableName = DeviceDataService::getTableName($deviceKey, true);
         if (DeviceDataService::isTableExists($tableName))
         {
@@ -401,9 +402,12 @@ class DeviceDataService
             // 0 is double
             if ($dataField['field_value_type'] == 0) {
                 $fieldBuilder = $fieldBuilder->double([10, 5]);
+            } elseif ($dataField['field_value_type'] == 3) {
+                $fieldBuilder = $fieldBuilder->string();
             }
 
             $fieldName = $dataField['field_name'];
+
             $fields[$fieldName] = $fieldBuilder
                 ->defaultValue($dataField['field_value_default'])
                 ->comment($dataField['field_desc']);

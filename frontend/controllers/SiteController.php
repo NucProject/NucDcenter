@@ -81,6 +81,7 @@ class SiteController extends BaseController
         $data['city'] = (Yii::$app->params['currentCity']);
         $data['stations'] = json_encode($stations);
         $data['activeDevices'] = json_encode($activeDevices);
+        // var_dump($activeDevices);
         $data['hideContentHeader'] = true;
 
         parent::setPageMessage("欢迎使用{$dataCenter['center_name']}");

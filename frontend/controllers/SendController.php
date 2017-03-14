@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use common\services\DataCenterService;
 use common\services\DeviceDataService;
 use common\services\EntityIdService;
+use common\services\handlers\FileHandler;
 use yii;
 
 /**
@@ -41,6 +42,11 @@ class SendController extends BaseController
         $this->dataHandler(self::MobileData);
     }
 
+    public function actionFile()
+    {
+        $this->fileHandler();
+    }
+
     /**
      *
      * 自动站状态更新数据接收并处理
@@ -62,7 +68,7 @@ class SendController extends BaseController
         }
         $payload = $request->getRawBody();
         $ts = time();
-        if (isset(Yii::$app->params['recordSends']))
+        if (isset(Yii::$app->params['recordSends']) && Yii::$app->params['recordSends'])
         {
             file_put_contents("D:\\NucProject\\sends\\{$type}-{$ts}.txt", $payload);
         }
@@ -70,6 +76,11 @@ class SendController extends BaseController
         $post = @json_decode($payload, true);
         if (!$post) {
             return parent::error(['msg' => 'Bad Post'], 2);
+        }
+
+        // Handle 北京站原来的数据结构
+        if (array_key_exists('entry', $post)) {
+            $post = $this->convertFromEntry($post);
         }
 
         if (!array_key_exists('data_time', $post)) {
@@ -133,5 +144,28 @@ class SendController extends BaseController
     private function persistDeviceData($deviceKey, $data, $time, $type)
     {
 
+    }
+
+    private function fileHandler()
+    {
+        // Set name as file for upload file from C# WebClient.UploadFile
+        $file = yii\web\UploadedFile::getInstanceByName("file");
+
+        $fileType = Yii::$app->request->get('fileType');
+        if (!$fileType) {
+            // TODO: Error handlers
+        }
+
+        $handler = FileHandler::getHandler($fileType);
+        if ($handler) {
+            $handler->save($file);
+        }
+
+
+    }
+
+    private function convertFromEntry($post)
+    {
+        return $post;
     }
 }

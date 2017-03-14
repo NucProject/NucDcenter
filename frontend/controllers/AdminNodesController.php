@@ -15,7 +15,7 @@ use yii\helpers\BaseInflector;
 class AdminNodesController extends BaseController
 {
     private $controllers = [
-        'DataCenter', 'Station', 'Device', 'Task', 'DeviceType',
+        'DataCenter', 'Station', 'Device', 'Task', 'DeviceType', 'Analysis',
         'AdminNodes', 'AdminRole', 'AdminUser'
     ];
 

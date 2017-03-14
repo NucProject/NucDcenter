@@ -15,6 +15,7 @@ use Yii;
  * @property integer $data_interval
  * @property integer $is_movable
  * @property integer $time_normalized
+ * @property integer $calc_avg
  * @property integer $using_serialport
  * @property integer $status
  * @property string $create_time
